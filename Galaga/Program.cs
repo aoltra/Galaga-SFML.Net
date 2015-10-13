@@ -24,6 +24,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 	
 		private CircleShape _player;					 // jugador (un simple círculo cyan)
 		private bool _IsMovingUp,_IsMovingDown,_IsMovingLeft,_IsMovingRight;
+        private float _playerSpeed;                      // velocidad del jugador 
 		
 		// Constructor
 		public Game() {
@@ -40,6 +41,8 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 			_player.Position = new Vector2f(100f, 100f);
 			_player.FillColor = Color.Cyan;
 
+            _playerSpeed = 25;           // 25 px/s
+
 			RegisterDelegates();
 		}
 
@@ -47,14 +50,21 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 		// Métodos
 		////////////////////////
 		public void run() {
-
+            
+            Clock clock = new Clock();
+            SFML.System.Time deltaTime;
+			
 			// Game Loop
 			while (_window.IsOpen)
 			{
-				// Procesamos eventos
-				_window.DispatchEvents();
+                // para cada uno de los ciclos reinicio el reloj a cero y devuelvo
+                // el tiempo que ha pasado desde el inicio
+                deltaTime = clock.Restart();
 
-				update();
+                // Procesamos eventos
+                _window.DispatchEvents();
+
+                update(deltaTime);
 				render();
 			}
 		}
@@ -66,21 +76,25 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 			_window.KeyPressed += new EventHandler<SFML.Window.KeyEventArgs>(OnKeyPressed);
 			_window.KeyReleased += new EventHandler<SFML.Window.KeyEventArgs>(OnKeyReleased);
 		}
-		
-		// actualiza el estado del mundo
-		private void update() {
-			SFML.System.Vector2f movement = new Vector2f(0f, 0f);
+
+        // actualiza el estado del mundo en función del tiempo transcurrido desde la última actualización
+        private void update(SFML.System.Time time)
+        {
+			SFML.System.Vector2f speed = new Vector2f(0f, 0f);
 
             // desplaza 1 px en el sentido que haya inidcado la pulsacion del teclado
 			if (_IsMovingUp)
-				movement.Y -= 1f;
+				speed.Y -= _playerSpeed;
 			if (_IsMovingDown)
-				movement.Y += 1f;
+                speed.Y += _playerSpeed;
 			if (_IsMovingLeft)
-				movement.X -= 1f;
+                speed.X -= _playerSpeed;
 			if (_IsMovingRight)
-				movement.X += 1f;
-			_player.Position += movement;
+                speed.X += _playerSpeed;
+
+            // espacio = velocidad * tiempo. El nuevo espacio se añade a la posición previa
+            // del tiempo se obtienen los segundos ya que la velocidad se dam en px/s
+            _player.Position += speed * time.AsSeconds(); 
 		}
 		
 		// Dibuja el mundo
