@@ -25,6 +25,8 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 		private CircleShape _player;					 // jugador (un simple círculo cyan)
 		private bool _IsMovingUp,_IsMovingDown,_IsMovingLeft,_IsMovingRight;
         private float _playerSpeed;                      // velocidad del jugador 
+
+        private SFML.System.Time _timePerFrame;
 		
 		// Constructor
 		public Game() {
@@ -41,7 +43,9 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 			_player.Position = new Vector2f(100f, 100f);
 			_player.FillColor = Color.Cyan;
 
-            _playerSpeed = 25;           // 25 px/s
+            _playerSpeed = 100;           // 100 px/s
+
+            _timePerFrame = SFML.System.Time.FromSeconds(1f / 60f);           // 60 frames por segundo
 
 			RegisterDelegates();
 		}
@@ -52,19 +56,36 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 		public void run() {
             
             Clock clock = new Clock();
-            SFML.System.Time deltaTime;
+            SFML.System.Time timeSinceLastUpdate = SFML.System.Time.Zero;
 			
 			// Game Loop
 			while (_window.IsOpen)
 			{
-                // para cada uno de los ciclos reinicio el reloj a cero y devuelvo
-                // el tiempo que ha pasado desde el inicio
-                deltaTime = clock.Restart();
-
-                // Procesamos eventos
+                // Procesamos eventos. Este procesamiento de evento se podría quitar ya que sólo
+                // tendría importancia para aquellos eventos que no afectasen al mundo
+                // en este caso el Close. Si lo quitaramos sólo se retrasaría un poco (hasta el paso del tiempo
+                // del frame) al ejecución del evento 
                 _window.DispatchEvents();
 
-                update(deltaTime);
+                // para cada uno de los ciclos reinicio el reloj a cero y devuelvo
+                // el tiempo que ha transcurrido
+                timeSinceLastUpdate += clock.Restart();
+
+                // si el tiempo transcurrido es mayor que el que queremos por cada frame
+                while (timeSinceLastUpdate > _timePerFrame)
+                {
+                    timeSinceLastUpdate -= _timePerFrame;   // le quito un frame
+                    
+                    // Procesamos eventos
+                    _window.DispatchEvents();
+
+                    update(_timePerFrame);                  // actualizo el mundo
+
+                    // si después de este ciclo el tiempo que ha trancurrido sigue siendo mayor al de un frame
+                    // repito el ciclo
+                }
+
+                // renderizo sólo cuando el tiempo es menor al del frame
 				render();
 			}
 		}
@@ -82,7 +103,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         {
 			SFML.System.Vector2f speed = new Vector2f(0f, 0f);
 
-            // desplaza 1 px en el sentido que haya inidcado la pulsacion del teclado
+            // desplaza 1 px en el sentido que haya indicado la pulsacion del teclado
 			if (_IsMovingUp)
 				speed.Y -= _playerSpeed;
 			if (_IsMovingDown)
