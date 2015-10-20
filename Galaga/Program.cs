@@ -26,7 +26,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 		private bool _IsMovingUp,_IsMovingDown,_IsMovingLeft,_IsMovingRight;
         private float _playerSpeed;                      // velocidad del jugador 
 
-        private SFML.System.Time _timePerFrame;
+        private SFML.System.Time _timePerFrame;          // en este caso indica el mínimo requerido
 		
 		// Constructor
 		public Game() {
@@ -45,7 +45,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 
             _playerSpeed = 100;           // 100 px/s
 
-            _timePerFrame = SFML.System.Time.FromSeconds(1f / 60f);           // 60 frames por segundo
+            _timePerFrame = SFML.System.Time.FromSeconds(1f / 40f);           // como mínimo 40 frames por segundo
 
 			RegisterDelegates();
 		}
@@ -57,8 +57,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
             
             Clock clock = new Clock();
             SFML.System.Time timeSinceLastUpdate = SFML.System.Time.Zero;
-            Boolean repaint = false;
-			
+          
 			// Game Loop
 			while (_window.IsOpen)
 			{
@@ -68,12 +67,9 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                 // del frame) al ejecución del evento 
                 _window.DispatchEvents();
 
-                // por defecto el mundo no se renderiza
-                repaint = false;
-
                 // para cada uno de los ciclos reinicio el reloj a cero y devuelvo
                 // el tiempo que ha transcurrido
-                timeSinceLastUpdate += clock.Restart();
+                timeSinceLastUpdate = clock.Restart();
 
                 // si el tiempo transcurrido es mayor que el que queremos por cada frame
                 while (timeSinceLastUpdate > _timePerFrame)
@@ -83,16 +79,15 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                     // Procesamos eventos
                     _window.DispatchEvents();
 
-                    repaint = true;
-                    update(_timePerFrame);                  // actualizo el mundo
+                    update(_timePerFrame);  
 
                     // si después de este ciclo el tiempo que ha transcurrido sigue siendo mayor al de un frame
                     // repito el ciclo y voy actualizando el mundo, aunque no lo renderice
                 }
 
-                // renderizo sólo cuando el tiempo es menor al del frame
-                if (repaint)
-				    render();
+                // en cada ciclo actualizo y renderizo
+                update(timeSinceLastUpdate);          
+				render();
 			}
 		}
 
