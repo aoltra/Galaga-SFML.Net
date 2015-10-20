@@ -57,6 +57,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
             
             Clock clock = new Clock();
             SFML.System.Time timeSinceLastUpdate = SFML.System.Time.Zero;
+            Boolean repaint = false;
 			
 			// Game Loop
 			while (_window.IsOpen)
@@ -66,6 +67,9 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                 // en este caso el Close. Si lo quitaramos sólo se retrasaría un poco (hasta el paso del tiempo
                 // del frame) al ejecución del evento 
                 _window.DispatchEvents();
+
+                // por defecto el mundo no se renderiza
+                repaint = false;
 
                 // para cada uno de los ciclos reinicio el reloj a cero y devuelvo
                 // el tiempo que ha transcurrido
@@ -79,14 +83,16 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                     // Procesamos eventos
                     _window.DispatchEvents();
 
+                    repaint = true;
                     update(_timePerFrame);                  // actualizo el mundo
 
-                    // si después de este ciclo el tiempo que ha trancurrido sigue siendo mayor al de un frame
-                    // repito el ciclo
+                    // si después de este ciclo el tiempo que ha transcurrido sigue siendo mayor al de un frame
+                    // repito el ciclo y voy actualizando el mundo, aunque no lo renderice
                 }
 
                 // renderizo sólo cuando el tiempo es menor al del frame
-				render();
+                if (repaint)
+				    render();
 			}
 		}
 
@@ -124,7 +130,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 			_window.Clear();
 			// Dibuja un elemento "dibujable", Drawable. En este caso nuestro "jugador": el círculo
 			_window.Draw (_player);
-			// muestra la pantalla
+			// muestra la pantalla. Hace el cambio de un buffer a otro (doble buffer)
 			_window.Display ();
 		}
 		
