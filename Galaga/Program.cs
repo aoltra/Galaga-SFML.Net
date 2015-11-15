@@ -48,6 +48,36 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
             _timePerFrame = SFML.System.Time.FromSeconds(1f / 40f);           // como mínimo 40 frames por segundo
 
 			RegisterDelegates();
+
+            try
+            {
+                // prueba del correcto funcionamiento
+                Resources.TextureResourcesManager a = new Resources.TextureResourcesManager();
+                a.Load(1, "../../../assets/nave01.png");
+
+                Texture t = a[1];
+
+                System.Diagnostics.Debug.WriteLine(t.Size);
+
+                GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
+
+                System.Diagnostics.Debug.WriteLine(t.Size);
+                // pongo la "copia" que uso de la textura a null
+                t = null;
+
+                // sin embargo el objeto original aun existe
+                System.Diagnostics.Debug.WriteLine(a[1].CPointer);
+                // pero en cuento fuerzo la eliminación... desaparece ya que no hay referencias
+                // a él
+                GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
+
+                t = a[1];
+                System.Diagnostics.Debug.WriteLine("El valor de t es " + t);
+            }
+            catch (Exception ex)
+            { 
+            
+            }
 		}
 
 		////////////////////////
