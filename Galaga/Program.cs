@@ -22,7 +22,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 		// Variables miembro
 		private RenderWindow _window;                    // ventana principal
 	
-		private CircleShape _player;					 // jugador (un simple círculo cyan)
+		private Sprite _player;					 // jugador (un simple círculo cyan)
 		private bool _IsMovingUp,_IsMovingDown,_IsMovingLeft,_IsMovingRight;
         private float _playerSpeed;                      // velocidad del jugador 
 
@@ -38,10 +38,9 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 			// Creamos la ventana principal
 			_window = new RenderWindow(new VideoMode(1280, 1024), "Galaga ", Styles.Default, contextSettings);
 
-			_player = new CircleShape ();
-			_player.Radius = 40f;
+            // el jugador pasa ahora a ser un Sprite
+			_player = new Sprite();
 			_player.Position = new Vector2f(100f, 100f);
-			_player.FillColor = Color.Cyan;
 
             _playerSpeed = 100;           // 100 px/s
 
@@ -55,24 +54,8 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                 Resources.TextureResourcesManager a = new Resources.TextureResourcesManager();
                 a.Load(1, "../../../assets/nave01.png");
 
-                Texture t = a[1];
-
-                System.Diagnostics.Debug.WriteLine(t.Size);
-
-                GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
-
-                System.Diagnostics.Debug.WriteLine(t.Size);
-                // pongo la "copia" que uso de la textura a null
-                t = null;
-
-                // sin embargo el objeto original aun existe
-                System.Diagnostics.Debug.WriteLine(a[1].CPointer);
-                // pero en cuento fuerzo la eliminación... desaparece ya que no hay referencias
-                // a él
-                GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
-
-                t = a[1];
-                System.Diagnostics.Debug.WriteLine("El valor de t es " + t);
+                // le asigno la textura 1
+                _player.Texture = a[1];
             }
             catch (Exception ex)
             { 
