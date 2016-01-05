@@ -22,7 +22,31 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Resources
         public static Texture LoadTexture(XElement element)
         {
             String path = (String)element.Attribute("src");
-            return new SFML.Graphics.Texture(path);    
+            if (path == null) return null;
+
+            // Tamaño
+            String rect = (String)element.Attribute("rectangle");
+            IntRect area = new IntRect(); 
+            if (rect != null)
+            {
+                String[] rectCoord;
+                rectCoord = rect.Split(',');
+                area.Left = Int16.Parse(rectCoord[0]);
+                
+            }
+            //new IntRect(
+            //    int.Parse(ints[0]),
+            //    int.Parse(ints[1]),
+            //    int.Parse(ints[2]),
+            //    int.Parse(ints[3]));
+
+            Texture txt = new SFML.Graphics.Texture(path, area);
+
+            // Propiedades
+            txt.Repeated = Boolean.Parse((String)element.Attribute("repeated"));
+            txt.Smooth = Boolean.Parse((String)element.Attribute("smooth"));
+
+            return txt;
         }
 
     }
