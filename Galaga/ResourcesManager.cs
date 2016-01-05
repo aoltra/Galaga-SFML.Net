@@ -45,37 +45,6 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Resources
         }
 
         /// <summary>
-        /// Carga recursos desde una nodo raíz del XML.
-        /// </summary>
-        /// <param name="el">Elemento XML a leer</param>
-        /// <param name="section">Seccion en la que se encuentra</param>
-        private void Load(XElement el, string section = null)
-        {
-            if (section != null)
-                section += SECTION_SEPARATOR;
-            else
-                section = "";
-
-            // repaso todos los elementos del nodo
-            foreach (XElement element in el.Elements())
-            {
-                // obtengo el valor del atributo id
-                XAttribute id = element.Attribute("id");
-                if (id != null)
-                {
-                    // si es una sección sigo leyendo el árbol.. hasta encontrar un recurso
-                    if (element.Name == "section")
-                        Load(element, id.Value);
-                    else
-                    {
-                      //  WeakReference wr = new WeakReference(new SFML.Graphics.Texture(filename));
-                        _resourcesMap.Add(section + id.Value, new Resource(element));
-                    }
-                }
-            }
-        }
-    
-        /// <summary>
         /// Índice que permite acceder a un id determinado
         /// </summary>
         /// <param name="id"></param>
@@ -113,6 +82,47 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Resources
             }
         }
 
+        /// <summary>
+        /// Registra funciones de carga de tipos de recurso par poder ser utilizadas cuando sea necesario cargar un recurso
+        /// </summary>
+        /// <param name="elementName">Nombre del tipo de recurso al que se le asocia la función de carga. Hace las funciones de key</param>
+        /// <param name="f">Función de carga</param>
+        public void RegisterLoadFunction(String resourceType, LoadResourceTypeDelegate f)
+        {
+            _loadFuncMap.Add(resourceType, f);
+        }
+
+        /// <summary>
+        /// Carga recursos desde una nodo raíz del XML.
+        /// </summary>
+        /// <param name="el">Elemento XML a leer</param>
+        /// <param name="section">Seccion en la que se encuentra</param>
+        private void Load(XElement el, string section = null)
+        {
+            if (section != null)
+                section += SECTION_SEPARATOR;
+            else
+                section = "";
+
+            // repaso todos los elementos del nodo
+            foreach (XElement element in el.Elements())
+            {
+                // obtengo el valor del atributo id
+                XAttribute id = element.Attribute("id");
+                if (id != null)
+                {
+                    // si es una sección sigo leyendo el árbol.. hasta encontrar un recurso
+                    if (element.Name == "section")
+                        Load(element, id.Value);
+                    else
+                    {
+                        //  WeakReference wr = new WeakReference(new SFML.Graphics.Texture(filename));
+                        _resourcesMap.Add(section + id.Value, new Resource(element));
+                    }
+                }
+            }
+        }
+    
         /// <summary>
         /// Encapsula un recurso en el mapa de recursos
         /// </summary>

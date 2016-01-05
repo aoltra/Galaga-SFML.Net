@@ -52,6 +52,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
             {
                 // prueba del correcto funcionamiento
                 Resources.ResourcesManager a = new Resources.ResourcesManager();
+                a.RegisterLoadFunction("Texture",Resources.SFMLResourcesManager.LoadTexture);
                // a.Load(1, "../../../assets/nave01.png");
 
                 // le asigno la textura 1
