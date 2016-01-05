@@ -45,9 +45,23 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Resources
         }
 
         /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="input">Secuencia de bits del fichero XML</param>
+        public ResourcesManager(System.IO.Stream input)
+        {
+            if (input == null)
+                return;
+
+            XDocument doc = XDocument.Load(input);
+            Load(doc.Element("resx"));
+        }
+
+        /// <summary>
         /// Índice que permite acceder a un id determinado
         /// </summary>
         /// <param name="id"></param>
+        /// <exception cref="Exception">No se ha registrado una función para la carga de ese tipo de recurso</exception>
         /// <returns>objeto recurso seleccionado</returns>
         public object this[String id]
         {

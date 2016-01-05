@@ -36,7 +36,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 			contextSettings.DepthBits = 32;
 			
 			// Creamos la ventana principal
-			_window = new RenderWindow(new VideoMode(1280, 1024), "Galaga ", Styles.Default, contextSettings);
+			_window = new RenderWindow(new VideoMode(1280, 800), "Galaga ", Styles.Default, contextSettings);
 
             // el jugador pasa ahora a ser un Sprite
 			_player = new Sprite();
@@ -51,12 +51,13 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
             try
             {
                 // prueba del correcto funcionamiento
-                Resources.ResourcesManager a = new Resources.ResourcesManager();
-                a.RegisterLoadFunction("Texture",Resources.SFMLResourcesManager.LoadTexture);
-               // a.Load(1, "../../../assets/nave01.png");
+                Resources.ResourcesManager a = new Resources.ResourcesManager(
+                    this.GetType().Assembly.GetManifestResourceStream("Galaga.main.resxml"));
+                //String [] ad = this.GetType().Assembly.GetManifestResourceNames();
+                a.RegisterLoadFunction("texture",Resources.SFMLResourcesManager.LoadTexture);
 
-                // le asigno la textura 1
-                _player.Texture = (Texture)a["NaveJugador"];
+                // le asigno la textura Naves:NaveJugador
+                _player.Texture = (Texture)a["Naves:NaveJugador"];
             }
             catch (Exception)
             { 
