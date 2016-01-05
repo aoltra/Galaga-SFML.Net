@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Document   : main.resxml
+    Created on : 30 Octubre 2015, 2:07
+    Author     : Alfredo Oltra
+    Description:
+        Definición de los recursos principales de Galaga
+-->
+<resx>
+  <section id="naves">
+    <texture id="NaveJugador" src="./assets/textures/nave01.png"/>
+  </section>
+</resx>

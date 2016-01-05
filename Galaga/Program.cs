@@ -51,13 +51,13 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
             try
             {
                 // prueba del correcto funcionamiento
-                Resources.TextureResourcesManager a = new Resources.TextureResourcesManager();
-                a.Load(1, "../../../assets/nave01.png");
+                Resources.ResourcesManager a = new Resources.ResourcesManager();
+               // a.Load(1, "../../../assets/nave01.png");
 
                 // le asigno la textura 1
-                _player.Texture = a[1];
+                _player.Texture = (Texture)a["NaveJugador"];
             }
-            catch (Exception ex)
+            catch (Exception)
             { 
             
             }

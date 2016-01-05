@@ -3,6 +3,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Galaga", "Galaga\Galaga.csproj", "{30314322-8D47-4358-8AB4-45E01497E4B4}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "assets", "assets", "{0FEF47B6-E81F-4904-8B54-A4D6B0493BEE}"
+	ProjectSection(SolutionItems) = preProject
+		main.resxml = main.resxml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Textures", "Textures", "{4183FB3D-0653-45FC-8797-9F2907D830E5}"
+	ProjectSection(SolutionItems) = preProject
+		assets\Textures\nave01.png = assets\Textures\nave01.png
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -16,5 +26,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4183FB3D-0653-45FC-8797-9F2907D830E5} = {0FEF47B6-E81F-4904-8B54-A4D6B0493BEE}
 	EndGlobalSection
 EndGlobal
