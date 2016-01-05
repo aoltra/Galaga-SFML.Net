@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 
 using System.Xml.Linq;
-
+using System.IO;
+using System.Reflection;
 using SFML.Graphics;
 
 namespace edu.CiclosFormativos.DAM.DI.Galaga.Resources
@@ -21,9 +22,19 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Resources
         /// <returns>La Texture leida o null si ha habido problemas</returns>
         public static Texture LoadTexture(XElement element)
         {
-            String path = (String)element.Attribute("src");
-            if (path == null) return null;
+            Stream stream;
+            String path = (String)element.Attribute("res");
 
+            // si no es externo (res), busco el interno (src)
+            if (path == null)
+            {
+                path = (String)element.Attribute("src");
+                if (path == null)  return null;
+                else stream = new FileStream(path,FileMode.Open,FileAccess.Read);
+            }
+            else  // utilizo esta técnica y no el GetType() ya que posiblemente lo exportaré a un DLL  
+                stream = Assembly.GetEntryAssembly().GetManifestResourceStream(path);
+          
             // Tamaño
             String rect = (String)element.Attribute("rectangle");
             IntRect area = new IntRect(); 
@@ -32,15 +43,12 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Resources
                 String[] rectCoord;
                 rectCoord = rect.Split(',');
                 area.Left = Int16.Parse(rectCoord[0]);
-                
+                area.Top = Int16.Parse(rectCoord[1]);
+                area.Width = Int16.Parse(rectCoord[2]);
+                area.Height = Int16.Parse(rectCoord[3]);
             }
-            //new IntRect(
-            //    int.Parse(ints[0]),
-            //    int.Parse(ints[1]),
-            //    int.Parse(ints[2]),
-            //    int.Parse(ints[3]));
 
-            Texture txt = new SFML.Graphics.Texture(path, area);
+            Texture txt = new SFML.Graphics.Texture(stream, area);
 
             // Propiedades
             txt.Repeated = Boolean.Parse((String)element.Attribute("repeated"));
