@@ -70,29 +70,36 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Resources
                 Resource res;                               // recurso del mapa de recursos devuelto
                 LoadResourceTypeDelegate loadFunc;          // funcion de carga elegida para la carga de un tipo concreto de recurso
 
-                // compruebo si existe el id, en caso contrario devolverá null
-                // el uso de TryGetValue resulta mas eficiente que la comprobación de la excepción KeyNotFoundException
-                if (_resourcesMap.TryGetValue(id, out res))
+                try
                 {
-                    object objectResource = res.Weakref.Target;
-
-                    if (objectResource == null) // si es null es que no aun no está cargado o se ha descargado
+                    // compruebo si existe el id, en caso contrario devolverá null
+                    // el uso de TryGetValue resulta mas eficiente que la comprobación de la excepción KeyNotFoundException
+                    if (_resourcesMap.TryGetValue(id, out res))
                     {
-                        // hay que cargarlo
-                        // obtengo el tipo del recurso a partir del nombre del elemento XElement
-                        String type = res.Element.Name.ToString();
+                        object objectResource = res.Weakref.Target;
 
-                        if (_loadFuncMap.TryGetValue(type, out loadFunc))
-                            objectResource = loadFunc(res.Element);
-                        else
-                            throw new Exception("ERROR: [GestorRecursos] No se ha definido una función para la carga del tipo de recurso " + 
-                                 type +". No se ha cargado el recurso '" + res.Element + "'");
+                        if (objectResource == null) // si es null es que no aun no está cargado o se ha descargado
+                        {
+                            // hay que cargarlo
+                            // obtengo el tipo del recurso a partir del nombre del elemento XElement
+                            String type = res.Element.Name.ToString();
+
+                            if (_loadFuncMap.TryGetValue(type, out loadFunc))
+                                objectResource = loadFunc(res.Element);
+                            else
+                                throw new ResourcesManagerException("No se ha definido una función para la carga del tipo de recurso " +
+                                     type + ". No se ha cargado el recurso '" + res.Element + "'");
+                        }
+
+                        return objectResource;
                     }
 
-                    return objectResource;
+                    return null;
                 }
-                
-                return null;
+                catch (Exception ex) 
+                {
+                    throw new ResourcesManagerException(ex.Message);
+                }
             }
         }
 
@@ -103,7 +110,14 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Resources
         /// <param name="f">Función de carga</param>
         public void RegisterLoadFunction(String resourceType, LoadResourceTypeDelegate f)
         {
-            _loadFuncMap.Add(resourceType, f);
+            try
+            {
+                _loadFuncMap.Add(resourceType, f);
+            }
+            catch (Exception ex)
+            {
+                throw new ResourcesManagerException(ex.Message);
+            }
         }
 
         /// <summary>
@@ -118,22 +132,29 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Resources
             else
                 section = "";
 
-            // repaso todos los elementos del nodo
-            foreach (XElement element in el.Elements())
+            try
             {
-                // obtengo el valor del atributo id
-                XAttribute id = element.Attribute("id");
-                if (id != null)
+                // repaso todos los elementos del nodo
+                foreach (XElement element in el.Elements())
                 {
-                    // si es una sección sigo leyendo el árbol.. hasta encontrar un recurso
-                    if (element.Name == "section")
-                        Load(element, id.Value);
-                    else
+                    // obtengo el valor del atributo id
+                    XAttribute id = element.Attribute("id");
+                    if (id != null)
                     {
-                        //  WeakReference wr = new WeakReference(new SFML.Graphics.Texture(filename));
-                        _resourcesMap.Add(section + id.Value, new Resource(element));
+                        // si es una sección sigo leyendo el árbol.. hasta encontrar un recurso
+                        if (element.Name == "section")
+                            Load(element, id.Value);
+                        else
+                        {
+                            //  WeakReference wr = new WeakReference(new SFML.Graphics.Texture(filename));
+                            _resourcesMap.Add(section + id.Value, new Resource(element));
+                        }
                     }
                 }
+            }
+            catch (Exception ex) 
+            {
+                throw new ResourcesManagerException(ex.Message);
             }
         }
     
@@ -154,6 +175,23 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Resources
                 Element = el;
                 Weakref = new WeakReference(null, false);
             }
+        }
+    }
+
+    public class ResourcesManagerException : Exception
+    {
+        public ResourcesManagerException()
+        {
+        }
+
+        public ResourcesManagerException(string message)
+            : base("[Gestor de Recursos] " + message)
+        {
+        }
+
+        public ResourcesManagerException(string message, Exception inner)
+            : base("[Gestor de Recursos] " + message, inner)
+        {
         }
     }
 }
