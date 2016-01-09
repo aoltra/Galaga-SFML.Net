@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // conjunto de atributos. Cambie estos atributos para modificar la información
 // asociada con un ensamblado.
 [assembly: AssemblyTitle("Galaga")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Clon de Galaga con SFML")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Galaga")]

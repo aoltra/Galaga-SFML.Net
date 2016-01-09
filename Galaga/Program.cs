@@ -8,15 +8,69 @@ using SFML.Window;
 using SFML.System;
 using SFML.Graphics;
 
+using NLog.Config;
+using NLog.Targets;
+using NLog;
+
 // funciona con .Net 4.0
 namespace edu.CiclosFormativos.DAM.DI.Galaga
 {
 	class Game
 	{
+        /// <summary>
+        /// Nivel de error a mostrar en el Log
+        /// </summary>
+        public int ErrorLevel { private get; set; }
+
+        /// <summary>
+        /// Mostrar Log en fichero
+        /// </summary>
+        public bool LogToFile { private get; set; }
+
+        // logger
+        private static Logger logger = LogManager.GetCurrentClassLogger();
+
 		static void Main(string[] args)
 		{
-			Game game = new Game();             // instanciación del juego 
-			game.run();                         // llamada a la función de arranque
+            Game game = new Game();             // instanciación del juego 
+
+            #region Lectura de parametros
+            try 
+            {
+                // sistema básico de control de parametros. Se pueden 
+                // encontrar muchos paquetes que realizan el control de una 
+                // manera más optimizada y flexible
+                if (args.Length > 0) 
+                {
+                    String [] fields;
+                    String parameter;
+                    foreach (String arg in args)
+                    {
+                        if (arg[0] == '-') {
+                            fields = arg.Split(':');
+                            parameter = fields[0].Substring(1);
+
+                            if (parameter.ToLower() == "errorlevel") {
+                                game.ErrorLevel = Int16.Parse(fields[1]);                
+                            }
+
+                            if (parameter.ToLower() == "logtofile")
+                            {
+                                game.LogToFile = Boolean.Parse(fields[1]);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex) 
+            {
+                Console.WriteLine("[Galaga] Línea de comandos. Parámetro incorrecto. " + ex.Message);
+            }
+            #endregion
+
+            game.ConfigLogger();                // configuracion del logger
+            game.Init();
+            game.run();                         // llamada a la función de arranque
 		}
 		
 		// Variables miembro
@@ -30,12 +84,22 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 		
 		// Constructor
 		public Game() {
-			
+
+            // configuración por defecto
+            ErrorLevel = 0;
+            LogToFile = true;
+        }
+
+        private void Init() 
+        {
+            logger.Log(LogLevel.Info, " >> Configurando juego.");
+
 			// buffer 32 bits de colors
 			ContextSettings contextSettings = new ContextSettings();
 			contextSettings.DepthBits = 32;
-			
-			// Creamos la ventana principal
+
+            // Creamos la ventana principal
+            logger.Log(LogLevel.Info, " >> Creando ventana principal.");
 			_window = new RenderWindow(new VideoMode(1280, 800), "Galaga ", Styles.Default, contextSettings);
 
             // el jugador pasa ahora a ser un Sprite
@@ -59,9 +123,9 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                 // le asigno la textura Naves:NaveJugador
                 _player.Texture = (Texture)a["Naves:NaveJugador"];
             }
-            catch (Exception)
-            { 
-            
+            catch (Exception ex)
+            {
+                logger.Log(LogLevel.Warn,ex.Message);
             }
 		}
 
@@ -174,5 +238,49 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 			else if (key == SFML.Window.Keyboard.Key.D)
 				_IsMovingRight = pressed;
 		}
-	}
+        
+        #region Logger
+        private void ConfigLogger() 
+        {
+            LogLevel logLevel;
+
+            // admite niveles de error de 0 a 2
+            switch (ErrorLevel)
+            {
+                case 0: // solo los graves que implican salida del programa
+                    logLevel = LogLevel.Fatal;
+                    break;
+                case 1: // avisos
+                    logLevel = LogLevel.Warn;
+                    break;
+                default:  // informacion detallada
+                    logLevel = LogLevel.Info;
+                    break;
+            }
+            
+            var config = new LoggingConfiguration();
+
+            if (LogToFile) {
+                var fileTarget = new FileTarget();
+                config.AddTarget("file", fileTarget);
+
+                fileTarget.Layout = @"${date:format=HH\:mm\:ss} ${logger} ${message}";
+                fileTarget.FileName = "${basedir}/LogFile.log";
+
+                var rule2 = new LoggingRule("*", logLevel, fileTarget);
+                config.LoggingRules.Add(rule2);
+            }
+            
+            var consoleTarget = new ColoredConsoleTarget();
+            config.AddTarget("console", consoleTarget);
+
+            consoleTarget.Layout = "${message}";
+
+            var rule1 = new LoggingRule("*", logLevel, consoleTarget);
+            config.LoggingRules.Add(rule1);
+
+            LogManager.Configuration = config;
+        }
+        #endregion
+    }
 }

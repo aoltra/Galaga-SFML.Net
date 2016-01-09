@@ -59,7 +59,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Resources
             }
             catch (Exception ex) 
             {
-                throw new ResourcesManagerException(ex.Message);
+                throw ex;
             }
 
             return txt;

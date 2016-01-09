@@ -106,7 +106,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Resources
         /// <summary>
         /// Registra funciones de carga de tipos de recurso par poder ser utilizadas cuando sea necesario cargar un recurso
         /// </summary>
-        /// <param name="elementName">Nombre del tipo de recurso al que se le asocia la función de carga. Hace las funciones de key</param>
+        /// <param name="resourceType">Nombre del tipo de recurso al que se le asocia la función de carga. Hace las funciones de key</param>
         /// <param name="f">Función de carga</param>
         public void RegisterLoadFunction(String resourceType, LoadResourceTypeDelegate f)
         {
@@ -178,19 +178,34 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Resources
         }
     }
 
+    /// <summary>
+    /// Encapsula una excepción generada por el Gestor de Recursos
+    /// </summary>
     public class ResourcesManagerException : Exception
     {
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public ResourcesManagerException()
         {
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="message">Mensaje de la excepcion</param>
         public ResourcesManagerException(string message)
-            : base("[Gestor de Recursos] " + message)
+            : base("[Gestor de Recursos] >> " + message)
         {
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="message">Mensaje de la excepcion</param>
+        /// <param name="inner">Excepcion en la que se bas</param>
         public ResourcesManagerException(string message, Exception inner)
-            : base("[Gestor de Recursos] " + message, inner)
+            : base("[Gestor de Recursos] >> " + message, inner)
         {
         }
     }
