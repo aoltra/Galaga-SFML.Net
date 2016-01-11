@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 
+using System.Diagnostics;
+
 //using SFML.Graphics;
 //using SFML;
 
@@ -146,9 +148,11 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Resources
                             Load(element, id.Value);
                         else
                         {
-                            //  WeakReference wr = new WeakReference(new SFML.Graphics.Texture(filename));
+                            // la key ya existe
+                            Debug.Assert(!_resourcesMap.ContainsKey(section + id.Value), "Key en mapa de recursos repetida");
                             _resourcesMap.Add(section + id.Value, new Resource(element));
                         }
+                        
                     }
                 }
             }

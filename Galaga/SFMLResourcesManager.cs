@@ -6,6 +6,7 @@ using System.Text;
 using System.Xml.Linq;
 using System.IO;
 using System.Reflection;
+using System.Diagnostics;
 using SFML.Graphics;
 
 namespace edu.CiclosFormativos.DAM.DI.Galaga.Resources
@@ -35,9 +36,11 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Resources
                     if (path == null) return null;
                     else stream = new FileStream(path, FileMode.Open, FileAccess.Read);
                 }
-                else  // utilizo esta técnica y no el GetType() ya que posiblemente lo exportaré a un DLL  
+                else  // utilizo esta técnica y no el GetType() ya que posiblemente lo exportaré a un DLL
+                {
                     stream = Assembly.GetEntryAssembly().GetManifestResourceStream(path);
-
+                    Debug.Assert(stream != null, "No se puede cargar la textura embedida: " + path);
+                }
                 // Tamaño
                 String rect = (String)element.Attribute("rectangle");
                 IntRect area = new IntRect();

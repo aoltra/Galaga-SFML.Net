@@ -88,7 +88,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <EmbeddedResource Include="main.resxml" />
+    <EmbeddedResource Include="main.resxml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
