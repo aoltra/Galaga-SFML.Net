@@ -81,10 +81,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\EnemyShip.cs" />
+    <Compile Include="Entity.cs" />
+    <Compile Include="Entities\PlayerShip.cs" />
     <Compile Include="ResourcesManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SFMLResourcesManager.cs" />
+    <Compile Include="Entities\Shoot.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
