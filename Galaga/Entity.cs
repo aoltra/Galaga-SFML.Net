@@ -10,10 +10,8 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
     /// <summary>
     /// Encapsula un objeto del juego
     /// </summary>
-    abstract class Entity
+    abstract class Entity : SFML.Graphics.Transformable
     {
-        public Vector2f Position { get; set; }
-
         /// <summary>
         /// Asigna o devuelve la velocidad de la entidad
         /// </summary>
