@@ -54,7 +54,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         public bool LogToFile { private get; set; }
 
         // logger
-        private static Logger logger = LogManager.GetCurrentClassLogger();
+        private static Logger _logger = LogManager.GetCurrentClassLogger();
 
 		static void Main(string[] args)
 		{
@@ -118,16 +118,16 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 
         private void Init() 
         {
-            logger.Log(LogLevel.Info, " >> Configurando juego.");
+            _logger.Log(LogLevel.Info, " >> Configurando juego.");
 
 			// buffer 32 bits de colors
 			ContextSettings contextSettings = new ContextSettings();
 			contextSettings.DepthBits = 32;
 
             // Creamos la ventana principal
-            logger.Log(LogLevel.Info, " >> Creando ventana principal.");
+            _logger.Log(LogLevel.Info, " >> Creando ventana principal.");
 			_window = new RenderWindow(new VideoMode(1280, 800), "Galaga ", Styles.Default, contextSettings);
-
+            
             // el jugador pasa ahora a ser un Sprite
 			_player = new Sprite();
 			_player.Position = new Vector2f(100f, 100f);
@@ -151,7 +151,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
             }
             catch (Exception ex)
             {
-                logger.Log(LogLevel.Warn,ex.Message);
+                _logger.Log(LogLevel.Warn,ex.Message);
             }
 		}
 
