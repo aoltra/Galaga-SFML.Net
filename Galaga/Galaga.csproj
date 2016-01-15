@@ -87,6 +87,7 @@
     <Compile Include="ResourcesManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SceneNode.cs" />
     <Compile Include="SFMLResourcesManager.cs" />
     <Compile Include="Entities\Shoot.cs" />
   </ItemGroup>

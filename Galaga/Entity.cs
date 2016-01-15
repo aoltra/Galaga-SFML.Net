@@ -10,7 +10,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
     /// <summary>
     /// Encapsula un objeto del juego
     /// </summary>
-    abstract class Entity : SFML.Graphics.Transformable
+    abstract class Entity : SceneNode
     {
         /// <summary>
         /// Asigna o devuelve la velocidad de la entidad
