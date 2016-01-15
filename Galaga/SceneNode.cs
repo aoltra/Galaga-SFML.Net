@@ -90,7 +90,10 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         /// <summary>
         /// Quita el nodo de la lista de nodos
         /// </summary>
-        /// <param name="scNode">Nodo a eliminar</param>
+        /// <param name="scNode">Nodo a quitar</param>
+        /// <remarks>
+        /// Se quita de la lista pero no se elimina de memoria
+        /// </remarks>
         public void RemoveChild(SceneNode scNode) {
             bool encontrado = _children.Remove(scNode);
             Debug.Assert(encontrado);
@@ -103,12 +106,49 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         /// </summary>
         /// <param name="rt">Donde se va a dibujar. Suele ser casi siempre una renderWindow, aunque podría ser una renderTexture</param>
         /// <param name="rs">Estados usados para dibujar</param>
+        /// <remarks>
+        /// Se sella la función de manera que no pueda ser redefida por ninguna de las clases que heredan 
+        /// de ella. Esta función ya hace lo que tiene que hace y no necesita ser particularizada. Para particularizar
+        /// se utiliza DrawCurrent
+        /// </remarks>
         public sealed void Draw(SFML.Graphics.RenderTarget rt, SFML.Graphics.RenderStates rs)
         { 
-            // esto funciona bien ya que Transform es una struct y no una clase!! se hace una copia, 
+            // almaceno la combinación de la transformación de el padre y de este nodo (hay que recordar que la 
+            // de este nodo es relativa al padre). Lo que obtengo es la transformación global del nodo
+            // esto funciona bien ya que rednerStates y Transform son struct y no una clase!! se hace una copia, 
             // no se crea otra referencia
             rs.Transform.Combine(Transform);
+
+            DrawCurrent(rt, rs);                // Dibujo el nodo actual
+            DrawChildren(rt,rs);
         }
-        
+
+        /// <summary>
+        /// Dibuja el nodo actual.
+        /// </summary>
+        /// <param name="rt">Donde se va a dibujar. Suele ser casi siempre una renderWindow, aunque podría ser una renderTexture</param>
+        /// <param name="rs">Estados usados para dibujar</param>
+        /// <remarks>
+        /// Se declara virtual para que tenga preferencia la llamada a esta misma función en 
+        /// las clases heredadas
+        /// </remarks>
+        protected virtual void DrawCurrent(SFML.Graphics.RenderTarget rt, SFML.Graphics.RenderStates rs)
+        { 
+            // no hace nada. Es genéricca, no sabe como dibujar nada en particular
+            // si se llama al drawCurrent de una entidad que no tenga ea función declarada 
+            // se usará esta (que no hará nada)
+        }
+
+        /// <summary>
+        /// Dibuja todos los nodos hijos
+        /// </summary>
+        /// <param name="rt">Donde se va a dibujar. Suele ser casi siempre una renderWindow, aunque podría ser una renderTexture</param>
+        /// <param name="rs">Estados usados para dibujar</param>
+        private void DrawChildren(SFML.Graphics.RenderTarget rt, SFML.Graphics.RenderStates rs) {
+
+            foreach (SceneNode sc in _children) {
+                sc.Draw(rt, rs);
+            }
+        }
     }
 }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using SFML.Graphics;
+
 namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
 {
     /// <summary>
@@ -15,10 +17,23 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
     /// </remarks>
     class PlayerShip : Entity
     {
-        public PlayerShip()
+        private Sprite _sprite;         // sprite donde dibujar la textura
+
+        public PlayerShip(Resources.ResourcesManager resManager)
             : base() 
-        { 
-        
+        {
+            _sprite.Texture = (Texture)resManager["Naves:NaveJugador"];
+        }
+
+        /// <summary>
+        /// Dibuja el PlayerShip
+        /// </summary>
+        /// <param name="rt"></param>
+        /// <param name="rs"></param>
+        protected void DrawCurrent(SFML.Graphics.RenderTarget rt, SFML.Graphics.RenderStates rs)
+        {
+            // en el destino (rt) dibujamos el sprite con un estado determinado (rs)
+            rt.Draw(_sprite,rs);    
         }
     }
 }
