@@ -22,7 +22,9 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         /// <summary>
         /// Constructor básico. Inicializa a cero la velocidad
         /// </summary>
-        public Entity() {
+        public Entity() 
+            : base ()
+        {
             Velocity = new Vector2f(0.0f, 0.0f);
         }
 

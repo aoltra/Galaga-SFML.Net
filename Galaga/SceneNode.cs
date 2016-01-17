@@ -74,21 +74,23 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         /// <summary>
         /// Constructor
         /// </summary>
-        public SceneNode() {
+        public SceneNode() 
+        {
+            Parent = null;
             _children = new List<SceneNode>();
         }
 
         /// <summary>
-        /// Añade un nodo al árbol
+        /// Añade un nodo hijo al nodo
         /// </summary>
-        /// <param name="scNode"></param>
+        /// <param name="scNode">Nodo a aña´dir</param>
         public void AddChild(SceneNode scNode) {
             scNode.Parent = this;
             _children.Add(scNode);
         }
 
         /// <summary>
-        /// Quita el nodo de la lista de nodos
+        /// Quita el nodo de la lista de nodos hijo
         /// </summary>
         /// <param name="scNode">Nodo a quitar</param>
         /// <remarks>
@@ -101,6 +103,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
             scNode.Parent = null;
         }
 
+        #region Funciones relativas al dibujado
         /// <summary>
         /// Dibuja el nodo
         /// </summary>
@@ -134,8 +137,8 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         /// </remarks>
         protected virtual void DrawCurrent(SFML.Graphics.RenderTarget rt, SFML.Graphics.RenderStates rs)
         { 
-            // no hace nada. Es genéricca, no sabe como dibujar nada en particular
-            // si se llama al drawCurrent de una entidad que no tenga ea función declarada 
+            // no hace nada. Es genérica, no sabe como dibujar nada en particular
+            // si se llama al DrawCurrent de una entidad que no tenga esa función declarada 
             // se usará esta (que no hará nada)
         }
 
@@ -149,6 +152,78 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
             foreach (SceneNode sc in _children) {
                 sc.Draw(rt, rs);
             }
+        }
+        #endregion
+
+        #region Funciones relativas a la actualización
+        /// <summary>
+        /// Actualiza el nodo
+        /// </summary>
+        /// <param name="dt">Incremento de tiempo desde la última actualización</param>
+        public sealed void Update(SFML.System.Time dt)
+        {
+            UpdateCurrent(dt);
+            UpdateChildren(dt);
+        }
+
+        /// <summary>
+        /// Actualiza el nodo
+        /// </summary>
+        /// <param name="dt">Incremento de tiempo desde la última actualización</param>
+        /// <remarks>
+        /// Se declara virtual para que tenga preferencia la llamada a esta misma función en 
+        /// las clases heredadas
+        /// </remarks>
+        protected virtual void UpdateCurrent(SFML.System.Time dt)
+        {
+            // no hace nada. Es genérica, no sabe como actualizar nada en particular
+            // si se llama al UpdateCurrent de una entidad que no tenga esa función declarada 
+            // se usará esta (que no hará nada)
+        }
+
+        /// <summary>
+        /// Actualiza todos los nodos hijos
+        /// </summary>
+        /// <param name="dt">Incremento de tiempo desde la última actualización</param>
+        private void UpdateChildren(SFML.System.Time dt)
+        {
+            foreach (SceneNode sc in _children)
+            {
+                sc.Update(dt);
+            }
+        }
+        #endregion
+
+        /// <summary>
+        /// Devuuelve la Transformacion necesaria para pasar a coordenadas globales (del mundo)
+        /// </summary>
+        public SFML.Graphics.Transform WorldTrasform 
+        {
+            get 
+            { 
+                SFML.Graphics.Transform transform = SFML.Graphics.Transform.Identity;
+
+                for (SceneNode node = this; node != null; node = node.Parent) 
+                    transform = node.Transform  * transform;
+                
+                return transform;
+            }
+        }
+
+        /// <summary>
+        /// Devuuelve la Transformacion necesaria para pasar a coordenadas globales (del mundo)
+        /// </summary>
+        public SFML.System.Vector2f WorldPosition
+        {
+            get
+            {
+                // OJO! la propiedad Position me da la posición del (0,0) del nodo con respecto al sistema
+                // de referencia de su nodo padre. Ese (0,0) por defecto es la esquina superior derecha del nodo
+                // al hacer el calculo de la transformación global tengo ya en cuenta la transformación del nodo en cuestión
+                // luego el punto que traslado es el origen (0,0).. esté donde esté
+                return WorldTrasform * new SFML.System.Vector2f();
+            }
+
         }
     }
 }
