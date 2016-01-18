@@ -90,6 +90,7 @@
     <Compile Include="SceneNode.cs" />
     <Compile Include="SFMLResourcesManager.cs" />
     <Compile Include="Entities\Shoot.cs" />
+    <Compile Include="World.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

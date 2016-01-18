@@ -29,48 +29,66 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using SFML.System;
+using SFML.Graphics;
 
 namespace edu.CiclosFormativos.DAM.DI.Galaga
 {
-    /// <summary>
-    /// Encapsula un objeto del juego
-    /// </summary>
-    abstract class Entity : SceneNode
+    class World
     {
-        /// <summary>
-        /// Asigna o devuelve la velocidad de la entidad
-        /// </summary>
-        /// <remarks>La velocidad es una magnitud vectorial, no sólo importa el valor absoluto (el módulo), además es necesario
-        /// conocer su dirección y sentido</remarks>
-        public Vector2f Velocity { get; set; }
+        // variables miembro
+        private RenderWindow _window;                   // ventana donde se dibujará
+        private SceneNode _sceneGraph;                  // nodo raíz del grafo de escena
+        private List<SceneNode> _sceneLayers;             // lista ordenada por orden de dibujo de las capas
 
-        /// <summary>
-        /// Constructor básico. Inicializa a cero la velocidad
-        /// </summary>
-        public Entity() 
-            : base ()
+        // enum con las diferentes capas
+        private enum Layer
         {
-            Velocity = new Vector2f(0.0f, 0.0f);
+            Background,         // 0
+            Air,                // 1
+            LayerCount          // 2 (número de capas)    
         }
 
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="velocity">Velocidad de la entidad</param>
-        public Entity(Vector2f velocity)
-        {
-            Velocity = velocity;
+        /// <param name="window">Ventana de dibujo</param>
+        public World(RenderWindow window) {
+
+            _window = window;
+
+            BuildWorld();
+
+        }
+
+        private void BuildWorld() {
+
+            SceneNode layer;
+
+            // Creo las capas como SceneNode's hijos del árbol raíz.
+            for (int contLayer = 0; contLayer < (int)Layer.LayerCount; contLayer++) {
+                layer = new SceneNode();
+                _sceneGraph.AddChild(layer);
+                _sceneLayers.Add(layer);
+            }
+        
         }
 
         /// <summary>
-        /// Actualizo la posición de la entidad
+        /// Dibuja el nodo
+        /// </summary>
+        public void Draw() { 
+        
+        }
+
+        /// <summary>
+        /// Actualizo el estado de los elementos del mundo
         /// </summary>
         /// <param name="dt">Incremento de tiempo desde la última actualización</param>
-        override protected void UpdateCurrent(SFML.System.Time dt)
-        {
-            // uso un operador sobrecargado para multiplicar vectores por escalares
-            Position += Velocity * dt.AsSeconds();
+        public void Update(SFML.System.Time dt)
+        { 
+        
+        
         }
+
     }
 }
