@@ -41,7 +41,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         /// Actualizo la posición de la entidad
         /// </summary>
         /// <param name="dt">Incremento de tiempo desde la última actualización</param>
-         protected void UpdateCurrent(SFML.System.Time dt)
+        override protected void UpdateCurrent(SFML.System.Time dt)
         {
             // uso un operador sobrecargado para multiplicar vectores por escalares
             Position += Velocity * dt.AsSeconds();
