@@ -110,11 +110,10 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         /// <param name="rt">Donde se va a dibujar. Suele ser casi siempre una renderWindow, aunque podría ser una renderTexture</param>
         /// <param name="rs">Estados usados para dibujar</param>
         /// <remarks>
-        /// Se sella la función de manera que no pueda ser redefida por ninguna de las clases que heredan 
-        /// de ella. Esta función ya hace lo que tiene que hace y no necesita ser particularizada. Para particularizar
-        /// se utiliza DrawCurrent
+        /// Esta función ya hace lo que tiene que hace y no necesita ser particularizada en ningún nodo. Para particularizar
+        /// el dibujo de un nodo se utiliza DrawCurrent
         /// </remarks>
-        public sealed void Draw(SFML.Graphics.RenderTarget rt, SFML.Graphics.RenderStates rs)
+        public void Draw(SFML.Graphics.RenderTarget rt, SFML.Graphics.RenderStates rs)
         { 
             // almaceno la combinación de la transformación de el padre y de este nodo (hay que recordar que la 
             // de este nodo es relativa al padre). Lo que obtengo es la transformación global del nodo
@@ -132,8 +131,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         /// <param name="rt">Donde se va a dibujar. Suele ser casi siempre una renderWindow, aunque podría ser una renderTexture</param>
         /// <param name="rs">Estados usados para dibujar</param>
         /// <remarks>
-        /// Se declara virtual para que tenga preferencia la llamada a esta misma función en 
-        /// las clases heredadas
+        /// Se declara virtual para que pueda ser modificada en las clases hijas sobreescibiendose (override)
         /// </remarks>
         protected virtual void DrawCurrent(SFML.Graphics.RenderTarget rt, SFML.Graphics.RenderStates rs)
         { 
@@ -160,7 +158,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         /// Actualiza el nodo
         /// </summary>
         /// <param name="dt">Incremento de tiempo desde la última actualización</param>
-        public sealed void Update(SFML.System.Time dt)
+        public void Update(SFML.System.Time dt)
         {
             UpdateCurrent(dt);
             UpdateChildren(dt);
@@ -171,8 +169,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         /// </summary>
         /// <param name="dt">Incremento de tiempo desde la última actualización</param>
         /// <remarks>
-        /// Se declara virtual para que tenga preferencia la llamada a esta misma función en 
-        /// las clases heredadas
+        /// Se declara virtual para que pueda ser modificada en las clases hijas sobreescibiendose (override)
         /// </remarks>
         protected virtual void UpdateCurrent(SFML.System.Time dt)
         {

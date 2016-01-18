@@ -220,7 +220,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                 speed.X += _playerSpeed;
 
             // espacio = velocidad * tiempo. El nuevo espacio se añade a la posición previa
-            // del tiempo se obtienen los segundos ya que la velocidad se dam en px/s
+            // del tiempo se obtienen los segundos ya que la velocidad se da en px/s
             _player.Position += speed * time.AsSeconds(); 
 		}
 		
