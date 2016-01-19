@@ -30,6 +30,7 @@ using System.Linq;
 using System.Text;
 
 using SFML.Graphics;
+using SFML.System;
 
 namespace edu.CiclosFormativos.DAM.DI.Galaga
 {
@@ -44,7 +45,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         private List<SceneNode> _sceneLayers;           // lista ordenada por orden de dibujo de las capas
         private View _worldView;                        // vista (camara) que visualizará nuestro trozo de mundo
 
-        // enum con las diferentes capas
+        // enum con las diferentes capas en orden de dibujo
         private enum Layer
         {
             Background,         // 0
@@ -59,6 +60,10 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         public World(RenderWindow window) {
 
             _window = window;
+           
+            _sceneGraph = new SceneNode();
+            _sceneLayers = new List<SceneNode>();
+            
             // asigno la vista por defecto (viewport completo y tamaño igual en pixeles al de al ventana
             // hago una copia de la vista por defecto, para mantener guardada la original por si quiero volver a ella 
             _worldView = new View(_window.DefaultView);
@@ -67,7 +72,6 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
             _window.SetView(_worldView);
 
             BuildWorld();
-
         }
 
         private void BuildWorld() {
