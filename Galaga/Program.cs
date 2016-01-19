@@ -100,14 +100,16 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 		}
 		
 		// Variables miembro
-		private RenderWindow _window;                    // ventana principal
-	
-		private Sprite _player;					 // jugador (un simple círculo cyan)
-		private bool _IsMovingUp,_IsMovingDown,_IsMovingLeft,_IsMovingRight;
-        private float _playerSpeed;                      // velocidad del jugador 
+		private RenderWindow _window;                   // ventana principal
 
-        private SFML.System.Time _timePerFrame;          // en este caso indica el mínimo requerido
-		
+        private World _world;                           // mundo del juego
+
+		private Sprite _player;					        // jugador
+		private bool _IsMovingUp,_IsMovingDown,_IsMovingLeft,_IsMovingRight;
+        private float _playerSpeed;                     // velocidad del jugador 
+
+        private SFML.System.Time _timePerFrame;         // en este caso indica el mínimo requerido
+
 		// Constructor
 		public Game() {
 
@@ -137,6 +139,8 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
             _timePerFrame = SFML.System.Time.FromSeconds(1f / 40f);           // como mínimo 40 frames por segundo
 
 			RegisterDelegates();
+
+            _world = new World(_window);
 
             try
             {
@@ -228,7 +232,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 		private void render() { 
 			// limpia la pantalla (por defecto en negro, pero podemos asignarle un color)
 			_window.Clear();
-			// Dibuja un elemento "dibujable", Drawable. En este caso nuestro "jugador": el círculo
+			// Dibuja un elemento "dibujable", Drawable. En este caso nuestro "jugador": el sprite
 			_window.Draw (_player);
 			// muestra la pantalla. Hace el cambio de un buffer a otro (doble buffer)
 			_window.Display ();

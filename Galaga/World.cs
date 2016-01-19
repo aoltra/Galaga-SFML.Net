@@ -44,6 +44,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         private SceneNode _sceneGraph;                  // nodo raíz del grafo de escena
         private List<SceneNode> _sceneLayers;           // lista ordenada por orden de dibujo de las capas
         private View _worldView;                        // vista (camara) que visualizará nuestro trozo de mundo
+        private FloatRect _worldBounds;                 // dimensiones (límites) del mundo
 
         // enum con las diferentes capas en orden de dibujo
         private enum Layer
@@ -71,7 +72,17 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
             // asignamos al mundo la vista definida (por ahora un clon de la de por defecto)
             _window.SetView(_worldView);
 
+
+            _worldBounds = new FloatRect(0, 0, _worldView.Size.X, 3000);
+
             BuildWorld();
+
+            // Prepare the view
+            _worldView.Center = new Vector2f(_worldView.Size.X / 2, _worldBounds.Height - (_worldView.Size.Y / 2));
+
+            // asignamos al mundo la vista definida (con el centro cambiado)
+            _window.SetView(_worldView);
+
         }
 
         private void BuildWorld() {
