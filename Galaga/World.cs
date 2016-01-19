@@ -46,6 +46,8 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         private View _worldView;                        // vista (camara) que visualizará nuestro trozo de mundo
         private FloatRect _worldBounds;                 // dimensiones (límites) del mundo
 
+        private float _scrollSpeed;                     // velocidad del scroll del mundo (el espacio estrellado)
+
         // enum con las diferentes capas en orden de dibujo
         private enum Layer
         {
@@ -64,6 +66,8 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
            
             _sceneGraph = new SceneNode();
             _sceneLayers = new List<SceneNode>();
+
+            _scrollSpeed = -300;                                 // 300 px/s
             
             // asigno la vista por defecto (viewport completo y tamaño igual en pixeles al de al ventana
             // hago una copia de la vista por defecto, para mantener guardada la original por si quiero volver a ella 
@@ -101,8 +105,10 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         /// <summary>
         /// Dibuja el nodo
         /// </summary>
-        public void Draw() { 
-        
+        public void Draw() 
+        {
+            // reasignamos la vista
+            _window.SetView(_worldView);
         }
 
         /// <summary>
@@ -110,9 +116,9 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         /// </summary>
         /// <param name="dt">Incremento de tiempo desde la última actualización</param>
         public void Update(SFML.System.Time dt)
-        { 
-        
-        
+        {
+            // movemos la vista         
+            _worldView.Move(new Vector2f(0, _scrollSpeed * dt.AsSeconds()));
         }
 
     }

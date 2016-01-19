@@ -132,7 +132,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
             
             // el jugador pasa ahora a ser un Sprite
 			_player = new Sprite();
-			_player.Position = new Vector2f(100f, 100f);
+			_player.Position = new Vector2f(100f, 1500f);
 
             _playerSpeed = 100;           // 100 px/s
 
@@ -225,7 +225,10 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 
             // espacio = velocidad * tiempo. El nuevo espacio se añade a la posición previa
             // del tiempo se obtienen los segundos ya que la velocidad se da en px/s
-            _player.Position += speed * time.AsSeconds(); 
+            _player.Position += speed * time.AsSeconds();
+
+            // calculamos las nuevas posiciones de los elementos del mundo
+            _world.Update(time);
 		}
 		
 		// Dibuja el mundo
@@ -234,6 +237,8 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 			_window.Clear();
 			// Dibuja un elemento "dibujable", Drawable. En este caso nuestro "jugador": el sprite
 			_window.Draw (_player);
+            // Dibuja los elementos contenidos en el mundo
+            _world.Draw();
 			// muestra la pantalla. Hace el cambio de un buffer a otro (doble buffer)
 			_window.Display ();
 		}
