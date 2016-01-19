@@ -33,12 +33,16 @@ using SFML.Graphics;
 
 namespace edu.CiclosFormativos.DAM.DI.Galaga
 {
+    /// <summary>
+    /// Encapsula el mundo en el que transcurre el juego
+    /// </summary>
     class World
     {
         // variables miembro
         private RenderWindow _window;                   // ventana donde se dibujará
         private SceneNode _sceneGraph;                  // nodo raíz del grafo de escena
-        private List<SceneNode> _sceneLayers;             // lista ordenada por orden de dibujo de las capas
+        private List<SceneNode> _sceneLayers;           // lista ordenada por orden de dibujo de las capas
+        private View _worldView;                        // vista (camara) que visualizará nuestro trozo de mundo
 
         // enum con las diferentes capas
         private enum Layer
@@ -55,6 +59,12 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         public World(RenderWindow window) {
 
             _window = window;
+            // asigno la vista por defecto (viewport completo y tamaño igual en pixeles al de al ventana
+            // hago una copia de la vista por defecto, para mantener guardada la original por si quiero volver a ella 
+            _worldView = new View(_window.DefaultView);
+
+            // asignamos al mundo la vista definida (por ahora un clon de la de por defecto)
+            _window.SetView(_worldView);
 
             BuildWorld();
 
