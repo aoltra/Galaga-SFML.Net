@@ -90,6 +90,7 @@
     <Compile Include="SceneNode.cs" />
     <Compile Include="SFMLResourcesManager.cs" />
     <Compile Include="Entities\Shoot.cs" />
+    <Compile Include="SpriteNode.cs" />
     <Compile Include="World.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -97,6 +98,9 @@
     <EmbeddedResource Include="main.resxml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <None Include="assets\Textures\starfiled.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

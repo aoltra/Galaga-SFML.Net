@@ -29,8 +29,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using edu.CiclosFormativos.DAM.DI.Galaga.Resources;
+
 using SFML.Graphics;
 using SFML.System;
+
+using NLog.Config;
+using NLog.Targets;
+using NLog;
 
 namespace edu.CiclosFormativos.DAM.DI.Galaga
 {
@@ -45,8 +51,12 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         private List<SceneNode> _sceneLayers;           // lista ordenada por orden de dibujo de las capas
         private View _worldView;                        // vista (camara) que visualizará nuestro trozo de mundo
         private FloatRect _worldBounds;                 // dimensiones (límites) del mundo
+        private ResourcesManager _resManager;           // Gestor de recursos del mundo 
 
         private float _scrollSpeed;                     // velocidad del scroll del mundo (el espacio estrellado)
+
+        // logger
+        private static Logger _logger = LogManager.GetCurrentClassLogger();
 
         // enum con las diferentes capas en orden de dibujo
         private enum Layer
@@ -62,30 +72,44 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         /// <param name="window">Ventana de dibujo</param>
         public World(RenderWindow window) {
 
-            _window = window;
+            try
+            {
+                _window = window;
            
-            _sceneGraph = new SceneNode();
-            _sceneLayers = new List<SceneNode>();
+                _sceneGraph = new SceneNode();
+                _sceneLayers = new List<SceneNode>();
 
-            _scrollSpeed = -300;                                 // 300 px/s
+                _scrollSpeed = -60;                                 // 60 px/s
             
-            // asigno la vista por defecto (viewport completo y tamaño igual en pixeles al de al ventana
-            // hago una copia de la vista por defecto, para mantener guardada la original por si quiero volver a ella 
-            _worldView = new View(_window.DefaultView);
+                // asigno la vista por defecto (viewport completo y tamaño igual en pixeles al de al ventana
+                // hago una copia de la vista por defecto, para mantener guardada la original por si quiero volver a ella 
+                _worldView = new View(_window.DefaultView);
 
-            // asignamos al mundo la vista definida (por ahora un clon de la de por defecto)
-            _window.SetView(_worldView);
+                // asignamos al mundo la vista definida (por ahora un clon de la de por defecto)
+                _window.SetView(_worldView);
 
+                // Se crea el gestor de recursos y se leen los elementos
+                _resManager = new Resources.ResourcesManager(
+                    this.GetType().Assembly.GetManifestResourceStream("Galaga.main.resxml"));
+                _resManager.RegisterLoadFunction("texture", Resources.SFMLResourcesManager.LoadTexture);
+            
+                // pongo dimensiones al mundo
+                _worldBounds = new FloatRect(0, 0, _worldView.Size.X, 3000);
 
-            _worldBounds = new FloatRect(0, 0, _worldView.Size.X, 3000);
+                // construyo el mundo
+                BuildWorld();
 
-            BuildWorld();
+                // Prepare the view
+                _worldView.Center = new Vector2f(_worldView.Size.X / 2, _worldBounds.Height - (_worldView.Size.Y / 2));
 
-            // Prepare the view
-            _worldView.Center = new Vector2f(_worldView.Size.X / 2, _worldBounds.Height - (_worldView.Size.Y / 2));
+                // asignamos al mundo la vista definida (con el centro cambiado)
+                _window.SetView(_worldView);
 
-            // asignamos al mundo la vista definida (con el centro cambiado)
-            _window.SetView(_worldView);
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(LogLevel.Warn, ex.Message);
+            }
 
         }
 
@@ -93,13 +117,30 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 
             SceneNode layer;
 
-            // Creo las capas como SceneNode's hijos del árbol raíz.
-            for (int contLayer = 0; contLayer < (int)Layer.LayerCount; contLayer++) {
-                layer = new SceneNode();
-                _sceneGraph.AddChild(layer);
-                _sceneLayers.Add(layer);
+            try 
+            {
+
+                // Creo las capas como SceneNode's hijos del árbol raíz.
+                for (int contLayer = 0; contLayer < (int)Layer.LayerCount; contLayer++) {
+                    layer = new SceneNode();
+                    _sceneGraph.AddChild(layer);
+                    _sceneLayers.Add(layer);
+                }
+
+                ///// BACKGROUND
+                // creo el SpriteNode asignandole la textura 
+                SpriteNode background = new SpriteNode(_resManager["Fondos:EspacioEstrellado"] as Texture,
+                       new IntRect((int)_worldBounds.Left, (int)_worldBounds.Top, (int)_worldBounds.Width, (int)_worldBounds.Height));
+
+                // lo posiciono en la esquina superior derecha del mundo
+                background.Position = new Vector2f(_worldBounds.Left, _worldBounds.Top);
+                _sceneLayers[(int)Layer.Background].AddChild(background);
+
             }
-        
+            catch (Exception ex)
+            {
+                _logger.Log(LogLevel.Warn, ex.Message);
+            }
         }
 
         /// <summary>
@@ -109,6 +150,9 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         {
             // reasignamos la vista
             _window.SetView(_worldView);
+
+            // dibujamos el grafo de escena
+            _window.Draw(_sceneGraph);
         }
 
         /// <summary>
@@ -117,8 +161,14 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         /// <param name="dt">Incremento de tiempo desde la última actualización</param>
         public void Update(SFML.System.Time dt)
         {
-            // movemos la vista         
-            _worldView.Move(new Vector2f(0, _scrollSpeed * dt.AsSeconds()));
+            // movemos la vista, en caso de que lleguemos al principio la recolocamos abajo de nuevo  
+            if (_worldView.Center.Y <= _worldBounds.Top + _worldView.Size.Y/2)
+                _worldView.Center = new Vector2f(_worldView.Size.X / 2, _worldBounds.Height - (_worldView.Size.Y / 2));
+            else
+                _worldView.Move(new Vector2f(0, _scrollSpeed * dt.AsSeconds()));
+
+            // actualizamos el grafo de escena
+            _sceneGraph.Update(dt);
         }
 
     }

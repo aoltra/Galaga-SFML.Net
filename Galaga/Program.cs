@@ -132,7 +132,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
             
             // el jugador pasa ahora a ser un Sprite
 			_player = new Sprite();
-			_player.Position = new Vector2f(100f, 1500f);
+			_player.Position = new Vector2f(100f, 100f);
 
             _playerSpeed = 100;           // 100 px/s
 
