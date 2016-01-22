@@ -40,7 +40,7 @@
     <DocumentationFile>bin\Debug\Galaga.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -91,6 +91,8 @@
     <Compile Include="SFMLResourcesManager.cs" />
     <Compile Include="Entities\Shoot.cs" />
     <Compile Include="SpriteNode.cs" />
+    <Compile Include="Star.cs" />
+    <Compile Include="StarBackground.cs" />
     <Compile Include="World.cs" />
   </ItemGroup>
   <ItemGroup>

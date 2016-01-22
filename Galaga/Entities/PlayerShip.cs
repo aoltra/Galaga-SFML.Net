@@ -28,8 +28,8 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
         /// <summary>
         /// Dibuja el PlayerShip
         /// </summary>
-        /// <param name="rt"></param>
-        /// <param name="rs"></param>
+        /// <param name="rt">Donde se va a dibujar. Suele ser casi siempre una renderWindow, aunque podría ser una renderTexture</param>
+        /// <param name="rs">Estados usados para dibujar</param>
         override protected void DrawCurrent(SFML.Graphics.RenderTarget rt, SFML.Graphics.RenderStates rs)
         {
             // en el destino (rt) dibujamos el sprite con un estado determinado (rs)

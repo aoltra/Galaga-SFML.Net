@@ -90,6 +90,18 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         }
 
         /// <summary>
+        /// Añade un lista de nodos hijoa al nodo
+        /// </summary>
+        /// <param name="lstNodes">Nodos a añadir</param>
+        public void AddChilds(List<SceneNode> lstNodes)
+        {
+            foreach (SceneNode scNode in lstNodes)
+                scNode.Parent = this;
+
+            _children.AddRange(lstNodes);
+        }
+
+        /// <summary>
         /// Quita el nodo de la lista de nodos hijo
         /// </summary>
         /// <param name="scNode">Nodo a quitar</param>

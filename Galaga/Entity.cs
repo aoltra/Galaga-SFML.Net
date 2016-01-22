@@ -59,6 +59,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         /// </summary>
         /// <param name="velocity">Velocidad de la entidad</param>
         public Entity(Vector2f velocity)
+            : base ()
         {
             Velocity = velocity;
         }

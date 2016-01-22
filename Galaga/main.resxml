@@ -10,7 +10,4 @@
   <section id="Naves">
     <texture id="NaveJugador" src="./assets/textures/nave01.png" smooth="true" repeated="false"/>
   </section>
-  <section id="Fondos">
-    <texture id="EspacioEstrellado" src="./assets/textures/starfiled.png" smooth="true" repeated="true"/>
-  </section>
 </resx>

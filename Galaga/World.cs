@@ -53,8 +53,6 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         private FloatRect _worldBounds;                 // dimensiones (límites) del mundo
         private ResourcesManager _resManager;           // Gestor de recursos del mundo 
 
-        private float _scrollSpeed;                     // velocidad del scroll del mundo (el espacio estrellado)
-
         // logger
         private static Logger _logger = LogManager.GetCurrentClassLogger();
 
@@ -78,8 +76,6 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
            
                 _sceneGraph = new SceneNode();
                 _sceneLayers = new List<SceneNode>();
-
-                _scrollSpeed = -60;                                 // 60 px/s
             
                 // asigno la vista por defecto (viewport completo y tamaño igual en pixeles al de al ventana
                 // hago una copia de la vista por defecto, para mantener guardada la original por si quiero volver a ella 
@@ -94,7 +90,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                 _resManager.RegisterLoadFunction("texture", Resources.SFMLResourcesManager.LoadTexture);
             
                 // pongo dimensiones al mundo
-                _worldBounds = new FloatRect(0, 0, _worldView.Size.X, 3000);
+                _worldBounds = new FloatRect(0, 0, _worldView.Size.X, _worldView.Size.Y);
 
                 // construyo el mundo
                 BuildWorld();
@@ -128,13 +124,20 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                 }
 
                 ///// BACKGROUND
-                // creo el SpriteNode asignandole la textura 
-                SpriteNode background = new SpriteNode(_resManager["Fondos:EspacioEstrellado"] as Texture,
-                       new IntRect((int)_worldBounds.Left, (int)_worldBounds.Top, (int)_worldBounds.Width, (int)_worldBounds.Height));
+                // se crea un background estrellado parallax con scroll
+                Star.Size = new FloatRect(0,0,_window.Size.X,_window.Size.Y);
 
-                // lo posiciono en la esquina superior derecha del mundo
-                background.Position = new Vector2f(_worldBounds.Left, _worldBounds.Top);
-                _sceneLayers[(int)Layer.Background].AddChild(background);
+                List<SceneNode> deepSpace1 = StarBackgroundGenerator.StarGenerator(55, 
+                    StarBackgroundGenerator.StarType.Small, new Vector2f(0, 60f), _window).Cast<SceneNode>().ToList();
+                _sceneLayers[(int)Layer.Background].AddChilds(deepSpace1);
+
+                List<SceneNode> deepSpace2 = StarBackgroundGenerator.StarGenerator(15, 
+                    StarBackgroundGenerator.StarType.Medium, new Vector2f(0, 90f), _window).Cast<SceneNode>().ToList();
+                _sceneLayers[(int)Layer.Background].AddChilds(deepSpace2);
+
+                List<SceneNode> deepSpace3 = StarBackgroundGenerator.StarGenerator(3, 
+                    StarBackgroundGenerator.StarType.Big, new Vector2f(0, 100f), _window).Cast<SceneNode>().ToList();
+                _sceneLayers[(int)Layer.Background].AddChilds(deepSpace3);
 
             }
             catch (Exception ex)
@@ -161,12 +164,6 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         /// <param name="dt">Incremento de tiempo desde la última actualización</param>
         public void Update(SFML.System.Time dt)
         {
-            // movemos la vista, en caso de que lleguemos al principio la recolocamos abajo de nuevo  
-            if (_worldView.Center.Y <= _worldBounds.Top + _worldView.Size.Y/2)
-                _worldView.Center = new Vector2f(_worldView.Size.X / 2, _worldBounds.Height - (_worldView.Size.Y / 2));
-            else
-                _worldView.Move(new Vector2f(0, _scrollSpeed * dt.AsSeconds()));
-
             // actualizamos el grafo de escena
             _sceneGraph.Update(dt);
         }

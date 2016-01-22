@@ -128,7 +128,8 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 
             // Creamos la ventana principal
             _logger.Log(LogLevel.Info, " >> Creando ventana principal.");
-			_window = new RenderWindow(new VideoMode(1280, 800), "Galaga ", Styles.Default, contextSettings);
+            // ventana no redimensionable
+			_window = new RenderWindow(new VideoMode(800, 600), "Galaga ", Styles.Titlebar, contextSettings);
             
             // el jugador pasa ahora a ser un Sprite
 			_player = new Sprite();
@@ -163,13 +164,13 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 		// Métodos
 		////////////////////////
 		public void run() {
-            
+
             Clock clock = new Clock();
             SFML.System.Time timeSinceLastUpdate = SFML.System.Time.Zero;
-          
-			// Game Loop
-			while (_window.IsOpen)
-			{
+
+            // Game Loop
+            while (_window.IsOpen)
+            {
                 // Procesamos eventos. Este procesamiento de evento se podría quitar ya que sólo
                 // tendría importancia para aquellos eventos que no afectasen al mundo
                 // en este caso el Close. Si lo quitaramos sólo se retrasaría un poco (hasta el paso del tiempo
@@ -184,20 +185,20 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                 while (timeSinceLastUpdate > _timePerFrame)
                 {
                     timeSinceLastUpdate -= _timePerFrame;   // le quito un frame
-                    
+
                     // Procesamos eventos
                     _window.DispatchEvents();
 
-                    update(_timePerFrame);  
+                    update(_timePerFrame);
 
                     // si después de este ciclo el tiempo que ha transcurrido sigue siendo mayor al de un frame
                     // repito el ciclo y voy actualizando el mundo, aunque no lo renderice
                 }
 
                 // en cada ciclo actualizo y renderizo
-                update(timeSinceLastUpdate);          
-				render();
-			}
+                update(timeSinceLastUpdate);
+                render();
+            }
 		}
 
 		// Registra los delegados
@@ -239,7 +240,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 			_window.Draw (_player);
             // Dibuja los elementos contenidos en el mundo
             _world.Draw();
-			// muestra la pantalla. Hace el cambio de un buffer a otro (doble buffer)
+            // muestra la pantalla. Hace el cambio de un buffer a otro (doble buffer)
 			_window.Display ();
 		}
 		
@@ -273,6 +274,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 			else if (key == SFML.Window.Keyboard.Key.D)
 				_IsMovingRight = pressed;
 		}
+
         
         #region Logger
         private void ConfigLogger() 
