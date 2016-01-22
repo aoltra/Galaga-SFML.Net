@@ -205,8 +205,8 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 		private void RegisterDelegates() {
 			
 			_window.Closed += new EventHandler(OnClose);
-			_window.KeyPressed += new EventHandler<SFML.Window.KeyEventArgs>(OnKeyPressed);
-			_window.KeyReleased += new EventHandler<SFML.Window.KeyEventArgs>(OnKeyReleased);
+	//		_window.KeyPressed += new EventHandler<SFML.Window.KeyEventArgs>(OnKeyPressed);
+	//		_window.KeyReleased += new EventHandler<SFML.Window.KeyEventArgs>(OnKeyReleased);
 		}
 
         // actualiza el estado del mundo en función del tiempo transcurrido desde la última actualización
@@ -214,14 +214,14 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         {
 			SFML.System.Vector2f speed = new Vector2f(0f, 0f);
 
-            // desplaza 1 px en el sentido que haya indicado la pulsacion del teclado
-			if (_IsMovingUp)
-				speed.Y -= _playerSpeed;
-			if (_IsMovingDown)
+            
+            if (SFML.Window.Keyboard.IsKeyPressed(SFML.Window.Keyboard.Key.W))
+                speed.Y -= _playerSpeed;
+            if (SFML.Window.Keyboard.IsKeyPressed(SFML.Window.Keyboard.Key.S))
                 speed.Y += _playerSpeed;
-			if (_IsMovingLeft)
+            if (SFML.Window.Keyboard.IsKeyPressed(SFML.Window.Keyboard.Key.A))
                 speed.X -= _playerSpeed;
-			if (_IsMovingRight)
+            if (SFML.Window.Keyboard.IsKeyPressed(SFML.Window.Keyboard.Key.D))
                 speed.X += _playerSpeed;
 
             // espacio = velocidad * tiempo. El nuevo espacio se añade a la posición previa
@@ -256,11 +256,11 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 		}
 
 		private void OnKeyPressed(object sender, KeyEventArgs e) {
-			handlePlayerInput(e.Code, true);
+			//handlePlayerInput(e.Code, true);
 		}
 
 		private void OnKeyReleased(object sender, KeyEventArgs e) {
-			handlePlayerInput(e.Code, false);
+		//	handlePlayerInput(e.Code, false);
 		}
 
 		private void handlePlayerInput(SFML.Window.Keyboard.Key key, bool pressed) {

@@ -68,7 +68,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
             switch (type)
             {
                 case StarType.Small: _baseRadius = 0.5f; break;
-                case StarType.Medium: _baseRadius = 0.7f; break;
+                case StarType.Medium: _baseRadius = 0.8f; break;
                 case StarType.Big: _baseRadius = 1.5f; break;
             }
 
