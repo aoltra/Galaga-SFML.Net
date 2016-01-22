@@ -105,9 +105,9 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         private World _world;                           // mundo del juego
 
 		private Sprite _player;					        // jugador
-		private bool _IsMovingUp,_IsMovingDown,_IsMovingLeft,_IsMovingRight;
+		//private bool _IsMovingUp,_IsMovingDown,_IsMovingLeft,_IsMovingRight;
         private float _playerSpeed;                     // velocidad del jugador 
-
+        private bool _isPaused;                         // juego pausado o no
         private SFML.System.Time _timePerFrame;         // en este caso indica el mínimo requerido
 
 		// Constructor
@@ -139,6 +139,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 
             _timePerFrame = SFML.System.Time.FromSeconds(1f / 40f);           // como mínimo 40 frames por segundo
 
+            _isPaused = false;
 			RegisterDelegates();
 
             _world = new World(_window);
@@ -189,14 +190,17 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                     // Procesamos eventos
                     _window.DispatchEvents();
 
-                    update(_timePerFrame);
+                    if (!_isPaused)
+                        update(_timePerFrame);
 
                     // si después de este ciclo el tiempo que ha transcurrido sigue siendo mayor al de un frame
                     // repito el ciclo y voy actualizando el mundo, aunque no lo renderice
                 }
 
                 // en cada ciclo actualizo y renderizo
-                update(timeSinceLastUpdate);
+                if (!_isPaused)
+                    update(timeSinceLastUpdate);
+                
                 render();
             }
 		}
@@ -205,6 +209,8 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 		private void RegisterDelegates() {
 			
 			_window.Closed += new EventHandler(OnClose);
+            _window.GainedFocus += new EventHandler(OnGainedFocus);
+            _window.LostFocus += new EventHandler(OnLostFocus);
 	//		_window.KeyPressed += new EventHandler<SFML.Window.KeyEventArgs>(OnKeyPressed);
 	//		_window.KeyReleased += new EventHandler<SFML.Window.KeyEventArgs>(OnKeyReleased);
 		}
@@ -255,6 +261,26 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 			window.Close();
 		}
 
+        /// <summary>
+        /// Se ha recueperado el foco de la aplicación
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnGainedFocus(object sender, EventArgs e)
+        {
+            _isPaused = false;
+		}
+
+        /// <summary>
+        /// Se ha perdido el foco de la aplicación
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnLostFocus(object sender, EventArgs e)
+        {
+            _isPaused = true;
+        }
+
 		private void OnKeyPressed(object sender, KeyEventArgs e) {
 			//handlePlayerInput(e.Code, true);
 		}
@@ -265,14 +291,14 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 
 		private void handlePlayerInput(SFML.Window.Keyboard.Key key, bool pressed) {
 
-			if (key == SFML.Window.Keyboard.Key.W)
-				_IsMovingUp = pressed;
-			else if (key == SFML.Window.Keyboard.Key.S)
-				_IsMovingDown = pressed;
-			else if (key == SFML.Window.Keyboard.Key.A)
-				_IsMovingLeft = pressed;
-			else if (key == SFML.Window.Keyboard.Key.D)
-				_IsMovingRight = pressed;
+            //if (key == SFML.Window.Keyboard.Key.W)
+            //    _IsMovingUp = pressed;
+            //else if (key == SFML.Window.Keyboard.Key.S)
+            //    _IsMovingDown = pressed;
+            //else if (key == SFML.Window.Keyboard.Key.A)
+            //    _IsMovingLeft = pressed;
+            //else if (key == SFML.Window.Keyboard.Key.D)
+            //    _IsMovingRight = pressed;
 		}
 
         
