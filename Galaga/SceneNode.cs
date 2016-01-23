@@ -69,6 +69,18 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
             }
         }
 
+        /// <summary>
+        /// Asigna o devuelve la categoria del nodo
+        /// </summary>
+        /// <remarks>
+        /// Se declara virtual para que pueda ser modificada en las clases hijas sobreescibiendose (override)
+        /// </remarks>
+        public virtual UInt16 Category 
+        {
+            get { return (UInt16)edu.CiclosFormativos.DAM.DI.Galaga.Category.Scene; }
+        }
+
+
         private List<SceneNode> _children = null;     // lista de hijos
 
         /// <summary>
@@ -203,6 +215,8 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         }
         #endregion
 
+
+        #region Funciones relativas a la trasnformación
         /// <summary>
         /// Devuuelve la Transformacion necesaria para pasar a coordenadas globales (del mundo)
         /// </summary>
@@ -234,5 +248,28 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
             }
 
         }
+        #endregion
+
+
+        /// <summary>
+        /// Ejecuta, si su categoria lo indica, el comando. Además reenvía el comando a sus hijos
+        /// </summary>
+        /// <param name="command">Comando a a ejecutar</param>
+        /// <param name="dt">Incremento de tiempo desde la última actualización</param>
+        public void OnCommand(Command command, SFML.System.Time dt)
+        { 
+            // comparación binaria
+            if ((command.Category & Category) == Category)
+            {
+                command.Execute(this, dt);
+            }
+
+            foreach (SceneNode sc in _children)
+            {
+                sc.OnCommand(command, dt);
+            }
+        }
+
+ 
     }
 }

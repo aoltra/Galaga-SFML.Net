@@ -19,6 +19,18 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
     {
         private Sprite _sprite;         // sprite donde dibujar la textura
 
+        /// <summary>
+        /// Devuelve la/s categoria/s del PlayerShip
+        /// </summary>
+        public override UInt16 Category
+        {
+            get { return (UInt16)edu.CiclosFormativos.DAM.DI.Galaga.Category.PlayerShip; }
+        }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="resManager">Gestor de recursos</param>
         public PlayerShip(Resources.ResourcesManager resManager)
             : base() 
         {
@@ -35,5 +47,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
             // en el destino (rt) dibujamos el sprite con un estado determinado (rs)
             rt.Draw(_sprite,rs);    
         }
+
+      
     }
 }
