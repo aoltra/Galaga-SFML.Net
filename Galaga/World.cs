@@ -55,6 +55,8 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 
         private CommandQueue _commandQueue;             // cola de comandos
 
+        private Entities.PlayerShip _playerShip;        // entidad nave jugador
+
         // logger
         private static Logger _logger = LogManager.GetCurrentClassLogger();
 
@@ -83,6 +85,8 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
            
                 _sceneGraph = new SceneNode();
                 _sceneLayers = new List<SceneNode>();
+
+                _commandQueue = new CommandQueue();
             
                 // asigno la vista por defecto (viewport completo y tamaño igual en pixeles al de al ventana
                 // hago una copia de la vista por defecto, para mantener guardada la original por si quiero volver a ella 
@@ -146,6 +150,11 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                     StarBackgroundGenerator.StarType.Big, new Vector2f(0, 100f), _window).Cast<SceneNode>().ToList();
                 _sceneLayers[(int)Layer.Background].AddChilds(deepSpace3);
 
+                ////// NAVE JUGADOR
+                // Añado la nave del jugador
+                _playerShip = new Entities.PlayerShip(_resManager);
+                _playerShip.Position = new Vector2f(_worldView.Size.X / 2, _worldView.Size.Y - 60);
+                _sceneLayers[(int)Layer.Air].AddChild(_playerShip);
             }
             catch (Exception ex)
             {

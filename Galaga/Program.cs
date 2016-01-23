@@ -104,8 +104,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 
         private World _world;                           // mundo del juego
 		private Player _player;					        // jugador
-		
-        private float _playerSpeed;                     // velocidad del jugador 
+	 
         private bool _isPaused;                         // juego pausado o no
         private SFML.System.Time _timePerFrame;         // en este caso indica el mínimo requerido
 
@@ -128,11 +127,9 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
             // Creamos la ventana principal
             _logger.Log(LogLevel.Info, " >> Creando ventana principal.");
             // ventana no redimensionable
-			_window = new RenderWindow(new VideoMode(800, 600), "Galaga ", Styles.Titlebar, contextSettings);
+			_window = new RenderWindow(new VideoMode(800, 600), "Galaga ", Styles.Close, contextSettings);
             
 			_player = new Player();
-
-            _playerSpeed = 100;           // 100 px/s
 
             _timePerFrame = SFML.System.Time.FromSeconds(1f / 40f);           // como mínimo 40 frames por segundo
 
@@ -141,21 +138,20 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 
             _world = new World(_window);
 
-            try
-            {
-                // prueba del correcto funcionamiento
-                Resources.ResourcesManager a = new Resources.ResourcesManager(
-                    this.GetType().Assembly.GetManifestResourceStream("Galaga.main.resxml"));
+            //try
+            //{
+            //    // prueba del correcto funcionamiento
+            //    Resources.ResourcesManager a = new Resources.ResourcesManager(
+            //        this.GetType().Assembly.GetManifestResourceStream("Galaga.main.resxml"));
             
-                a.RegisterLoadFunction("texture",Resources.SFMLResourcesManager.LoadTexture);
+            //    a.RegisterLoadFunction("texture",Resources.SFMLResourcesManager.LoadTexture);
 
-                //// le asigno la textura Naves:NaveJugador
-                //_player.Texture = (Texture)a["Naves:NaveJugador"];
-            }
-            catch (Exception ex)
-            {
-                _logger.Log(LogLevel.Warn,ex.Message);
-            }
+              
+            //}
+            //catch (Exception ex)
+            //{
+            //    _logger.Log(LogLevel.Warn,ex.Message);
+            //}
 		}
 
 		////////////////////////
@@ -177,6 +173,9 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                 // en este caso el Close. Si lo quitaramos sólo se retrasaría un poco (hasta el paso del tiempo
                 // del frame) al ejecución del evento 
                 _window.DispatchEvents();
+
+                // procesamos los eventos en el propio jugador
+                _player.HandleRealtimeInput(_world.CommandQueue);
 
                 // para cada uno de los ciclos reinicio el reloj a cero y devuelvo
                 // el tiempo que ha transcurrido
@@ -214,8 +213,9 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 		private void RegisterDelegates() 
         {
 			_window.Closed += new EventHandler(OnClose);
-            _window.GainedFocus += new EventHandler(OnGainedFocus);
-            _window.LostFocus += new EventHandler(OnLostFocus);
+            // se comentan para facilitar las labores de depuración
+            //_window.GainedFocus += new EventHandler(OnGainedFocus);
+            //_window.LostFocus += new EventHandler(OnLostFocus);
             _window.KeyPressed += new EventHandler<SFML.Window.KeyEventArgs>(OnKeyPressed);
             _window.KeyReleased += new EventHandler<SFML.Window.KeyEventArgs>(OnKeyReleased);
 		}
@@ -223,22 +223,6 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         // actualiza el estado del mundo en función del tiempo transcurrido desde la última actualización
         private void update(SFML.System.Time time)
         {
-			SFML.System.Vector2f speed = new Vector2f(0f, 0f);
-
-            
-            if (SFML.Window.Keyboard.IsKeyPressed(SFML.Window.Keyboard.Key.W))
-                speed.Y -= _playerSpeed;
-            if (SFML.Window.Keyboard.IsKeyPressed(SFML.Window.Keyboard.Key.S))
-                speed.Y += _playerSpeed;
-            if (SFML.Window.Keyboard.IsKeyPressed(SFML.Window.Keyboard.Key.A))
-                speed.X -= _playerSpeed;
-            if (SFML.Window.Keyboard.IsKeyPressed(SFML.Window.Keyboard.Key.D))
-                speed.X += _playerSpeed;
-
-            // espacio = velocidad * tiempo. El nuevo espacio se añade a la posición previa
-            // del tiempo se obtienen los segundos ya que la velocidad se da en px/s
-            _player.Position += speed * time.AsSeconds();
-
             // calculamos las nuevas posiciones de los elementos del mundo
             _world.Update(time);
 		}
@@ -249,18 +233,13 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 		private void render() { 
 			// limpia la pantalla (por defecto en negro, pero podemos asignarle un color)
 			_window.Clear();
-			// Dibuja un elemento "dibujable", Drawable. En este caso nuestro "jugador": el sprite
-			_window.Draw (_player);
             // Dibuja los elementos contenidos en el mundo
             _world.Draw();
             // muestra la pantalla. Hace el cambio de un buffer a otro (doble buffer)
 			_window.Display ();
 		}
-		
-		/////////////////////////////////////
-		// funciones suscritas a delegados
-		/////////////////////////////////////
-		
+
+        #region Funciones suscritas a delegados
         /// <summary>
         /// La ventana se ha cerrado 
         /// </summary>
@@ -311,8 +290,8 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         {
             _player.HandleKeyboardEvent(e.Code, false, _world.CommandQueue);
 		}
+        #endregion
 
-        
         #region Logger
         private void ConfigLogger() 
         {
