@@ -103,9 +103,8 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 		private RenderWindow _window;                   // ventana principal
 
         private World _world;                           // mundo del juego
-
-		private Sprite _player;					        // jugador
-		//private bool _IsMovingUp,_IsMovingDown,_IsMovingLeft,_IsMovingRight;
+		private Player _player;					        // jugador
+		
         private float _playerSpeed;                     // velocidad del jugador 
         private bool _isPaused;                         // juego pausado o no
         private SFML.System.Time _timePerFrame;         // en este caso indica el mínimo requerido
@@ -131,9 +130,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
             // ventana no redimensionable
 			_window = new RenderWindow(new VideoMode(800, 600), "Galaga ", Styles.Titlebar, contextSettings);
             
-            // el jugador pasa ahora a ser un Sprite
-			_player = new Sprite();
-			_player.Position = new Vector2f(100f, 100f);
+			_player = new Player();
 
             _playerSpeed = 100;           // 100 px/s
 
@@ -149,11 +146,11 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                 // prueba del correcto funcionamiento
                 Resources.ResourcesManager a = new Resources.ResourcesManager(
                     this.GetType().Assembly.GetManifestResourceStream("Galaga.main.resxml"));
-                //String [] ad = this.GetType().Assembly.GetManifestResourceNames();
+            
                 a.RegisterLoadFunction("texture",Resources.SFMLResourcesManager.LoadTexture);
 
-                // le asigno la textura Naves:NaveJugador
-                _player.Texture = (Texture)a["Naves:NaveJugador"];
+                //// le asigno la textura Naves:NaveJugador
+                //_player.Texture = (Texture)a["Naves:NaveJugador"];
             }
             catch (Exception ex)
             {
@@ -164,6 +161,9 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 		////////////////////////
 		// Métodos
 		////////////////////////
+        /// <summary>
+        /// Ejecuta el bulce principal del juego
+        /// </summary>
 		public void run() {
 
             Clock clock = new Clock();
@@ -190,6 +190,9 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                     // Procesamos eventos
                     _window.DispatchEvents();
 
+                    // procesamos los eventos en el propio jugador
+                    _player.HandleRealtimeInput(_world.CommandQueue);
+
                     if (!_isPaused)
                         update(_timePerFrame);
 
@@ -205,14 +208,16 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
             }
 		}
 
-		// Registra los delegados
-		private void RegisterDelegates() {
-			
+		/// <summary>
+        ///  Registra los delegados
+		/// </summary>
+		private void RegisterDelegates() 
+        {
 			_window.Closed += new EventHandler(OnClose);
             _window.GainedFocus += new EventHandler(OnGainedFocus);
             _window.LostFocus += new EventHandler(OnLostFocus);
-	//		_window.KeyPressed += new EventHandler<SFML.Window.KeyEventArgs>(OnKeyPressed);
-	//		_window.KeyReleased += new EventHandler<SFML.Window.KeyEventArgs>(OnKeyReleased);
+            _window.KeyPressed += new EventHandler<SFML.Window.KeyEventArgs>(OnKeyPressed);
+            _window.KeyReleased += new EventHandler<SFML.Window.KeyEventArgs>(OnKeyReleased);
 		}
 
         // actualiza el estado del mundo en función del tiempo transcurrido desde la última actualización
@@ -238,7 +243,9 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
             _world.Update(time);
 		}
 		
-		// Dibuja el mundo
+        /// <summary>
+        /// Dibuja el mundo
+        /// </summary>
 		private void render() { 
 			// limpia la pantalla (por defecto en negro, pero podemos asignarle un color)
 			_window.Clear();
@@ -254,15 +261,19 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 		// funciones suscritas a delegados
 		/////////////////////////////////////
 		
-		// La ventana se ha cerrado
-		private void OnClose(object sender, EventArgs e) {
-			
+        /// <summary>
+        /// La ventana se ha cerrado 
+        /// </summary>
+        /// <param name="sender">Objeto que genera el evento</param>
+        /// <param name="e">Información asociada</param>
+		private void OnClose(object sender, EventArgs e) 
+        {	
 			Window window = (Window)sender;
 			window.Close();
 		}
 
         /// <summary>
-        /// Se ha recueperado el foco de la aplicación
+        /// Se ha recuperado el foco de la aplicación
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -281,24 +292,24 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
             _isPaused = true;
         }
 
-		private void OnKeyPressed(object sender, KeyEventArgs e) {
-			//handlePlayerInput(e.Code, true);
+        /// <summary>
+        /// Se ha pulsado en una tecla
+        /// </summary>
+        /// <param name="sender">Objeto que genera el evento</param>
+        /// <param name="e">Información sobre la tecla pulsada</param>
+		private void OnKeyPressed(object sender, KeyEventArgs e) 
+        {
+			_player.HandleKeyboardEvent(e.Code, true, _world.CommandQueue);
 		}
 
-		private void OnKeyReleased(object sender, KeyEventArgs e) {
-		//	handlePlayerInput(e.Code, false);
-		}
-
-		private void handlePlayerInput(SFML.Window.Keyboard.Key key, bool pressed) {
-
-            //if (key == SFML.Window.Keyboard.Key.W)
-            //    _IsMovingUp = pressed;
-            //else if (key == SFML.Window.Keyboard.Key.S)
-            //    _IsMovingDown = pressed;
-            //else if (key == SFML.Window.Keyboard.Key.A)
-            //    _IsMovingLeft = pressed;
-            //else if (key == SFML.Window.Keyboard.Key.D)
-            //    _IsMovingRight = pressed;
+        /// <summary>
+        /// Se ha soltado en una tecla
+        /// </summary>
+        /// <param name="sender">Objeto que genera el evento</param>
+        /// <param name="e">Información sobre la tecla soltada</param>
+		private void OnKeyReleased(object sender, KeyEventArgs e) 
+        {
+            _player.HandleKeyboardEvent(e.Code, false, _world.CommandQueue);
 		}
 
         

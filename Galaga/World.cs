@@ -67,6 +67,11 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         }
 
         /// <summary>
+        /// Devuelve la cola de comandos 
+        /// </summary>
+        public CommandQueue CommandQueue { get { return _commandQueue;  } }
+
+        /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="window">Ventana de dibujo</param>
@@ -166,9 +171,10 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         /// <param name="dt">Incremento de tiempo desde la última actualización</param>
         public void Update(SFML.System.Time dt)
         {
-            // Forward commands to the scene graph
+            // Introduzco los commandos de la cola en el grafo
             while (!_commandQueue.IsEmpty)
-                _SceneGraph.onCommand(_commandQueue.pop(), dt);
+                _sceneGraph.OnCommand(_commandQueue.Pop(), dt);
+
             // actualizamos el grafo de escena
             _sceneGraph.Update(dt);
         }
