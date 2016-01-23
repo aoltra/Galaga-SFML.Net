@@ -137,21 +137,6 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 			RegisterDelegates();
 
             _world = new World(_window);
-
-            //try
-            //{
-            //    // prueba del correcto funcionamiento
-            //    Resources.ResourcesManager a = new Resources.ResourcesManager(
-            //        this.GetType().Assembly.GetManifestResourceStream("Galaga.main.resxml"));
-            
-            //    a.RegisterLoadFunction("texture",Resources.SFMLResourcesManager.LoadTexture);
-
-              
-            //}
-            //catch (Exception ex)
-            //{
-            //    _logger.Log(LogLevel.Warn,ex.Message);
-            //}
 		}
 
 		////////////////////////

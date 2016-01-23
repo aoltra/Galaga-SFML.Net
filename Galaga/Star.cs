@@ -75,7 +75,6 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
             rt.Draw(_shape, rs);
         }
 
-
         /// <summary>
         /// Actualiza la estrella
         /// </summary>

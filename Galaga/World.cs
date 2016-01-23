@@ -57,6 +57,8 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 
         private Entities.PlayerShip _playerShip;        // entidad nave jugador
 
+        private const int BORDER = 40;                  // borde del mundo en el que no se juega
+
         // logger
         private static Logger _logger = LogManager.GetCurrentClassLogger();
 
@@ -152,7 +154,8 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 
                 ////// NAVE JUGADOR
                 // Añado la nave del jugador
-                _playerShip = new Entities.PlayerShip(_resManager);
+                _playerShip = new Entities.PlayerShip(_resManager, 
+                    new FloatRect(_worldBounds.Left + BORDER, 0, _worldBounds.Width - BORDER, _worldBounds.Height));
                 _playerShip.Position = new Vector2f(_worldView.Size.X / 2, _worldView.Size.Y - 60);
                 _sceneLayers[(int)Layer.Air].AddChild(_playerShip);
             }

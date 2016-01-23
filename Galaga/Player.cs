@@ -31,7 +31,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
             _actionBinding.Add(Action.MoveLeft, new Commands.LinealMovementCommand(-_playerSpeed, 0));
             _actionBinding.Add(Action.MoveRight, new Commands.LinealMovementCommand(_playerSpeed, 0));
 
-            // indico que todas afectan a la nave de usuario
+            // indico que todas las acciones afectan a la nave de usuario
             foreach (KeyValuePair<Action,Command> cmd in _actionBinding)
                 cmd.Value.Category = (UInt16)Category.PlayerShip;
         }
