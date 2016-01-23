@@ -88,10 +88,12 @@
     <Compile Include="Entities\EnemyShip.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="Entities\PlayerShip.cs" />
+    <Compile Include="Game.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="ResourcesManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scene.cs" />
     <Compile Include="SceneNode.cs" />
     <Compile Include="SFMLResourcesManager.cs" />
     <Compile Include="Entities\Shoot.cs" />

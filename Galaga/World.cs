@@ -122,6 +122,9 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 
         }
 
+        /// <summary>
+        /// Construye todos los elementos que forman parte del mundo
+        /// </summary>
         private void BuildWorld() {
 
             SceneNode layer;
