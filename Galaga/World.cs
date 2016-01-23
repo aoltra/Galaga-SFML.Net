@@ -53,6 +53,8 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         private FloatRect _worldBounds;                 // dimensiones (límites) del mundo
         private ResourcesManager _resManager;           // Gestor de recursos del mundo 
 
+        private CommandQueue _commandQueue;             // cola de comandos
+
         // logger
         private static Logger _logger = LogManager.GetCurrentClassLogger();
 
@@ -164,6 +166,9 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         /// <param name="dt">Incremento de tiempo desde la última actualización</param>
         public void Update(SFML.System.Time dt)
         {
+            // Forward commands to the scene graph
+            while (!_commandQueue.IsEmpty)
+                _SceneGraph.onCommand(_commandQueue.pop(), dt);
             // actualizamos el grafo de escena
             _sceneGraph.Update(dt);
         }
