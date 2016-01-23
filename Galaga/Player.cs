@@ -8,7 +8,16 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
     class Player
     {
         // variables miembro
-        private float _playerSpeed;                     // velocidad del jugador
+        private float _playerSpeed;                             // velocidad del jugador
+
+        private Dictionary<Action, Command> _actionBinding;     // diccionario que relaciona cada posible accion del jugador con su comando
+
+        // Define las acciones que puede realizar el jugador 
+        private enum Action 
+        { 
+            MoveRight,
+            MoveLeft
+        }
 
         /// <summary>
         /// Constructor
@@ -16,6 +25,15 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         public Player() 
         {
             _playerSpeed = 150;                         // 150 px/s
+            _actionBinding = new Dictionary<Action, Command>();
+
+            // inicializo las posibles acciones que puede que realizar el usuario
+            _actionBinding.Add(Action.MoveLeft, new Commands.LinealMovementCommand(-_playerSpeed, 0));
+            _actionBinding.Add(Action.MoveRight, new Commands.LinealMovementCommand(_playerSpeed, 0));
+
+            // indico que todas afectan a la nave de usuario
+            foreach (KeyValuePair<Action,Command> cmd in _actionBinding)
+                cmd.Value.Category = (UInt16)Category.PlayerShip;
         }
 
 
@@ -28,27 +46,15 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         /// </remarks>
         public void HandleRealtimeInput(CommandQueue commands)
         {
-           
-
-            if (SFML.Window.Keyboard.IsKeyPressed(SFML.Window.Keyboard.Key.W))
-            {
-               
-            }
-
             if (SFML.Window.Keyboard.IsKeyPressed(SFML.Window.Keyboard.Key.A))
             {
-              
-            }
-
-            if (SFML.Window.Keyboard.IsKeyPressed(SFML.Window.Keyboard.Key.S))
-            {
-               
+                Commands.LinealMovementCommand lmC = (Commands.LinealMovementCommand)_actionBinding[Action.MoveLeft];
+                commands.Push(lmC);
             }
 
             if (SFML.Window.Keyboard.IsKeyPressed(SFML.Window.Keyboard.Key.D))
             {
-                Commands.LinealMovementCommand lmC = new Commands.LinealMovementCommand(_playerSpeed,0);
-                lmC.Category = (UInt16)Category.PlayerShip;
+                Commands.LinealMovementCommand lmC = (Commands.LinealMovementCommand)_actionBinding[Action.MoveRight];
                 commands.Push(lmC);
             }
         }
