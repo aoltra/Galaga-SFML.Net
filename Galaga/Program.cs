@@ -76,6 +76,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
             #endregion
 
             application.ConfigLogger();                 // configuracion del logger
+            application.Init();                         // configuración de la aplicación
             application.Run();                          // ejecuto el bucle principal de la app
         }
     }

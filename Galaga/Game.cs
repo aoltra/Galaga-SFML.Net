@@ -31,14 +31,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         {
             _logger.Log(LogLevel.Info, " >> Configurando juego.");
 
-            // buffer 32 bits de colors
-            ContextSettings contextSettings = new ContextSettings();
-            contextSettings.DepthBits = 32;
-
-            // Creamos la ventana principal
-            _logger.Log(LogLevel.Info, " >> Creando ventana principal.");
-            // ventana no redimensionable
-            _window = new RenderWindow(new VideoMode(800, 600), "Galaga ", Styles.Close, contextSettings);
+           
 
             _player = new Player();
 

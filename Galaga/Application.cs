@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using SFML.Window;
+using SFML.Graphics;
+
 using NLog.Config;
 using NLog.Targets;
 using NLog;
@@ -24,11 +27,29 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         // logger
         private static Logger _logger = LogManager.GetCurrentClassLogger();
 
+        // Variables miembro
+        private RenderWindow _window;                   // ventana principal
+
         public Application() 
         {
             // configuración por defecto
             ErrorLevel = 0;
             LogToFile = true;
+        }
+
+        public void Init() 
+        {
+            _logger.Log(LogLevel.Info, " >> Configurando aplicación.");
+
+            // buffer 32 bits de colors
+            ContextSettings contextSettings = new ContextSettings();
+            contextSettings.DepthBits = 32;
+
+            // Creamos la ventana principal
+            _logger.Log(LogLevel.Info, " >> Creando ventana principal.");
+            // ventana no redimensionable
+            _window = new RenderWindow(new VideoMode(800, 600), "Galaga ", Styles.Close, contextSettings);
+        
         }
 
         /// <summary>
