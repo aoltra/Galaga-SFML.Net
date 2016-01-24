@@ -37,7 +37,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         /// <summary>
         /// Identificadores de escena
         /// </summary>
-        private enum SceneID
+        public enum SceneID
         {
             None,
             Title,
@@ -84,6 +84,9 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         {
         }
 
+        /// <summary>
+        /// Registra las funciones de creación de escenas
+        /// </summary>
         private void RegisterScenes() 
         {
             try
@@ -101,9 +104,9 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
             }
         }
 
-        private Scene CreateGameScene(Scene.Context scnContext, SceneManager scnManager)
+        private Scene CreateGameScene()
         {
-            return new GameScene(scnContext, scnManager);
+            return new GameScene(_context, _scnManager);
         }
 
         #region Logger

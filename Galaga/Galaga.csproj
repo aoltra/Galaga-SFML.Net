@@ -89,7 +89,6 @@
     <Compile Include="Entities\EnemyShip.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="Entities\PlayerShip.cs" />
-    <Compile Include="Game.cs" />
     <Compile Include="GameScene.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="ResourcesManager.cs" />

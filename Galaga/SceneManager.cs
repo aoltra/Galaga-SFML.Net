@@ -38,6 +38,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
     {
         // variables miembro
         private List<Scene> _stack;                                 // modelizo la pila con una lista
+        private List<StackRequest> _requestList;                    // lista de peticiones de operaciones a realizar en la pila
 
         // diccionario que almacena la posibles funciones de creacion de escenas
         private Dictionary<int, CreateSceneTypeDelegate> _createFuncMap = 
@@ -46,18 +47,22 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         /// <summary>
         /// Delegado que define como tiene que ser creadas las funciones de creación de escenas
         /// </summary>
-        /// <param name="scnContext">Contexto o datos a intercambiarse entre escenas</param>
-        /// <param name="scnManager">Gestor de escenas</param>
         /// <returns>Scene creada</returns>
-        public delegate Scene CreateSceneTypeDelegate(Scene.Context scnContext, SceneManager scnManager);   
+        public delegate Scene CreateSceneTypeDelegate();
 
+        /// <summary>
+        /// Devuelve si el gestor está limpio de escenas
+        /// </summary>
+        /// <returns>True si no hay escenas, False en caso contrario</returns>
+        public bool IsEmpty { get { return _stack.Count == 0; } }
+            
         /// <summary>
         /// Constructor
         /// </summary>
         public SceneManager() {
 
             _stack = new List<Scene>();
-
+            _requestList = new List<StackRequest>();
 
         
         }
@@ -77,6 +82,108 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
             {
                 throw new SceneManagerException(ex.Message);
             }
+        }
+
+        /// <summary>
+        /// Introduce una escena en la pila
+        /// </summary>
+        /// <param name="sceneID">Identificador de la escena</param>
+        /// <remarks>
+        /// Realmente mete la acción en la lista de peticiones pendientes a la espera de poder ser realizada
+        /// </remarks>
+        public void Push(int sceneID)
+        {
+            _requestList.Add(new StackRequest(StackRequest.StackAction.Push, sceneID));
+        }
+
+        /// <summary>
+        /// Saca la escena cima de la pila
+        /// </summary>
+        /// <remarks>
+        /// Realmente mete la acción en la lista de peticiones pendientes a la espera de poder ser realizada
+        /// </remarks>
+        public void Pop()
+        {
+            _requestList.Add(new StackRequest(StackRequest.StackAction.Pop));
+        }
+
+        /// <summary>
+        /// Limpia el gestor de escenas
+        /// </summary>
+        /// <remarks>
+        /// Realmente mete la acción en la lista de peticiones pendientes a la espera de poder ser realizada
+        /// </remarks>
+        public void Clear()
+        {
+            _requestList.Add(new StackRequest(StackRequest.StackAction.Clear));
+        }
+
+        /// <summary>
+        /// Aplica las operaciones almacenadas en la lista de acciones pendientes
+        /// </summary>
+        private void ApplyRequest() 
+        { 
+            foreach (StackRequest sR in _requestList) 
+            {
+                switch (sR.Action)
+                {
+                    case StackRequest.StackAction.Push:
+                        _stack.Add(CreateScene(sR.SceneID));
+                        break;
+
+                    case StackRequest.StackAction.Pop:
+                        _stack.RemoveAt(_stack.Count - 1);
+                        break;
+
+                    case StackRequest.StackAction.Clear:
+                        _stack.Clear();
+                        break;
+                }
+            }
+
+            // una vez procesada toda la lista se borra su contenido
+            _requestList.Clear();
+        }
+
+        /// <summary>
+        /// Crea la escena en función de su identificador
+        /// </summary>
+        /// <param name="sceneID">Identificador de la escena</param>
+        /// <exception cref="Exception">No se ha registrado una función para la creación de ese tipo de escena</exception>
+        /// <returns>La escena creada</returns>
+        private Scene CreateScene(int sceneID) 
+        {
+            CreateSceneTypeDelegate createFunc;          // funcion de creación elegida para la creación de una escena en concreto
+
+            if (_createFuncMap.TryGetValue(sceneID, out createFunc))
+                return createFunc();
+            else
+                throw new SceneManagerException("No se ha definido una función para la creación de ese tipo de escena " +
+                     sceneID + ". No se creado la escena.");
+        }
+        
+    }
+
+    /// <summary>
+    /// Encapsula las diferentes peticiones sobre la pila
+    /// </summary>
+    class StackRequest
+    {
+        // Acciones a realizar sobre la pila
+        public enum StackAction
+        {
+            Push,
+            Pop,
+            Clear
+        }
+
+        public StackAction Action  { get; private set; }
+        public int SceneID { get; private set; }
+
+        public StackRequest(StackAction action, int sceneID = 0)
+        {
+            Action = action;
+            SceneID = sceneID;
         }
     }
 
@@ -109,6 +216,6 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         public SceneManagerException(string message, Exception inner)
             : base("[Gestor de Escenas] >> " + message, inner)
         {
-        }
+        }        
     }
 }
