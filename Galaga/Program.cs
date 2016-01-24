@@ -30,33 +30,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using NLog.Config;
-using NLog.Targets;
-using NLog;
-
 // funciona con .Net 4.0
 namespace edu.CiclosFormativos.DAM.DI.Galaga
 {
-	class Program
-	{
-        /// <summary>
-        /// Nivel de error a mostrar en el Log
-        /// </summary>
-        public static int ErrorLevel { private get; set; }
-
-        /// <summary>
-        /// Mostrar Log en fichero
-        /// </summary>
-        public static bool LogToFile { private get; set; }
-
-        // logger
-        private static Logger _logger = LogManager.GetCurrentClassLogger();
-
+    class Program
+    {
         static void Main(string[] args)
         {
-            // configuración por defecto
-            ErrorLevel = 0;
-            LogToFile = true;
+            Application application = new Application();       // instanciación de la aplicación
 
             #region Lectura de parametros
             try
@@ -77,12 +58,12 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 
                             if (parameter.ToLower() == "errorlevel")
                             {
-                                ErrorLevel = Int16.Parse(fields[1]);
+                                application.ErrorLevel = Int16.Parse(fields[1]);
                             }
 
                             if (parameter.ToLower() == "logtofile")
                             {
-                                LogToFile = Boolean.Parse(fields[1]);
+                                application.LogToFile = Boolean.Parse(fields[1]);
                             }
                         }
                     }
@@ -94,55 +75,8 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
             }
             #endregion
 
-            ConfigLogger();                // configuracion del logger
-
-            Game game = new Game();             // instanciación del juego
-            game.run();                         // llamada a la función de arranque
+            application.ConfigLogger();                 // configuracion del logger
+            application.Run();                          // ejecuto el bucle principal de la app
         }
-
-        #region Logger
-        private static void ConfigLogger()
-        {
-            LogLevel logLevel;
-
-            // admite niveles de error de 0 a 2
-            switch (ErrorLevel)
-            {
-                case 0: // solo los graves que implican salida del programa
-                    logLevel = LogLevel.Fatal;
-                    break;
-                case 1: // avisos
-                    logLevel = LogLevel.Warn;
-                    break;
-                default:  // informacion detallada
-                    logLevel = LogLevel.Info;
-                    break;
-            }
-
-            var config = new LoggingConfiguration();
-
-            if (LogToFile)
-            {
-                var fileTarget = new FileTarget();
-                config.AddTarget("file", fileTarget);
-
-                fileTarget.Layout = @"${date:format=HH\:mm\:ss} ${logger} ${message}";
-                fileTarget.FileName = "${basedir}/LogFile.log";
-
-                var rule2 = new LoggingRule("*", logLevel, fileTarget);
-                config.LoggingRules.Add(rule2);
-            }
-
-            var consoleTarget = new ColoredConsoleTarget();
-            config.AddTarget("console", consoleTarget);
-
-            consoleTarget.Layout = "${message}";
-
-            var rule1 = new LoggingRule("*", logLevel, consoleTarget);
-            config.LoggingRules.Add(rule1);
-
-            LogManager.Configuration = config;
-        }
-        #endregion
     }
 }
