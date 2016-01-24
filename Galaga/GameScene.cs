@@ -112,11 +112,18 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
             _window.KeyReleased += new EventHandler<SFML.Window.KeyEventArgs>(OnKeyReleased);
         }
 
-        // actualiza el estado del mundo en función del tiempo transcurrido desde la última actualización
-        public override void Update(SFML.System.Time time)
+        
+        /// <summary>
+        /// Actualiza el estado de la escena en función del tiempo transcurrido desde la última actualización 
+        /// </summary>
+        /// <param name="time">tiempo transcurrido desde la última actualización </param>
+        /// <returns>true: siempre deja que las escenas inferiores se actualicen</returns>
+        public override bool Update(SFML.System.Time time)
         {
             // calculamos las nuevas posiciones de los elementos del mundo
             _world.Update(time);
+
+            return true;
         }
 
         /// <summary>

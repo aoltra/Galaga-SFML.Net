@@ -60,15 +60,23 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         /// Actualiza el estado de los elementos de la escena
         /// </summary>
         /// <param name="dt">Incremento de tiempo desde la última actualización</param>
-        public abstract void Update(SFML.System.Time dt);
+        /// <returns>true si se deja que las escena inferiores en el gestor también se actualicen, false en caso contrario</returns>
+        public abstract bool Update(SFML.System.Time dt);
 
         /// <summary>
         /// Encapsula los datos que se pasan entre escenas
         /// </summary>
         public class Context 
         {
+            /// <summary>
+            /// Devuelve la ventana de renderizado
+            /// </summary>
             public RenderWindow Window { get; private set; }
 
+            /// <summary>
+            /// Constructor
+            /// </summary>
+            /// <param name="window">Ventana de renderizado</param>
             public Context(RenderWindow window) 
             {
                 Window = window;

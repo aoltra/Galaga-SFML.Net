@@ -119,6 +119,35 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         }
 
         /// <summary>
+        /// Actualiza todas las escenas
+        /// </summary>
+        /// <param name="dt">Incremento de tiempo desde la última actualización</param>
+        public void Update(SFML.System.Time dt)
+        {
+            // itera desde el final de la lista hacia el principio, o lo que es lo mismo
+            // itera la pila desde la cima hacia abajo
+            for (int i = _stack.Count - 1; i >= 0; i--)
+            {
+                if (!_stack[i].Update(dt))
+                    break;
+            }
+
+            ApplyRequest();
+        }
+
+        /// <summary>
+        /// Dibuja toda la pila 
+        /// </summary>
+        public void Draw()
+        {
+            // la escena que está más arriba (la activa) es la última en dibujarse
+            foreach (Scene scene in _stack)
+            {
+                scene.Draw();
+            }
+        }
+
+        /// <summary>
         /// Aplica las operaciones almacenadas en la lista de acciones pendientes
         /// </summary>
         private void ApplyRequest() 
