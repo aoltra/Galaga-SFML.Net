@@ -10,6 +10,8 @@ using NLog.Config;
 using NLog.Targets;
 using NLog;
 
+using System.Diagnostics;
+
 namespace edu.CiclosFormativos.DAM.DI.Galaga
 {
     class Application
@@ -29,7 +31,24 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 
         // Variables miembro
         private RenderWindow _window;                   // ventana principal
+        private SceneManager _scnManager;               // gestor de escenas
 
+        /// <summary>
+        /// Identificadores de escena
+        /// </summary>
+        private enum SceneID
+        {
+            None,
+            Title,
+            Menu,
+            Game,
+            Records,
+            Pause
+        }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public Application() 
         {
             // configuración por defecto
@@ -49,6 +68,10 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
             _logger.Log(LogLevel.Info, " >> Creando ventana principal.");
             // ventana no redimensionable
             _window = new RenderWindow(new VideoMode(800, 600), "Galaga ", Styles.Close, contextSettings);
+
+            _scnManager = new SceneManager();
+
+            RegisterScenes();
         
         }
 
@@ -57,6 +80,29 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         /// </summary>
         public void Run()
         {
+        }
+
+        private void RegisterScenes() 
+        {
+            try
+            {
+                _scnManager.RegisterCreateFunction((int)SceneID.Game, CreateGameScene);
+            }
+            catch(SceneManagerException exM)
+            {
+                _logger.Log(LogLevel.Fatal, exM.Message);
+                Debug.Assert(false, exM.Message);
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(LogLevel.Warn, ex.Message);
+            }
+        }
+
+        private Scene CreateGameScene(Scene.Context scnContext, SceneManager scnManager)
+        {
+
+            return null;
         }
 
         #region Logger
