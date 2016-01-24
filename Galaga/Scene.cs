@@ -36,6 +36,21 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
     /// <remarks>No es posible instanciar objetos de ella</remarks>
     public abstract class Scene
     {
+        // Variables miembro
+        private SceneManager _scnManager;                   // gestor de escenas
+        private Context _context;                           // contexto de trabajo
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="context">Contexto o datos a intercambiarse entre escenas</param>
+        /// <param name="scnManager">Gestor de escenas</param>
+        public Scene(Scene.Context context, SceneManager scnManager)
+        {
+            _context = context;
+            _scnManager = scnManager;
+        }
+
         /// <summary>
         /// Dibuja la escena
         /// </summary>

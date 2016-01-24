@@ -32,6 +32,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         // Variables miembro
         private RenderWindow _window;                   // ventana principal
         private SceneManager _scnManager;               // gestor de escenas
+        private Scene.Context _context;                 // contexto de trabajo
 
         /// <summary>
         /// Identificadores de escena
@@ -70,6 +71,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
             _window = new RenderWindow(new VideoMode(800, 600), "Galaga ", Styles.Close, contextSettings);
 
             _scnManager = new SceneManager();
+            _context = new Scene.Context(_window);
 
             RegisterScenes();
         
@@ -101,8 +103,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 
         private Scene CreateGameScene(Scene.Context scnContext, SceneManager scnManager)
         {
-
-            return null;
+            return new GameScene(scnContext, scnManager);
         }
 
         #region Logger

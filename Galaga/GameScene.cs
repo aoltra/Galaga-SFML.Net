@@ -12,7 +12,10 @@ using NLog;
 
 namespace edu.CiclosFormativos.DAM.DI.Galaga
 {
-    class Game
+    /// <summary>
+    /// Encapsula la escena principal la aplicación: el juego
+    /// </summary>
+    class GameScene : Scene
     {
         // Variables miembro
         private RenderWindow _window;                   // ventana principal
@@ -27,11 +30,10 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         private static Logger _logger = LogManager.GetCurrentClassLogger();
 
         // Constructor
-        public Game()
+        public GameScene(Scene.Context context, SceneManager scnManager) 
+            : base (context, scnManager)
         {
             _logger.Log(LogLevel.Info, " >> Configurando juego.");
-
-           
 
             _player = new Player();
 
@@ -49,53 +51,53 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         /// <summary>
         /// Ejecuta el bulce principal del juego
         /// </summary>
-        public void run()
-        {
+        //public void run()
+        //{
 
-            Clock clock = new Clock();
-            SFML.System.Time timeSinceLastUpdate = SFML.System.Time.Zero;
+        //    Clock clock = new Clock();
+        //    SFML.System.Time timeSinceLastUpdate = SFML.System.Time.Zero;
 
-            // Game Loop
-            while (_window.IsOpen)
-            {
-                // Procesamos eventos. Este procesamiento de evento se podría quitar ya que sólo
-                // tendría importancia para aquellos eventos que no afectasen al mundo
-                // en este caso el Close. Si lo quitaramos sólo se retrasaría un poco (hasta el paso del tiempo
-                // del frame) al ejecución del evento 
-                _window.DispatchEvents();
+        //    // Game Loop
+        //    while (_window.IsOpen)
+        //    {
+        //        // Procesamos eventos. Este procesamiento de evento se podría quitar ya que sólo
+        //        // tendría importancia para aquellos eventos que no afectasen al mundo
+        //        // en este caso el Close. Si lo quitaramos sólo se retrasaría un poco (hasta el paso del tiempo
+        //        // del frame) al ejecución del evento 
+        //        _window.DispatchEvents();
 
-                // procesamos los eventos en el propio jugador
-                _player.HandleRealtimeInput(_world.CommandQueue);
+        //        // procesamos los eventos en el propio jugador
+        //        _player.HandleRealtimeInput(_world.CommandQueue);
 
-                // para cada uno de los ciclos reinicio el reloj a cero y devuelvo
-                // el tiempo que ha transcurrido
-                timeSinceLastUpdate = clock.Restart();
+        //        // para cada uno de los ciclos reinicio el reloj a cero y devuelvo
+        //        // el tiempo que ha transcurrido
+        //        timeSinceLastUpdate = clock.Restart();
 
-                // si el tiempo transcurrido es mayor que el que queremos por cada frame
-                while (timeSinceLastUpdate > _timePerFrame)
-                {
-                    timeSinceLastUpdate -= _timePerFrame;   // le quito un frame
+        //        // si el tiempo transcurrido es mayor que el que queremos por cada frame
+        //        while (timeSinceLastUpdate > _timePerFrame)
+        //        {
+        //            timeSinceLastUpdate -= _timePerFrame;   // le quito un frame
 
-                    // Procesamos eventos
-                    _window.DispatchEvents();
+        //            // Procesamos eventos
+        //            _window.DispatchEvents();
 
-                    // procesamos los eventos en el propio jugador
-                    _player.HandleRealtimeInput(_world.CommandQueue);
+        //            // procesamos los eventos en el propio jugador
+        //            _player.HandleRealtimeInput(_world.CommandQueue);
 
-                    if (!_isPaused)
-                        update(_timePerFrame);
+        //            if (!_isPaused)
+        //                update(_timePerFrame);
 
-                    // si después de este ciclo el tiempo que ha transcurrido sigue siendo mayor al de un frame
-                    // repito el ciclo y voy actualizando el mundo, aunque no lo renderice
-                }
+        //            // si después de este ciclo el tiempo que ha transcurrido sigue siendo mayor al de un frame
+        //            // repito el ciclo y voy actualizando el mundo, aunque no lo renderice
+        //        }
 
-                // en cada ciclo actualizo y renderizo
-                if (!_isPaused)
-                    update(timeSinceLastUpdate);
+        //        // en cada ciclo actualizo y renderizo
+        //        if (!_isPaused)
+        //            update(timeSinceLastUpdate);
 
-                render();
-            }
-        }
+        //        render();
+        //    }
+        //}
 
         /// <summary>
         ///  Registra los delegados
@@ -111,7 +113,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         }
 
         // actualiza el estado del mundo en función del tiempo transcurrido desde la última actualización
-        private void update(SFML.System.Time time)
+        public override void Update(SFML.System.Time time)
         {
             // calculamos las nuevas posiciones de los elementos del mundo
             _world.Update(time);
@@ -120,7 +122,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         /// <summary>
         /// Dibuja el mundo
         /// </summary>
-        private void render()
+        public override void Draw()
         {
             // limpia la pantalla (por defecto en negro, pero podemos asignarle un color)
             _window.Clear();
