@@ -43,7 +43,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         /// <summary>
         /// Devuelve el contexto en el que trabaja la escena
         /// </summary>
-        protected Context Context { get { return _context; } }
+        protected Context SceneContext { get { return _context; } }
 
         /// <summary>
         /// Constructor
@@ -67,6 +67,14 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         /// <param name="dt">Incremento de tiempo desde la última actualización</param>
         /// <returns>true si se deja que las escena inferiores en el gestor también se actualicen, false en caso contrario</returns>
         public abstract bool Update(SFML.System.Time dt);
+
+        /// <summary>
+        /// Gestiona los eventos de pulsaciones en teclado. Cada escena tiene que tener uno
+        /// </summary>
+        /// <param name="key">Tacla pulsada</param>
+        /// <param name="isPressed">True si está pulsada o se libera</param>
+        /// <returns>true si se deja que las escena inferiores en el gestor también lo controlen, false en caso contrario</returns></returns>
+        public abstract bool HandleKeyboardEvent(SFML.Window.Keyboard.Key key, bool isPressed);
 
         /// <summary>
         /// Introduce una escena en la pila
