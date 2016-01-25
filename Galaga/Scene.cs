@@ -41,6 +41,11 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         private Context _context;                           // contexto de trabajo
 
         /// <summary>
+        /// Devuelve el contexto en el que trabaja la escena
+        /// </summary>
+        protected Context Context { get { return _context; } }
+
+        /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="context">Contexto o datos a intercambiarse entre escenas</param>
@@ -62,6 +67,22 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         /// <param name="dt">Incremento de tiempo desde la última actualización</param>
         /// <returns>true si se deja que las escena inferiores en el gestor también se actualicen, false en caso contrario</returns>
         public abstract bool Update(SFML.System.Time dt);
+
+        /// <summary>
+        /// Introduce una escena en la pila
+        /// </summary>
+        /// <param name="sceneID"></param>
+        protected void RequestManagerScenePush(int sceneID) { _scnManager.Push(sceneID); }
+
+        /// <summary>
+        /// Extrae una escena de la pila
+        /// </summary>
+        protected void RequestManagerScenePop() { _scnManager.Pop(); }
+
+        /// <summary>
+        /// Limpa la pila del gestor de escenas
+        /// </summary>
+        protected void RequestManagerSceneClear() {  _scnManager.Clear(); }
 
         /// <summary>
         /// Encapsula los datos que se pasan entre escenas
