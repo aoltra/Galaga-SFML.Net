@@ -74,6 +74,13 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Scenes
             // redirecciona la gestión al player
             _player.HandleKeyboardEvent(key, isPressed, _world.CommandQueue);
 
+            // Se pulsa escape y vamos a la escena de pause
+            if (isPressed && key == Keyboard.Key.Escape)
+            {
+                _logger.Log(LogLevel.Info, " >>>> Push Pause");
+                RequestManagerScenePush((int)Application.SceneID.Pause);
+            }
+
             return true;
         }
 

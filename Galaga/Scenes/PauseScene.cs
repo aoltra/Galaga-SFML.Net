@@ -26,50 +26,50 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 using NLog;
 
 namespace edu.CiclosFormativos.DAM.DI.Galaga.Scenes
 {
-    /// <summary>
-    /// Encapsula la escena del titulo de la aplicación
-    /// </summary>
-    public class TitleScene : Scene
+    class PauseScene : Scene
     {
         // variables miembro
-        private SFML.Graphics.Sprite _backgroundSprite;             // sprite de fondo
-        private SFML.Graphics.Text _text;                           // texto
+        private SFML.Graphics.Text _mainText;                   // textos de las opcines del menu
+        private SFML.Graphics.Text _infoText;                   // textos de las opcines del menu
 
-        private bool _showText;                                     // indica si se muestra el texto o no 
-        private SFML.System.Time textEffectTime;                    // tiempo transcurrido desde que le texto ha aparecido o desaparecido
+        private const float OPTION_SEPARATION = 70f;            // separación entre opciones del menu
 
-        private const float BLINK_TIME = 0.5f;                      // tiempo que dura el parpadeo
+        // Opciones del menu
+        private enum MenuOptions
+        {
+            Play,
+            Exit
+        }
 
         // logger
         private static Logger _logger = LogManager.GetCurrentClassLogger();
 
-        public TitleScene(Scene.Context context, SceneManager scnManager) 
+        public PauseScene(Scene.Context context, SceneManager scnManager) 
             : base (context, scnManager)
         {
-            _logger.Log(LogLevel.Info, " >>> Configurando escena del título.");
+            _logger.Log(LogLevel.Info, " >>> Configurando escena de Pausa");
 
-            _text = new SFML.Graphics.Text();
+            _mainText = new SFML.Graphics.Text();
+            _infoText = new SFML.Graphics.Text();
 
-            _backgroundSprite = new SFML.Graphics.Sprite((SFML.Graphics.Texture)context.ResourcesManager["Fondos:Titulo"]);
+            // opcion jugar
+            _mainText.Font = (SFML.Graphics.Font)context.ResourcesManager["Fuentes:Titulo"];
+            _mainText.DisplayedString = "Pausa";
+            _mainText.Position = new SFML.System.Vector2f((context.Window.Size.X - _mainText.GetLocalBounds().Width) * 0.5f,
+                (context.Window.Size.Y - 2 * _mainText.CharacterSize - OPTION_SEPARATION) * 0.5f);
 
-            // centro el sprite horizontalmente
-            _backgroundSprite.Position = 
-                new SFML.System.Vector2f((context.Window.Size.X - _backgroundSprite.GetLocalBounds().Width) *.5f, 0f);
+            // opción salir
+            _infoText.Font = (SFML.Graphics.Font)context.ResourcesManager["Fuentes:Titulo"];
+            _infoText.DisplayedString = "Pulsa espacio para ir al menú principal";
+            _infoText.CharacterSize = (UInt32)(_infoText.CharacterSize * 0.8f);
+            _infoText.Position = new SFML.System.Vector2f((context.Window.Size.X - _infoText.GetLocalBounds().Width) * 0.5f,
+                _mainText.Position.Y + _mainText.CharacterSize + OPTION_SEPARATION);
 
-            _showText = true;
-            textEffectTime = SFML.System.Time.Zero;
-
-            // configuramos el texto
-            _text.Font = (SFML.Graphics.Font)context.ResourcesManager["Fuentes:Titulo"];
-            _text.DisplayedString = "Pulsa una tecla para empezar";
-            _text.Position = new SFML.System.Vector2f((context.Window.Size.X - _text.GetLocalBounds().Width) * 0.5f,
-                context.Window.Size.Y - _text.CharacterSize - 50);
         }
 
         ////////////////////////
@@ -83,16 +83,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Scenes
         /// <returns>true: siempre deja que las escenas inferiores se actualicen</returns>
         public override bool Update(SFML.System.Time time)
         {
-            // en función del tiempo que ha pasado le indico si se ha de mostrar o no el texto
-            textEffectTime += time;
-
-            if (textEffectTime >= SFML.System.Time.FromSeconds(BLINK_TIME))
-            {
-                _showText = !_showText;
-                textEffectTime = SFML.System.Time.Zero;
-            }
-
-            return true;
+            return false;
         }
 
         /// <summary>
@@ -102,9 +93,9 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Scenes
         {
             // Dibuja los elementos contenidos en la escena
             SFML.Graphics.RenderWindow window = SceneContext.Window;
-            window.Draw(_backgroundSprite);
 
-            if (_showText) window.Draw(_text);
+            window.Draw(_infoText);
+            window.Draw(_mainText);
         }
 
         /// <summary>
@@ -115,22 +106,30 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Scenes
         /// <returns>true si se deja que las escena inferiores en el gestor también lo controlen, false en caso contrario</returns>
         public sealed override bool HandleKeyboardEvent(SFML.Window.Keyboard.Key key, bool isPressed)
         {
-            // Si cualquier tecla se ha presionado pasamos al juego (por ahora)
-            if (isPressed)
+            if (!isPressed) return false;
+
+            if (key == SFML.Window.Keyboard.Key.Escape)
             {
-                _logger.Log(LogLevel.Info, " >>>>> Tecla pulsada!");
-                
                 // quito la escena actual de la pila
                 _logger.Log(LogLevel.Info, " >>>> Pop");
                 RequestManagerScenePop();
+            }
 
-                // pongo en la pila el menu
+            if (key == SFML.Window.Keyboard.Key.Space)
+            {
+                // vamos al menu
+                _logger.Log(LogLevel.Info, " >>>> Clear Scenes");
+                RequestManagerSceneClear();
+                
                 _logger.Log(LogLevel.Info, " >>>> Push Menu");
                 RequestManagerScenePush((int)Application.SceneID.Menu);
             }
 
-            return true;
+            return false;
+
         }
 
     }
 }
+
+

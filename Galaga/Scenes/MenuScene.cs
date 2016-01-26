@@ -29,7 +29,7 @@ using System.Collections.Generic;
 
 using NLog;
 
-namespace  edu.CiclosFormativos.DAM.DI.Galaga.Scenes
+namespace edu.CiclosFormativos.DAM.DI.Galaga.Scenes
 {
    
     /// <summary>
