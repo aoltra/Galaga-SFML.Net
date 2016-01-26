@@ -246,6 +246,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                 // { cuerpo de la funcón }
                 _scnManager.RegisterCreateFunction((int)SceneID.Game, () => { return new Scenes.GameScene(_context, _scnManager); });
                 _scnManager.RegisterCreateFunction((int)SceneID.Title, () => { return new Scenes.TitleScene(_context, _scnManager); });
+                _scnManager.RegisterCreateFunction((int)SceneID.Menu, () => { return new Scenes.MenuScene(_context, _scnManager); });
             }
             catch(SceneManagerException exM)
             {
@@ -256,11 +257,6 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
             {
                 _logger.Log(LogLevel.Warn, ex.Message);
             }
-        }
-
-        private Scene CreateGameScene()
-        {
-            return new Scenes.GameScene(_context, _scnManager);
         }
 
         #region Funciones suscritas a delegados

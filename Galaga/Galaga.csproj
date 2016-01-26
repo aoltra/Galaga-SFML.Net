@@ -97,6 +97,7 @@
     <Compile Include="Scene.cs" />
     <Compile Include="SceneNode.cs" />
     <Compile Include="SceneManager.cs" />
+    <Compile Include="Scenes\MenuScene.cs" />
     <Compile Include="Scenes\TitleScene.cs" />
     <Compile Include="SFMLResourcesManager.cs" />
     <Compile Include="Entities\Shoot.cs" />
