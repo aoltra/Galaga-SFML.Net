@@ -93,6 +93,43 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Resources
 
             return txt;
         }
+
+         /// <summary>
+        /// Carga una Font desde el disco
+        /// </summary>
+        /// <param name="element">XElement con la información para la carga</param>
+        /// <returns>La Font leida o null si ha habido problemas</returns>
+        public static Font LoadFont(XElement element)
+        {
+            Stream stream;
+            Font fnt;
+            String path = (String)element.Attribute("res");
+
+            try
+            {
+                // si no es externo (res), busco el interno (src)
+                if (path == null)
+                {
+                    path = (String)element.Attribute("src");
+                    if (path == null) return null;
+                    else stream = new FileStream(path, FileMode.Open, FileAccess.Read);
+                }
+                else  // utilizo esta técnica y no el GetType() ya que posiblemente lo exportaré a un DLL
+                {
+                    stream = Assembly.GetEntryAssembly().GetManifestResourceStream(path);
+                    Debug.Assert(stream != null, "No se puede cargar la fuente embedida: " + path);
+                }
+
+                fnt = new SFML.Graphics.Font(stream);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return fnt;
+
+        }
     }
     
 }
