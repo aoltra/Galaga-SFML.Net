@@ -103,12 +103,18 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
             public RenderWindow Window { get; private set; }
 
             /// <summary>
+            /// Devuelve el gestor de recursos
+            /// </summary>
+            public Resources.ResourcesManager ResourcesManager { get; private set; }
+
+            /// <summary>
             /// Constructor
             /// </summary>
             /// <param name="window">Ventana de renderizado</param>
-            public Context(RenderWindow window) 
+            public Context(RenderWindow window, Resources.ResourcesManager resMan) 
             {
                 Window = window;
+                ResourcesManager = resMan;
             }
         }
     

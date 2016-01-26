@@ -48,11 +48,11 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         // variables miembro
         private RenderWindow _window;                   // ventana donde se dibujará
         private SceneNode _sceneGraph;                  // nodo raíz del grafo de escena
+        private Resources.ResourcesManager _resManager; // Gestor de recursos del mundo 
         private List<SceneNode> _sceneLayers;           // lista ordenada por orden de dibujo de las capas
         private View _worldView;                        // vista (camara) que visualizará nuestro trozo de mundo
         private FloatRect _worldBounds;                 // dimensiones (límites) del mundo
-        private ResourcesManager _resManager;           // Gestor de recursos del mundo 
-
+    
         private CommandQueue _commandQueue;             // cola de comandos
 
         private Entities.PlayerShip _playerShip;        // entidad nave jugador
@@ -79,12 +79,13 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         /// Constructor
         /// </summary>
         /// <param name="window">Ventana de dibujo</param>
-        public World(RenderWindow window) {
+        public World(Scene.Context context) {
 
             try
             {
-                _window = window;
-           
+                _window = context.Window;
+                _resManager = context.ResourcesManager;
+
                 _sceneGraph = new SceneNode();
                 _sceneLayers = new List<SceneNode>();
 
@@ -97,11 +98,6 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                 // asignamos al mundo la vista definida (por ahora un clon de la de por defecto)
                 _window.SetView(_worldView);
 
-                // Se crea el gestor de recursos y se leen los elementos
-                _resManager = new Resources.ResourcesManager(
-                    this.GetType().Assembly.GetManifestResourceStream("Galaga.main.resxml"));
-                _resManager.RegisterLoadFunction("texture", Resources.SFMLResourcesManager.LoadTexture);
-            
                 // pongo dimensiones al mundo
                 _worldBounds = new FloatRect(0, 0, _worldView.Size.X, _worldView.Size.Y);
 

@@ -32,6 +32,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         // Variables miembro
         private RenderWindow _window;                   // ventana principal
         private SceneManager _scnManager;               // gestor de escenas
+        private Resources.ResourcesManager _resManager; // Gestor de recursos del mundo 
         private Scene.Context _context;                 // contexto de trabajo
 
         private SFML.System.Time _timePerFrame;         // en este caso indica el mínimo requerido
@@ -77,8 +78,18 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
             // ventana no redimensionable
             _window = new RenderWindow(new VideoMode(800, 600), "Galaga ", Styles.Close, contextSettings);
 
+            // gestor de escenas
+            _logger.Log(LogLevel.Info, " >> Creando gestor de escenas.");
             _scnManager = new SceneManager();
-            _context = new Scene.Context(_window);
+
+            // Se crea el gestor de recursos y se leen los elementos
+            _logger.Log(LogLevel.Info, " >> Creando gestor de recursos.");
+            _resManager = new Resources.ResourcesManager(
+                this.GetType().Assembly.GetManifestResourceStream("Galaga.main.resxml"));
+            _resManager.RegisterLoadFunction("texture", Resources.SFMLResourcesManager.LoadTexture);
+
+            // creación del contexto
+            _context = new Scene.Context(_window, _resManager);
 
             _timePerFrame = SFML.System.Time.FromSeconds(1f / 40f);           // como mínimo 40 frames por segundo
             _isPaused = false;
@@ -88,7 +99,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 
             // pongo la primera escena en la pila
             _logger.Log(LogLevel.Info, " >> Push escena principal.");
-            _scnManager.Push((int)SceneID.Game);
+            _scnManager.Push((int)SceneID.Title);
         
         }
 
@@ -203,7 +214,12 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
             
             try
             {
-                _scnManager.RegisterCreateFunction((int)SceneID.Game, CreateGameScene);
+                // paso funciones anonimas utilizando nomenclatura de funciones lambda 
+                // () significa no hay parametros
+                // => se aplica a
+                // { cuerpo de la funcón }
+                _scnManager.RegisterCreateFunction((int)SceneID.Game, () => { return new Scenes.GameScene(_context, _scnManager); });
+                _scnManager.RegisterCreateFunction((int)SceneID.Title, () => { return new Scenes.TitleScene(_context, _scnManager); });
             }
             catch(SceneManagerException exM)
             {
@@ -218,7 +234,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 
         private Scene CreateGameScene()
         {
-            return new GameScene(_context, _scnManager);
+            return new Scenes.GameScene(_context, _scnManager);
         }
 
         #region Funciones suscritas a delegados

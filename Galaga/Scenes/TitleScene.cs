@@ -3,36 +3,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using SFML;
-using SFML.Window;
-using SFML.System;
-using SFML.Graphics;
-
 using NLog;
 
-namespace edu.CiclosFormativos.DAM.DI.Galaga
+namespace edu.CiclosFormativos.DAM.DI.Galaga.Scenes
 {
     /// <summary>
-    /// Encapsula la escena principal la aplicación: el juego
+    /// Encapsula la escena del titulo de la aplicación
     /// </summary>
-    class GameScene : Scene
+    public class TitleScene : Scene
     {
-        // Variables miembro
-        private World _world;                           // mundo del juego
-        private Player _player;					        // jugador
+        // variables miembro
+        private SFML.Graphics.Sprite _backgroundSprite;
+        private SFML.Graphics.Text _text;
 
         // logger
         private static Logger _logger = LogManager.GetCurrentClassLogger();
 
-        // Constructor
-        public GameScene(Scene.Context context, SceneManager scnManager) 
+        public TitleScene(Scene.Context context, SceneManager scnManager) 
             : base (context, scnManager)
         {
-            _logger.Log(LogLevel.Info, " >>> Configurando escena juego.");
+            _logger.Log(LogLevel.Info, " >>> Configurando escena del título.");
 
-            _player = new Player();
+            _text = new SFML.Graphics.Text();
 
-            _world = new World(context.Window);
+            _backgroundSprite = new SFML.Graphics.Sprite((SFML.Graphics.Texture)context.ResourcesManager["Fondos:Titulo"]);
+
+            // centro el sprite horizontalmente
+            _backgroundSprite.Position = 
+                new SFML.System.Vector2f((context.Window.Size.X - _backgroundSprite.GetLocalBounds().Width) *.5f, 0f);
         }
 
         ////////////////////////
@@ -47,9 +45,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         public override bool Update(SFML.System.Time time)
         {
             // calculamos las nuevas posiciones de los elementos del mundo
-            _world.Update(time);
-
-            _player.HandleRealtimeInput(_world.CommandQueue);
+          
 
             return true;
         }
@@ -59,8 +55,8 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         /// </summary>
         public override void Draw()
         {
-            // Dibuja los elementos contenidos en el mundo
-            _world.Draw();
+            // Dibuja los elementos contenidos en la escena
+            SceneContext.Window.Draw(_backgroundSprite);
         }
 
         /// <summary>
@@ -69,14 +65,13 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         /// <param name="key">Tacla pulsada</param>
         /// <param name="isPressed">True si está pulsada o se libera</param>
         /// <returns>true si se deja que las escena inferiores en el gestor también lo controlen, false en caso contrario</returns>
-        public sealed override bool HandleKeyboardEvent(Keyboard.Key key, bool isPressed)
+        public sealed override bool HandleKeyboardEvent(SFML.Window.Keyboard.Key key, bool isPressed)
         {
             // redirecciona la gestión al player
-            _player.HandleKeyboardEvent(key, isPressed, _world.CommandQueue);
+          //  _player.HandleKeyboardEvent(key, isPressed, _world.CommandQueue);
 
             return true;
         }
 
-       
     }
 }

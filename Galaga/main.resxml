@@ -10,4 +10,7 @@
   <section id="Naves">
     <texture id="NaveJugador" src="./assets/textures/nave01.png" smooth="true" repeated="false"/>
   </section>
+  <section id="Fondos">
+    <texture id="Titulo" src="./assets/textures/titulo.png" smooth="false" repeated="false"/>
+  </section>
 </resx>

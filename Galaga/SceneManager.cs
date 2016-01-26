@@ -208,7 +208,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                 return createFunc();
             else
                 throw new SceneManagerException("No se ha definido una función para la creación de ese tipo de escena " +
-                     sceneID + ". No se creado la escena.");
+                     sceneID + ". No se ha creado la escena.");
         }
         
     }
