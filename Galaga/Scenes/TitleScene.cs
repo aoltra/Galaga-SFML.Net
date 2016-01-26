@@ -115,8 +115,19 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Scenes
         /// <returns>true si se deja que las escena inferiores en el gestor también lo controlen, false en caso contrario</returns>
         public sealed override bool HandleKeyboardEvent(SFML.Window.Keyboard.Key key, bool isPressed)
         {
-            // redirecciona la gestión al player
-          //  _player.HandleKeyboardEvent(key, isPressed, _world.CommandQueue);
+            // Si cualquier tecla se ha presionado pasamos al juego (por ahora)
+            if (isPressed)
+            {
+                _logger.Log(LogLevel.Info, " >>>>> Tecla pulsada!");
+                
+                // quito la escena actual de la pila
+                _logger.Log(LogLevel.Info, " >>>> Pop");
+                RequestManagerScenePop();
+
+                // pongo en la pila el menu
+                _logger.Log(LogLevel.Info, " >>>> Push.");
+                RequestManagerScenePush((int)Application.SceneID.Game);
+            }
 
             return true;
         }
