@@ -13,4 +13,7 @@
   <section id="Fondos">
     <texture id="Titulo" src="./assets/textures/titulo.png" smooth="false" repeated="false"/>
   </section>
+  <section id="Fuentes">
+    <font id="Titulo" src="./assets/fonts/neuropol_x_rg.ttf" />
+  </section>
 </resx>
