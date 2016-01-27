@@ -93,7 +93,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         /// </remarks>
         public void Push(int sceneID)
         {
-            _requestList.Add(new StackRequest(StackRequest.StackAction.Push, sceneID));
+            _requestList.Add(new StackRequest(StackRequest.StackAction.PUSH, sceneID));
         }
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         /// </remarks>
         public void Pop()
         {
-            _requestList.Add(new StackRequest(StackRequest.StackAction.Pop));
+            _requestList.Add(new StackRequest(StackRequest.StackAction.POP));
         }
 
         /// <summary>
@@ -115,7 +115,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         /// </remarks>
         public void Clear()
         {
-            _requestList.Add(new StackRequest(StackRequest.StackAction.Clear));
+            _requestList.Add(new StackRequest(StackRequest.StackAction.CLEAR));
         }
 
         /// <summary>
@@ -176,15 +176,15 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
             {
                 switch (sR.Action)
                 {
-                    case StackRequest.StackAction.Push:
+                    case StackRequest.StackAction.PUSH:
                         _stack.Add(CreateScene(sR.SceneID));
                         break;
 
-                    case StackRequest.StackAction.Pop:
+                    case StackRequest.StackAction.POP:
                         _stack.RemoveAt(_stack.Count - 1);
                         break;
 
-                    case StackRequest.StackAction.Clear:
+                    case StackRequest.StackAction.CLEAR:
                         _stack.Clear();
                         break;
                 }
@@ -221,9 +221,9 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         // Acciones a realizar sobre la pila
         public enum StackAction
         {
-            Push,
-            Pop,
-            Clear
+            PUSH,
+            POP,
+            CLEAR
         }
 
         public StackAction Action  { get; private set; }

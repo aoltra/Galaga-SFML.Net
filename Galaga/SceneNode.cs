@@ -77,7 +77,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         /// </remarks>
         public virtual UInt16 Category 
         {
-            get { return (UInt16)edu.CiclosFormativos.DAM.DI.Galaga.Category.Scene; }
+            get { return (UInt16)edu.CiclosFormativos.DAM.DI.Galaga.Category.SCENE; }
         }
 
 

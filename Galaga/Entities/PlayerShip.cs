@@ -48,7 +48,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
         /// </summary>
         public override UInt16 Category
         {
-            get { return (UInt16)edu.CiclosFormativos.DAM.DI.Galaga.Category.PlayerShip; }
+            get { return (UInt16)edu.CiclosFormativos.DAM.DI.Galaga.Category.PLAYERSHIP; }
         }
 
         /// <summary>

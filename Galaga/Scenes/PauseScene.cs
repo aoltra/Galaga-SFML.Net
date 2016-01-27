@@ -39,13 +39,6 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Scenes
 
         private const float OPTION_SEPARATION = 70f;            // separación entre opciones del menu
 
-        // Opciones del menu
-        private enum MenuOptions
-        {
-            Play,
-            Exit
-        }
-
         // logger
         private static Logger _logger = LogManager.GetCurrentClassLogger();
 
@@ -122,7 +115,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Scenes
                 RequestManagerSceneClear();
                 
                 _logger.Log(LogLevel.Info, " >>>> Push Menu");
-                RequestManagerScenePush((int)Application.SceneID.Menu);
+                RequestManagerScenePush((int)Application.SceneID.MENU);
             }
 
             return false;

@@ -65,9 +65,9 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         // enum con las diferentes capas en orden de dibujo
         private enum Layer
         {
-            Background,         // 0
-            Air,                // 1
-            LayerCount          // 2 (número de capas)    
+            BACKGROUND,         // 0
+            AIR,                // 1
+            LAYERCOUNT          // 2 (número de capas)    
         }
 
         /// <summary>
@@ -129,7 +129,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
             {
 
                 // Creo las capas como SceneNode's hijos del árbol raíz.
-                for (int contLayer = 0; contLayer < (int)Layer.LayerCount; contLayer++) {
+                for (int contLayer = 0; contLayer < (int)Layer.LAYERCOUNT; contLayer++) {
                     layer = new SceneNode();
                     _sceneGraph.AddChild(layer);
                     _sceneLayers.Add(layer);
@@ -140,23 +140,23 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                 Star.Size = new FloatRect(0,0,_window.Size.X,_window.Size.Y);
 
                 List<SceneNode> deepSpace1 = StarBackgroundGenerator.StarGenerator(55, 
-                    StarBackgroundGenerator.StarType.Small, new Vector2f(0, 60f), _window).Cast<SceneNode>().ToList();
-                _sceneLayers[(int)Layer.Background].AddChilds(deepSpace1);
+                    StarBackgroundGenerator.StarType.SMALL, new Vector2f(0, 60f), _window).Cast<SceneNode>().ToList();
+                _sceneLayers[(int)Layer.BACKGROUND].AddChilds(deepSpace1);
 
                 List<SceneNode> deepSpace2 = StarBackgroundGenerator.StarGenerator(15, 
-                    StarBackgroundGenerator.StarType.Medium, new Vector2f(0, 90f), _window).Cast<SceneNode>().ToList();
-                _sceneLayers[(int)Layer.Background].AddChilds(deepSpace2);
+                    StarBackgroundGenerator.StarType.MEDIUM, new Vector2f(0, 90f), _window).Cast<SceneNode>().ToList();
+                _sceneLayers[(int)Layer.BACKGROUND].AddChilds(deepSpace2);
 
                 List<SceneNode> deepSpace3 = StarBackgroundGenerator.StarGenerator(3, 
-                    StarBackgroundGenerator.StarType.Big, new Vector2f(0, 100f), _window).Cast<SceneNode>().ToList();
-                _sceneLayers[(int)Layer.Background].AddChilds(deepSpace3);
+                    StarBackgroundGenerator.StarType.BIG, new Vector2f(0, 100f), _window).Cast<SceneNode>().ToList();
+                _sceneLayers[(int)Layer.BACKGROUND].AddChilds(deepSpace3);
 
                 ////// NAVE JUGADOR
                 // Añado la nave del jugador
                 _playerShip = new Entities.PlayerShip(_resManager, 
                     new FloatRect(_worldBounds.Left + BORDER, 0, _worldBounds.Width - BORDER, _worldBounds.Height));
                 _playerShip.Position = new Vector2f(_worldView.Size.X / 2, _worldView.Size.Y - 60);
-                _sceneLayers[(int)Layer.Air].AddChild(_playerShip);
+                _sceneLayers[(int)Layer.AIR].AddChild(_playerShip);
             }
             catch (Exception ex)
             {

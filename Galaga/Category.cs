@@ -14,18 +14,18 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         /// <summary>
         /// Ninguna categoria
         /// </summary>
-        None = 0,
+        NONE = 0,
 
         /// <summary>
         /// Nodo de grafo de escena genérico
         /// </summary>
-        Scene = 1,
+        SCENE = 1,
 
         /// <summary>
         /// Nave del jugador
         /// </summary>
-        PlayerShip = 2,
+        PLAYERSHIP = 2,
 
-        Dummy = 4           // simplemente para hacer notar que se numeran como potencias de dos
+        DUMMY = 4           // simplemente para hacer notar que se numeran como potencias de dos
     }
 }

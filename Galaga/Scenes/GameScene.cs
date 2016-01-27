@@ -78,7 +78,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Scenes
             if (isPressed && key == Keyboard.Key.Escape)
             {
                 _logger.Log(LogLevel.Info, " >>>> Push Pause");
-                RequestManagerScenePush((int)Application.SceneID.Pause);
+                RequestManagerScenePush((int)Application.SceneID.PAUSE);
             }
 
             return true;

@@ -68,12 +68,12 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         /// </summary>
         public enum SceneID
         {
-            None,
-            Title,
-            Menu,
-            Game,
-            Records,
-            Pause
+            NONE,
+            TITLE,
+            MENU,
+            GAME,
+            RECORDS,
+            PAUSE
         }
 
         /// <summary>
@@ -125,7 +125,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 
             // pongo la primera escena en la pila
             _logger.Log(LogLevel.Info, " >> Push escena principal.");
-            _scnManager.Push((int)SceneID.Title);
+            _scnManager.Push((int)SceneID.TITLE);
         
         }
 
@@ -244,10 +244,10 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                 // () significa no hay parametros
                 // => se aplica a
                 // { cuerpo de la funcón }
-                _scnManager.RegisterCreateFunction((int)SceneID.Game, () => { return new Scenes.GameScene(_context, _scnManager); });
-                _scnManager.RegisterCreateFunction((int)SceneID.Title, () => { return new Scenes.TitleScene(_context, _scnManager); });
-                _scnManager.RegisterCreateFunction((int)SceneID.Menu, () => { return new Scenes.MenuScene(_context, _scnManager); });
-                _scnManager.RegisterCreateFunction((int)SceneID.Pause, () => { return new Scenes.PauseScene(_context, _scnManager); });
+                _scnManager.RegisterCreateFunction((int)SceneID.GAME, () => { return new Scenes.GameScene(_context, _scnManager); });
+                _scnManager.RegisterCreateFunction((int)SceneID.TITLE, () => { return new Scenes.TitleScene(_context, _scnManager); });
+                _scnManager.RegisterCreateFunction((int)SceneID.MENU, () => { return new Scenes.MenuScene(_context, _scnManager); });
+                _scnManager.RegisterCreateFunction((int)SceneID.PAUSE, () => { return new Scenes.PauseScene(_context, _scnManager); });
             }
             catch(SceneManagerException exM)
             {

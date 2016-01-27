@@ -126,7 +126,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Scenes
 
                 // pongo en la pila el menu
                 _logger.Log(LogLevel.Info, " >>>> Push Menu");
-                RequestManagerScenePush((int)Application.SceneID.Menu);
+                RequestManagerScenePush((int)Application.SceneID.MENU);
             }
 
             return true;

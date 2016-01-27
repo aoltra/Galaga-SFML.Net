@@ -44,9 +44,9 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         /// </summary>
         public enum StarType
         {
-            Small,          // 0
-            Medium,         // 1
-            Big             // 2     
+            SMALL,          // 0
+            MEDIUM,         // 1
+            BIG             // 2     
         }
 
         /// <summary>
@@ -67,9 +67,9 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
            
             switch (type)
             {
-                case StarType.Small: _baseRadius = 0.5f; break;
-                case StarType.Medium: _baseRadius = 0.8f; break;
-                case StarType.Big: _baseRadius = 1.5f; break;
+                case StarType.SMALL: _baseRadius = 0.5f; break;
+                case StarType.MEDIUM: _baseRadius = 0.8f; break;
+                case StarType.BIG: _baseRadius = 1.5f; break;
             }
 
             Random rnd = new Random();

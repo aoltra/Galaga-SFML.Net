@@ -46,8 +46,8 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Scenes
         // Opciones del menu
         private enum MenuOptions
         {
-            Play,
-            Exit
+            PLAY,
+            EXIT
         }
 
         // logger
@@ -58,7 +58,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Scenes
         {
             _logger.Log(LogLevel.Info, " >>> Configurando escena del Menú");
 
-            _optionIndex = (int)MenuOptions.Play; ;
+            _optionIndex = (int)MenuOptions.PLAY; ;
             _options = new List<SFML.Graphics.Text>();
 
             // opcion jugar
@@ -121,7 +121,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Scenes
             if (key == SFML.Window.Keyboard.Key.Return)              // flecha del cursor hacia abajo
             {
                 _logger.Log(LogLevel.Info, " >>>>> Opción aceptada: " + _optionIndex);
-                if (_optionIndex == (int)MenuOptions.Play)
+                if (_optionIndex == (int)MenuOptions.PLAY)
                 {
                     // quito la escena actual de la pila
                     _logger.Log(LogLevel.Info, " >>>> Pop");
@@ -129,9 +129,9 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Scenes
 
                     // pongo en la pila el menu
                     _logger.Log(LogLevel.Info, " >>>> Push Juego");
-                    RequestManagerScenePush((int)Application.SceneID.Game);
+                    RequestManagerScenePush((int)Application.SceneID.GAME);
                 }
-                else if (_optionIndex == (int)MenuOptions.Exit)
+                else if (_optionIndex == (int)MenuOptions.EXIT)
                 {
                     //si la opción es salir quito todas las escenas de la pila
                     RequestManagerSceneClear();

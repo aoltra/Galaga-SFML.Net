@@ -15,8 +15,8 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         // Define las acciones que puede realizar el jugador 
         private enum Action 
         { 
-            MoveRight,
-            MoveLeft
+            MOVERIGHT,
+            MOVELEFT
         }
 
         /// <summary>
@@ -28,12 +28,12 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
             _actionBinding = new Dictionary<Action, Command>();
 
             // inicializo las posibles acciones que puede que realizar el usuario
-            _actionBinding.Add(Action.MoveLeft, new Commands.LinealMovementCommand(-_playerSpeed, 0));
-            _actionBinding.Add(Action.MoveRight, new Commands.LinealMovementCommand(_playerSpeed, 0));
+            _actionBinding.Add(Action.MOVELEFT, new Commands.LinealMovementCommand(-_playerSpeed, 0));
+            _actionBinding.Add(Action.MOVERIGHT, new Commands.LinealMovementCommand(_playerSpeed, 0));
 
             // indico que todas las acciones afectan a la nave de usuario
             foreach (KeyValuePair<Action,Command> cmd in _actionBinding)
-                cmd.Value.Category = (UInt16)Category.PlayerShip;
+                cmd.Value.Category = (UInt16)Category.PLAYERSHIP;
         }
 
 
@@ -48,13 +48,13 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         {
             if (SFML.Window.Keyboard.IsKeyPressed(SFML.Window.Keyboard.Key.A))
             {
-                Commands.LinealMovementCommand lmC = (Commands.LinealMovementCommand)_actionBinding[Action.MoveLeft];
+                Commands.LinealMovementCommand lmC = (Commands.LinealMovementCommand)_actionBinding[Action.MOVELEFT];
                 commands.Push(lmC);
             }
 
             if (SFML.Window.Keyboard.IsKeyPressed(SFML.Window.Keyboard.Key.D))
             {
-                Commands.LinealMovementCommand lmC = (Commands.LinealMovementCommand)_actionBinding[Action.MoveRight];
+                Commands.LinealMovementCommand lmC = (Commands.LinealMovementCommand)_actionBinding[Action.MOVERIGHT];
                 commands.Push(lmC);
             }
         }
