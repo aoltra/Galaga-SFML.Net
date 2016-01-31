@@ -19,7 +19,7 @@ Alfredo Oltra (twitter: [@aoltra](https://twitter.com/aoltra) / [@uhurulabs](htt
 
 ###Graphics / Gráficos 
 
-Adrián Castelló (mail: acastelloart@gmail.com | web: [acastelloart](acastelloart.blogspot.com.es) | facebook: [acastelloart](facebook.com/acastelloart)) 
+Adrián Castelló (mail: acastelloart@gmail.com | web: [acastelloart](http://acastelloart.blogspot.com.es) | facebook: [acastelloart](https://facebook.com/acastelloart)) 
 
 ###Font / Fuente 
 
