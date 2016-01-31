@@ -57,6 +57,8 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
         // variables miembro
         private Type _type;                         // tipo de nave enemiga
 
+        private Sprite _sprite;                     // sprite donde dibujar la textura
+
         private UInt16 _formationPoints;            // puntos que da si está en formación
         private UInt16 _attackPoints;               // puntos que da si está en ataque   
 
@@ -73,8 +75,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
         private float[,] _waypoints;                // waypoints
         SFML.Graphics.VertexArray _waypointsLines;  // lineas que muestran la trayectoria lineal entre los waypoints
 #endif
-        CircleShape _sh = new CircleShape(6);
-
+      
         /// <summary>
         /// Devuelve el módulo de la velocidad que puede alcanzar la nave
         /// </summary>
@@ -107,18 +108,25 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
         }
 
 
-        public EnemyShip(Type type, EnemiesShipData shipData,FloatRect worldBounds)
+        public EnemyShip(Type type, EnemiesShipData shipData, FloatRect worldBounds)
             : base()
         {
+            _logger.Log(LogLevel.Info, " >>> Creando enemigo. Tipo " + type + "(" + GetHashCode() + ")");
             _type = type;
 
-            // ruta 
+            _sprite = new Sprite((Texture)EnemiesTypeConf[(int)_type]._resManager[EnemiesTypeConf[(int)_type]._textureKey]);
+            _sprite.Scale = new Vector2f(0.7f,0.7f);
+            // ubico el origen del sprite en el centro en vez de en la esquina superior derecha
+            FloatRect bounds = _sprite.GetLocalBounds();
+            _sprite.Origin = new SFML.System.Vector2f(bounds.Width / 2f, bounds.Height / 2f);
+
+            // ruta
             _path = Paths.Corkscrew.getCoefficients(shipData._xOrigin, shipData._yOrigin,
                 shipData._xFormation,shipData._yFormation,
                 worldBounds);
             _segmentCount = (int)_path.GetLongLength(0) / 2;
             _segmentTimes = new float[_segmentCount];
-            for (int seg = 0; seg < _segmentCount; seg++)
+            for (int seg = 0; seg < _segmentCount; seg++)                   // calculo del tiempo que se tarda en recorrer cada uno de los segmentos
                 _segmentTimes[seg] = _path[2 * seg, 4] / MaxSpeed;
 
 
@@ -136,8 +144,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
             }
 
 #endif
-            _sh.FillColor = SFML.Graphics.Color.Red;
- 
+           
             _segmentIndex = 0;
             _segmentTime = 0;
 
@@ -175,8 +182,9 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
 
             //Velocity = new Vector2f(vx, vy);
 
+            _sprite.Rotation = (float)(radians * (180.0f / Math.PI)); 
             Position = new Vector2f(xTemp, yTemp);
-            //_logger.Log(LogLevel.Warn, "x: " + xTemp +"   y:" + yTemp);
+          
 	    }
 
         /// <summary>
@@ -190,13 +198,13 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
         {
             UpdateMovementPattern(dt);
            
-            _sh.Position = Position;
+            _sprite.Position = Position;
         }
 
         override protected void DrawCurrent(SFML.Graphics.RenderTarget rt, SFML.Graphics.RenderStates rs)
         {
           
-            rt.Draw(_sh);
+            rt.Draw(_sprite);
    
 #if DEBUG
             // Dibujo los waypoints interpoados linealmente
@@ -212,12 +220,15 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
         /// </remarks>
         private struct EnemiesShipTypeData
         {
-            public UInt16 _hitPoints;                   // número de impactos que puede aguantar antes del destruirse
-            public String _textureKey;                  // ID de la textura asociada
-            public UInt16 _formationPoints;             // puntos que da si está en formación
-            public UInt16 _attackPoints;                // puntos que da si está en ataque   
+            public UInt16 _hitPoints;                           // número de impactos que puede aguantar antes del destruirse
+            public String _textureKey;                          // ID de la textura asociada
+            public UInt16 _formationPoints;                     // puntos que da si está en formación
+            public UInt16 _attackPoints;                        // puntos que da si está en ataque   
 
-            public float _maxSpeed;                     // modulo de la velocidad que alcanza la entidad (se alcanzará en recorrido lineales)
+            public float _maxSpeed;                             // modulo de la velocidad que alcanza la entidad (se alcanzará en recorrido lineales)
+
+            // comunes a todos los tipos
+            public Resources.ResourcesManager _resManager;      // gestor de recursos
         }
 
         /// <summary> 
@@ -243,16 +254,16 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
         //////////////////////////////////////////////////////////
         private static EnemiesShipTypeData[] EnemiesTypeConf;
 
-        public static void InitializeEnemiesTypeConfiguration()
+        public static void InitializeEnemiesTypeConfiguration(Resources.ResourcesManager resManager)
         {
             EnemiesTypeConf = new EnemiesShipTypeData[(int)Type.TYPECOUNT];
 
             // tipo Bee
             EnemiesTypeConf[(int)Type.BEE]._hitPoints = 1;
-            EnemiesTypeConf[(int)Type.BEE]._textureKey = "Naves:Bee";
+            EnemiesTypeConf[(int)Type.BEE]._textureKey = "Naves:BeeC1";
             EnemiesTypeConf[(int)Type.BEE]._formationPoints = 80;           // ptos
             EnemiesTypeConf[(int)Type.BEE]._attackPoints = 160;             // ptos
-            EnemiesTypeConf[(int)Type.BEE]._maxSpeed = 250;                 // px/s
+            EnemiesTypeConf[(int)Type.BEE]._maxSpeed = 150;                 // px/s
 
             // tipo Butterfly
             EnemiesTypeConf[(int)Type.BUTTERFLY]._hitPoints = 1;
@@ -260,6 +271,10 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
             EnemiesTypeConf[(int)Type.BUTTERFLY]._formationPoints = 100;    // ptos
             EnemiesTypeConf[(int)Type.BUTTERFLY]._attackPoints = 200;       // ptos
             EnemiesTypeConf[(int)Type.BUTTERFLY]._maxSpeed = 250;                 // px/s
+
+            for (int type = 0; type < (int)Type.TYPECOUNT; type++) {
+                EnemiesTypeConf[type]._resManager = resManager;
+            }
 
         }
 

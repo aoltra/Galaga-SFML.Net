@@ -9,6 +9,7 @@
 <resx>
   <section id="Naves">
     <texture id="NaveJugador" src="./assets/textures/nave01.png" smooth="true" repeated="false"/>
+    <texture id="BeeC1" src="./assets/textures/bee_C1_E1.png" smooth="true" repeated="false"/>
   </section>
   <section id="Fondos">
     <texture id="Titulo" src="./assets/textures/titulo.png" smooth="false" repeated="false"/>

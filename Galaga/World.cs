@@ -161,7 +161,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 
                 ///Nave enemiga prueba
                 ///
-                Entities.EnemyShip.InitializeEnemiesTypeConfiguration();
+                Entities.EnemyShip.InitializeEnemiesTypeConfiguration(_resManager);
 
                 Entities.EnemyShip.EnemiesShipData data = new Entities.EnemyShip.EnemiesShipData();
                 data._xOrigin = 3*_worldBounds.Width / 4;

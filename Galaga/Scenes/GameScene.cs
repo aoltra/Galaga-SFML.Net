@@ -34,8 +34,6 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Scenes
 
             _world = new World(context);
 
-            // Inicializa la tabla de datos de cofiguraciones de los tipos de naves
-            Entities.EnemyShip.InitializeEnemiesTypeConfiguration();
         }
 
         ////////////////////////
