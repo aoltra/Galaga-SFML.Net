@@ -168,6 +168,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                 data._yOrigin = 40;
                 data._xFormation = _worldBounds.Width / 2 + 20;
                 data._yFormation = 300;
+                data._rotationOrigin = 180;     
          
                 Entities.EnemyShip enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE,data,_worldBounds);
                 _sceneLayers[(int)Layer.AIR].AddChild(enemy);

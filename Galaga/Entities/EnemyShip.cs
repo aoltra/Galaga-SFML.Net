@@ -63,6 +63,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
         private UInt16 _attackPoints;               // puntos que da si está en ataque   
 
         private Vector2f _posFormation;             // posición formación 
+        private float _rotOrigin;
 
         private float[,] _path;                     // recorrido de la nave
        
@@ -115,7 +116,9 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
             _type = type;
 
             _sprite = new Sprite((Texture)EnemiesTypeConf[(int)_type]._resManager[EnemiesTypeConf[(int)_type]._textureKey]);
+            _rotOrigin = _sprite.Rotation = shipData._rotationOrigin;
             _sprite.Scale = new Vector2f(0.7f,0.7f);
+
             // ubico el origen del sprite en el centro en vez de en la esquina superior derecha
             FloatRect bounds = _sprite.GetLocalBounds();
             _sprite.Origin = new SFML.System.Vector2f(bounds.Width / 2f, bounds.Height / 2f);
@@ -182,7 +185,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
 
             //Velocity = new Vector2f(vx, vy);
 
-            _sprite.Rotation = (float)(radians * (180.0f / Math.PI)); 
+            _sprite.Rotation = (float)(radians * (180.0f / Math.PI)) + _rotOrigin; 
             Position = new Vector2f(xTemp, yTemp);
           
 	    }
@@ -241,9 +244,12 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
         {
             public float _xOrigin;                  // coordenada x inicial (antes de salir)
             public float _yOrigin;                  // coordenada y inicial (antes de salir)
-            
+            public float _rotationOrigin;           // rotación inicial del sprite (en grados)
+           
             public float _xFormation;               // coordenada x en formación
             public float _yFormation;               // coordenada y en formación   
+
+ 
 
 
         }
@@ -263,7 +269,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
             EnemiesTypeConf[(int)Type.BEE]._textureKey = "Naves:BeeC1";
             EnemiesTypeConf[(int)Type.BEE]._formationPoints = 80;           // ptos
             EnemiesTypeConf[(int)Type.BEE]._attackPoints = 160;             // ptos
-            EnemiesTypeConf[(int)Type.BEE]._maxSpeed = 150;                 // px/s
+            EnemiesTypeConf[(int)Type.BEE]._maxSpeed = 250;                 // px/s
 
             // tipo Butterfly
             EnemiesTypeConf[(int)Type.BUTTERFLY]._hitPoints = 1;
