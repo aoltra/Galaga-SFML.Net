@@ -89,6 +89,8 @@
     <Compile Include="Entities\EnemyShip.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="Entities\PlayerShip.cs" />
+    <Compile Include="Utilities\MatrixUtilities.cs" />
+    <Compile Include="Utilities\PolynomicUtilities.cs" />
     <Compile Include="Scenes\GameScene.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="ResourcesManager.cs" />
@@ -105,6 +107,7 @@
     <Compile Include="SpriteNode.cs" />
     <Compile Include="Star.cs" />
     <Compile Include="StarBackground.cs" />
+    <Compile Include="Utilities\VectorUtilities.cs" />
     <Compile Include="World.cs" />
   </ItemGroup>
   <ItemGroup>
