@@ -157,6 +157,20 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                     new FloatRect(_worldBounds.Left + BORDER, 0, _worldBounds.Width - BORDER, _worldBounds.Height));
                 _playerShip.Position = new Vector2f(_worldView.Size.X / 2, _worldView.Size.Y - 60);
                 _sceneLayers[(int)Layer.AIR].AddChild(_playerShip);
+
+
+                ///Nave enemiga prueba
+                ///
+                Entities.EnemyShip.InitializeEnemiesTypeConfiguration();
+
+                Entities.EnemyShip.EnemiesShipData data = new Entities.EnemyShip.EnemiesShipData();
+                data._xOrigin = 3*_worldBounds.Width / 4;
+                data._yOrigin = 40;
+                data._xFormation = _worldBounds.Width / 2 + 20;
+                data._yFormation = 300;
+         
+                Entities.EnemyShip enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE,data,_worldBounds);
+                _sceneLayers[(int)Layer.AIR].AddChild(enemy);
             }
             catch (Exception ex)
             {
