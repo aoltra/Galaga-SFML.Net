@@ -56,6 +56,9 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         private CommandQueue _commandQueue;             // cola de comandos
 
         private Entities.PlayerShip _playerShip;        // entidad nave jugador
+        private List<Entities.EnemyShip> _dockShip;     // lista de naves enemigas antes de que salgan a jugar
+        private float _stageTime;                       // tiempo actual de la fase en juego (en segundos)
+
 
         private const int BORDER = 40;                  // borde del mundo en el que no se juega
 
@@ -88,6 +91,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 
                 _sceneGraph = new SceneNode();
                 _sceneLayers = new List<SceneNode>();
+                _dockShip = new List<Entities.EnemyShip>();
 
                 _commandQueue = new CommandQueue();
             
@@ -168,10 +172,23 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                 data._yOrigin = -40;
                 data._xFormation = _worldBounds.Width / 2 + 20;
                 data._yFormation = 100;
-                data._rotationOrigin = 180;     
+                data._rotationOrigin = 180;
+                data._spawnTime = 3;                 // s
          
+                // creo las antidades y las añado al muelle de naves
                 Entities.EnemyShip enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE,data,_worldBounds);
-                _sceneLayers[(int)Layer.AIR].AddChild(enemy);
+               
+                _dockShip.Add(enemy);
+                data._spawnTime = 3.30f;
+                enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data, _worldBounds);
+                _dockShip.Add(enemy);
+  
+                // Podría ser aconsejable ordenarla lista una vez insertadas las naves. 
+                // siendo por tiempo es posible que sea más fácil simplemente introducirlas ordenadas
+                // pero si por ejemplo se buscara que fuera la mínima distancia a un punto sería o si 
+                // las naves se generan de manera aleatoria, sería más recomendable reordenar la lista
+                // esa reordenación se puede realizar con 
+                // List.Sort((x.y)=> x.propiedad < y.propiedad)
             }
             catch (Exception ex)
             {
@@ -197,6 +214,10 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         /// <param name="dt">Incremento de tiempo desde la última actualización</param>
         public void Update(SFML.System.Time dt)
         {
+            _stageTime += dt.AsSeconds();
+
+            LinkEnemiesToSceneGraph();
+
             // Introduzco los commandos de la cola en el grafo
             while (!_commandQueue.IsEmpty)
                 _sceneGraph.OnCommand(_commandQueue.Pop(), dt);
@@ -205,5 +226,21 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
             _sceneGraph.Update(dt);
         }
 
+
+        private void LinkEnemiesToSceneGraph() 
+        {
+            // repaso todos los enemigos en espera y recojo aquellos cuyo tiempo de salida
+            // sea mayor que el que llevamos de fase
+            for (int enm = 0; enm < _dockShip.Count; enm++)
+            { 
+                Entities.EnemyShip enemy = (Entities.EnemyShip)_dockShip[enm];
+                if (enemy.SpawnTime > _stageTime) break;
+
+                _sceneLayers[(int)Layer.AIR].AddChild(enemy);
+                _dockShip.RemoveAt(enm);
+                enm--;
+            }
+        
+        }
     }
 }

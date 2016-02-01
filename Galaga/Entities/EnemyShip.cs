@@ -68,8 +68,8 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
         private float[,] _path;                     // recorrido de la nave
        
         private float[] _segmentTimes;              // array que almacena para cada segmento el tiempo que tarda en recorrerse
-        private int _segmentIndex;                  // indice del segmento en el que nave se esta moviendo
-        private float _segmentTime;                 // tiempo que lleva recoriendo el segmento actual
+        private int _segmentIndex;                  // índice del segmento en el que nave se esta moviendo
+        private float _segmentTime;                 // tiempo que lleva recorriendo el segmento actual
         private int _segmentCount;                  // número de segmentos del camino
        
 #if DEBUG
@@ -81,6 +81,11 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
         /// Devuelve el módulo de la velocidad que puede alcanzar la nave
         /// </summary>
         public float MaxSpeed { get { return EnemiesTypeConf[(int)_type]._maxSpeed;  } }
+
+        /// <summary>
+        /// Devuelve el tiempo desde el inicio de la fase que hay que esperar para que salga 
+        /// </summary>
+        public float SpawnTime { get; private set; } 
 
         // logger
         private static Logger _logger = LogManager.GetCurrentClassLogger();
@@ -112,7 +117,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
         public EnemyShip(Type type, EnemiesShipData shipData, FloatRect worldBounds)
             : base()
         {
-            _logger.Log(LogLevel.Info, " >>> Creando enemigo. Tipo " + type + "(" + GetHashCode() + ")");
+            _logger.Log(LogLevel.Info, " >>> Creando enemigo. Tipo " + type + " (" + GetHashCode() + ")");
             _type = type;
 
             _sprite = new Sprite((Texture)EnemiesTypeConf[(int)_type]._resManager[EnemiesTypeConf[(int)_type]._textureKey]);
@@ -123,13 +128,15 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
             FloatRect bounds = _sprite.GetLocalBounds();
             _sprite.Origin = new SFML.System.Vector2f(bounds.Width / 2f, bounds.Height / 2f);
 
+            SpawnTime = shipData._spawnTime;
+
             // ruta
             _path = Paths.Corkscrew.getCoefficients(shipData._xOrigin, shipData._yOrigin,
                 shipData._xFormation,shipData._yFormation,
                 worldBounds);
             _segmentCount = (int)_path.GetLongLength(0) / 2;
             _segmentTimes = new float[_segmentCount];
-            for (int seg = 0; seg < _segmentCount; seg++)                   // calculo del tiempo que se tarda en recorrer cada uno de los segmentos
+            for (int seg = 0; seg < _segmentCount; seg++)                   // cálculo del tiempo que se tarda en recorrer cada uno de los segmentos
                 _segmentTimes[seg] = _path[2 * seg, 4] / MaxSpeed;
 
 
@@ -245,7 +252,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
             public float _xFormation;               // coordenada x en formación
             public float _yFormation;               // coordenada y en formación   
 
- 
+            public float _spawnTime;                 // momento en el que entra en juego (en relación al incio de la fase)
 
 
         }
