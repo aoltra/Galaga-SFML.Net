@@ -32,8 +32,15 @@
   <Class Name="edu.CiclosFormativos.DAM.DI.Galaga.Entities.PlayerShip" Collapsed="true">
     <Position X="6" Y="3.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAACAA=</HashCode>
+      <HashCode>AAIAEAAAAAAAAAAAAAAAAAAACAAAAAAAAAEAAAAACAA=</HashCode>
       <FileName>Entities\PlayerShip.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="edu.CiclosFormativos.DAM.DI.Galaga.Entities.EnemyShip" Collapsed="true">
+    <Position X="8.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABQAAAAABAAAAAAAAAAAAAAIAAAAAAg=</HashCode>
+      <FileName>Entities\EnemyShip.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />
