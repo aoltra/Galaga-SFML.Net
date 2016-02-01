@@ -89,16 +89,16 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Utilities
 		    b[1][0] = points[0,1]; 
 
 		    // pendiente inicial
-		    b[0][1] = 0;
-		    b[1][1] = 0; 
+		    b[0][1] = points[0,2];
+		    b[1][1] = points[0,3]; 
 
 		    // Posición final
             b[0][4 * numSegments - 2] = points[numWaypoints - 1, 0];
             b[1][4 * numSegments - 2] = points[numWaypoints - 1, 1];
 
 		    // Pendiente final
-            b[0][4 * numSegments - 1] = 0;
-            b[1][4 * numSegments - 1] = 0;
+            b[0][4 * numSegments - 1] = points[numWaypoints - 1, 2];
+            b[1][4 * numSegments - 1] = points[numWaypoints - 1, 3];
 		
 		    for (int i = 1; i < numWaypoints - 1; i++) 
             {
@@ -126,12 +126,12 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Utilities
 			    b[1][k] = points[i,1];
 
 			    // Pendiente
-			    b[0][k + 1]= 0;
-                b[1][k + 1] = 0;
+			    b[0][k + 1] = points[i,2];
+                b[1][k + 1] = points[i,3];
 
 			    // pendiente
-                b[0][k + 2] = 0;
-                b[1][k + 2] = 0;
+                b[0][k + 2] = points[i, 2];
+                b[1][k + 2] = points[i, 3];
 
 			    // punto intemedio
                 b[0][k + 3] = points[i, 0];
@@ -140,17 +140,17 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Utilities
 
 #if DEBUG
 		    /// Impresión del sistema de ecuaciones
-            int i2b = 0;
-            for (int i = 0; i < 4 * numSegments; i++)
-            {
-                for (int i2 = 0; i2 < 4 * numSegments; i2++) 
-                    Debug.Write(mat[i][i2].ToString("F3").PadLeft(8) +"  ");
+            //int i2b = 0;
+            //for (int i = 0; i < 4 * numSegments; i++)
+            //{
+            //    for (int i2 = 0; i2 < 4 * numSegments; i2++) 
+            //        Debug.Write(mat[i][i2].ToString("F3").PadLeft(8) +"  ");
                
-                Debug.Write("   |   ");
+            //    Debug.Write("   |   ");
                 
-                Debug.WriteLine(b[0][i2b]  +  "  " + b[1][i2b]);
-                i2b++;
-            }
+            //    Debug.WriteLine(b[0][i2b]  +  "  " + b[1][i2b]);
+            //    i2b++;
+            //}
 #endif
 
             // resolución
