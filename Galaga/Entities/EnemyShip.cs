@@ -158,15 +158,16 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
         {
             _segmentTime += dt.AsSeconds();
 
-            if (_segmentIndex >= _segmentCount) return;
+            if (_segmentIndex >= _segmentCount) {
+                _sprite.Rotation = 0;
+                return;
+            } 
 
             if (_segmentTime > _segmentTimes[_segmentIndex]) // se ha acabado el segmento
             {
-               
                 _segmentIndex++;
                 _segmentTime = 0;
                 if (_segmentIndex >= _segmentCount) return;
-               
             }
 
             float t = _segmentTime /  _segmentTimes[_segmentIndex];
@@ -177,15 +178,10 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
             float yTemp = _path[2 * _segmentIndex + 1, 3] *  t3 + _path[2 * _segmentIndex + 1, 2] * t2
                 + _path[2 * _segmentIndex + 1, 1] *  t + _path[2 * _segmentIndex + 1, 0];
 
+            double radians = Math.Atan2(Position.Y - yTemp, Position.X - xTemp) + Math.PI / 2;
 
-            double radians = Math.Atan2(Position.Y - yTemp, Position.X - xTemp) + Math.PI / 2;  
- 
-            //float vx = MaxSpeed * (float)Math.Cos(radians);
-            //float vy = MaxSpeed * (float)Math.Sin(radians);
+            Rotation = (float)(radians * (180.0f / Math.PI)) + _rotOrigin;
 
-            //Velocity = new Vector2f(vx, vy);
-
-            _sprite.Rotation = (float)(radians * (180.0f / Math.PI)) + _rotOrigin; 
             Position = new Vector2f(xTemp, yTemp);
           
 	    }
@@ -200,13 +196,13 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
         override sealed protected void UpdateCurrent(SFML.System.Time dt)
         {
             UpdateMovementPattern(dt);
-           
+
+            _sprite.Rotation = Rotation;
             _sprite.Position = Position;
         }
 
         override protected void DrawCurrent(SFML.Graphics.RenderTarget rt, SFML.Graphics.RenderStates rs)
-        {
-          
+        {   
             rt.Draw(_sprite);
    
 #if DEBUG

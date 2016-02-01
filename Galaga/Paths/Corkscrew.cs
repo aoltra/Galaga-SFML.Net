@@ -38,32 +38,42 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Paths
         public static float[,] getWaypoints(float xIni, float yIni, float xEnd, float yEnd,
             FloatRect worldBounds) 
         {
-            float[,] _waypoints = new float[5, 4];
+            float[,] _waypoints = new float[7, 4];
 
             _waypoints[0, 0] = xIni;
             _waypoints[0, 1] = yIni;
-            _waypoints[0, 2] = 1;
-            _waypoints[0, 3] = 0;
+            _waypoints[0, 2] = 0;
+            _waypoints[0, 3] = 1;
 
-            _waypoints[1, 0] = worldBounds.Width / 2;
-            _waypoints[1, 1] = worldBounds.Height / 2;
-            _waypoints[1, 2] = -1;
-            _waypoints[1, 3] = 1;
+            _waypoints[1, 0] = worldBounds.Width * 0.45f;
+            _waypoints[1, 1] = worldBounds.Height * .2f;
+            _waypoints[1, 2] = 1;
+            _waypoints[1, 3] = 2;
 
-            _waypoints[2, 0] = worldBounds.Width / 2 - (xIni - worldBounds.Width / 2);
-            _waypoints[2, 1] = worldBounds.Height / 3;
+            _waypoints[2, 0] = worldBounds.Width * 0.125f;
+            _waypoints[2, 1] = worldBounds.Height / 2;
             _waypoints[2, 2] = 1;
             _waypoints[2, 3] = 1;
 
-            _waypoints[3, 0] = worldBounds.Width / 2 - (xIni - worldBounds.Width / 2);
-            _waypoints[3, 1] = worldBounds.Height / 2;
-            _waypoints[3, 2] = 1;
+            _waypoints[3, 0] = worldBounds.Width * 0.125f;
+            _waypoints[3, 1] = worldBounds.Height * .7f;
+            _waypoints[3, 2] = -1;
             _waypoints[3, 3] = 1;
 
-            _waypoints[4, 0] = xEnd;
-            _waypoints[4, 1] = yEnd;
-            _waypoints[4, 2] = -1;
-            _waypoints[4, 3] = 0;
+            _waypoints[4, 0] = worldBounds.Width * 0.45f;
+            _waypoints[4, 1] = worldBounds.Height *0.6f;
+            _waypoints[4, 2] = 1;
+            _waypoints[4, 3] = 10;
+
+            _waypoints[5, 0] = xEnd;
+            _waypoints[5, 1] = yEnd + 70;
+            _waypoints[5, 2] = 0;
+            _waypoints[5, 3] = -1;
+
+            _waypoints[6, 0] = xEnd;
+            _waypoints[6, 1] = yEnd;
+            _waypoints[6, 2] = -0f;
+            _waypoints[6, 3] = -1;
 
             return _waypoints;
         }

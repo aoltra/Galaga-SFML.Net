@@ -164,10 +164,10 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                 Entities.EnemyShip.InitializeEnemiesTypeConfiguration(_resManager);
 
                 Entities.EnemyShip.EnemiesShipData data = new Entities.EnemyShip.EnemiesShipData();
-                data._xOrigin = 3*_worldBounds.Width / 4;
-                data._yOrigin = 40;
+                data._xOrigin = .55f * _worldBounds.Width;
+                data._yOrigin = -40;
                 data._xFormation = _worldBounds.Width / 2 + 20;
-                data._yFormation = 300;
+                data._yFormation = 100;
                 data._rotationOrigin = 180;     
          
                 Entities.EnemyShip enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE,data,_worldBounds);
