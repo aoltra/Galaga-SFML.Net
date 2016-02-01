@@ -215,8 +215,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         }
         #endregion
 
-
-        #region Funciones relativas a la trasnformación
+        #region Funciones relativas a la transformación
         /// <summary>
         /// Devuuelve la Transformacion necesaria para pasar a coordenadas globales (del mundo)
         /// </summary>
@@ -249,7 +248,6 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 
         }
         #endregion
-
 
         /// <summary>
         /// Ejecuta, si su categoria lo indica, el comando. Además reenvía el comando a sus hijos

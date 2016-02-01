@@ -79,7 +79,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
         }
 
         /// <summary>
-        /// Actualiza la estrella
+        /// Actualiza la nave del jugador
         /// </summary>
         /// <param name="dt">Incremento de tiempo desde la última actualización</param>
         /// <remarks>
@@ -87,8 +87,8 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
         /// </remarks>
         override sealed protected void UpdateCurrent(SFML.System.Time dt)
         {
-            // se llama a la funciín del padre
-            base.UpdateCurrent(dt);
+            // No es necesario llamar a la función del padre ya que la actualización la realiza el comando
+          //  base.UpdateCurrent(dt);
 
             float posX;
 
