@@ -204,6 +204,17 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         }
 
         /// <summary>
+        /// Redirige las pulsaciones de los botones del joystick modo eventos "típicos" a la pila
+        /// </summary>
+        /// <param name="joystick">id del joystick al que hace referencia el evento</param>
+        /// <param name="button">Botón pulsado</param>
+        /// <param name="isPressed">True si está pulsada o se libera</param>
+        private void HandleJoystickButtonEvent(uint joystickID, uint button, bool isPressed)
+        {
+            _scnManager.HandleJoystickButtonEvent(joystickID, button, isPressed);
+        }
+
+        /// <summary>
         /// Dibuja las escenas de la pila
         /// </summary>
         private void Render()
@@ -229,6 +240,9 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
             //_window.LostFocus += new EventHandler(OnLostFocus);
             _window.KeyPressed += new EventHandler<SFML.Window.KeyEventArgs>(OnKeyPressed);
             _window.KeyReleased += new EventHandler<SFML.Window.KeyEventArgs>(OnKeyReleased);
+
+            _window.JoystickMoved += new EventHandler<SFML.Window.JoystickMoveEventArgs>(OnJoystickMove);
+            _window.JoystickButtonPressed += new EventHandler<SFML.Window.JoystickButtonEventArgs>(OnJoysticButtonPressed);
         }
 
         /// <summary>
@@ -311,6 +325,22 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         {
             HandleKeyboardEvent(e.Code, false);
         }
+
+        /// <summary>
+        /// Se ha soltado un botón del joystick
+        /// </summary>
+        /// <param name="sender">Objeto que genera el evento</param>
+        /// <param name="e">Información sobre el botón pulsado</param>
+        private void OnJoysticButtonPressed(object sender, JoystickButtonEventArgs e) 
+        {
+            HandleJoystickButtonEvent(e.JoystickId, e.Button, true);
+        }
+
+        private void OnJoystickMove(object sender, JoystickMoveEventArgs e)
+        {
+
+        }
+
         #endregion
 
         #region Logger

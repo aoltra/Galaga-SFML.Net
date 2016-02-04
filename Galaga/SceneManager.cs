@@ -168,6 +168,28 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         }
 
         /// <summary>
+        /// Redirige las pulsaciones de teclado en modo eventos "típicos" a cada una de las escenas de la pila
+        /// </summary>
+        /// <param name="joystick">id del joystick al que hace referencia el evento</param>
+        /// <param name="button">Botón pulsado</param>
+        /// <param name="isPressed">True si está pulsada o se libera</param>
+        public void HandleJoystickButtonEvent(uint joystickID, uint button, bool isPressed)
+        {
+            // itera desde el final de la lista hacia el principio, o lo que es lo mismo
+            // itera la pila desde la cima hacia abajo
+            // de manera similar al update si la función de manejo del teclado en cada pila
+            // devuelve un false, se corta el proceso
+            for (int i = _stack.Count - 1; i >= 0; i--)
+            {
+                if (!_stack[i].HandleJoystickButtonEvent(joystickID, button, isPressed))
+                    break;
+            }
+
+            ApplyRequest();
+        
+        }
+
+        /// <summary>
         /// Aplica las operaciones almacenadas en la lista de acciones pendientes
         /// </summary>
         private void ApplyRequest() 

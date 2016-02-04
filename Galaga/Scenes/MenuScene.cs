@@ -160,6 +160,41 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Scenes
             return true;
         }
 
+
+        /// <summary>
+        /// Gestiona para esta escena el manejo de los eventos de pulsación de una tecla del joystick
+        /// </summary>
+        /// <param name="joystick">id del joystick al que hace referencia el evento</param>
+        /// <param name="button">Botón pulsado</param>
+        /// <param name="isPressed">True si está pulsado o se libera</param>
+        /// <returns>true si se deja que las escena inferiores en el gestor también lo controlen, false en caso contrario</returns>
+        public sealed override bool HandleJoystickButtonEvent(uint joystick, uint button, bool isPressed)
+        {
+            if (!isPressed) return false;
+
+            if (button == 2) 
+            {
+                _logger.Log(LogLevel.Info, " >>>>> Opción aceptada: " + _optionIndex);
+                if (_optionIndex == (int)MenuOptions.PLAY)
+                {
+                    // quito la escena actual de la pila
+                    _logger.Log(LogLevel.Info, " >>>> Pop");
+                    RequestManagerScenePop();
+
+                    // pongo en la pila el menu
+                    _logger.Log(LogLevel.Info, " >>>> Push Juego");
+                    RequestManagerScenePush((int)Application.SceneID.GAME);
+                }
+                else if (_optionIndex == (int)MenuOptions.EXIT)
+                {
+                    //si la opción es salir quito todas las escenas de la pila
+                    RequestManagerSceneClear();
+                }
+            }
+
+            return false;
+        }
+
         /// <summary>
         /// Cambia el color del texto seleccionado
         /// </summary>

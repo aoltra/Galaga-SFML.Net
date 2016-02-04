@@ -77,6 +77,15 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         public abstract bool HandleKeyboardEvent(SFML.Window.Keyboard.Key key, bool isPressed);
 
         /// <summary>
+        /// Gestiona los eventos de pulsaciones en el joystick. Cada escena tiene que tener uno
+        /// </summary>
+        /// <param name="joystick">id del joystick al que hace referencia el evento</param>
+        /// <param name="button">Botón pulsado</param>
+        /// <param name="isPressed">True si está pulsada o se libera</param>
+        /// <returns>true si se deja que las escenas inferiores en el gestor también lo controlen, false en caso contrario</returns></returns>
+        public abstract bool HandleJoystickButtonEvent(uint joystick, uint button, bool isPressed);
+
+        /// <summary>
         /// Introduce una escena en la pila
         /// </summary>
         /// <param name="sceneID"></param>
