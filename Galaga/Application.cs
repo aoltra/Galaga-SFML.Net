@@ -206,7 +206,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         /// <summary>
         /// Redirige las pulsaciones de los botones del joystick modo eventos "típicos" a la pila
         /// </summary>
-        /// <param name="joystick">id del joystick al que hace referencia el evento</param>
+        /// <param name="joystickID">id del joystick al que hace referencia el evento</param>
         /// <param name="button">Botón pulsado</param>
         /// <param name="isPressed">True si está pulsada o se libera</param>
         private void HandleJoystickButtonEvent(uint joystickID, uint button, bool isPressed)
