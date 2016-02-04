@@ -58,7 +58,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Scenes
 
             // opción salir
             _infoText.Font = (SFML.Graphics.Font)context.ResourcesManager["Fuentes:Titulo"];
-            _infoText.DisplayedString = "Pulsa espacio para ir al menú principal";
+            _infoText.DisplayedString = "Pulsa espacio o [B] para ir al menú principal";
             _infoText.CharacterSize = (UInt32)(_infoText.CharacterSize * 0.8f);
             _infoText.Position = new SFML.System.Vector2f((context.Window.Size.X - _infoText.GetLocalBounds().Width) * 0.5f,
                 _mainText.Position.Y + _mainText.CharacterSize + OPTION_SEPARATION);
