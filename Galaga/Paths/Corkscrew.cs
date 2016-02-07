@@ -27,16 +27,28 @@ using System;
 using System.Diagnostics;
 
 using SFML.Graphics;
+using SFML.System;
+
+using edu.CiclosFormativos.DAM.DI.Galaga.Utilities;
 
 namespace edu.CiclosFormativos.DAM.DI.Galaga.Paths
 {
     /// <summary>
     /// Encapsula el recorrido sacacorchos
     /// </summary>
+    /// <remarks>
+    /// Existe la posibilidad de crear multiples path y que cada uno de ellos actue sólo en determinadas fases del juego
+    /// por lo que resulta más interesante instanciarla al principio de cada fase bajo demanda
+    /// </remarks>
     class Corkscrew
     {
-        public static float[,] getWaypoints(float xIni, float yIni, float xEnd, float yEnd,
-            FloatRect worldBounds) 
+        public float Length { get { return totalLength; } }
+
+        private float totalLength;
+        private float[,] _coef;
+
+        public float[,] getWaypoints(float xIni, float yIni, float xEnd, float yEnd,
+            FloatRect worldBounds)
         {
             float[,] _waypoints = new float[7, 4];
 
@@ -61,7 +73,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Paths
             _waypoints[3, 3] = 1;
 
             _waypoints[4, 0] = worldBounds.Width * 0.45f;
-            _waypoints[4, 1] = worldBounds.Height *0.6f;
+            _waypoints[4, 1] = worldBounds.Height * 0.6f;
             _waypoints[4, 2] = 1;
             _waypoints[4, 3] = 10;
 
@@ -77,11 +89,157 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Paths
 
             return _waypoints;
         }
-      
-        public static float[,] getCoefficients(float xIni, float yIni, float xEnd, float yEnd, 
-            FloatRect worldBounds) {
-            
-            return Utilities.PolynomicUtilities.HermiteInterpolation(getWaypoints(xIni, yIni, xEnd, yEnd, worldBounds));
+
+        public float[,] getCoefficients(float xIni, float yIni, float xEnd, float yEnd,
+            FloatRect worldBounds)
+        {
+
+            _coef = Utilities.PolynomicUtilities.HermiteInterpolation(getWaypoints(xIni, yIni, xEnd, yEnd, worldBounds));
+
+            int numSeg = (int)_coef.GetLongLength(0)/2;
+
+            for (int n = 0; n <numSeg ; n++)
+                totalLength += GetArcLength(1, n);
+
+            return _coef;
+        }
+
+        public Vector2f GetPoint(float t, int segmentIndex)
+        {
+
+            float t2 = t * t, t3 = t2 * t;
+
+            return new Vector2f(_coef[2 * segmentIndex, 3] * t3 + _coef[2 * segmentIndex, 2] * t2
+                       + _coef[2 * segmentIndex, 1] * t + _coef[2 * segmentIndex, 0],
+                         _coef[2 * segmentIndex + 1, 3] * t3 + _coef[2 * segmentIndex + 1, 2] * t2
+                       + _coef[2 * segmentIndex + 1, 1] * t + _coef[2 * segmentIndex + 1, 0]);
+
+        }
+
+
+        private Vector2f GetDerivate(float t, int segmentIndex)
+        {
+            float t2 = t * t, t3 = t2 * t;
+
+            return new Vector2f(3 * _coef[2 * segmentIndex, 3] * t2 + 2 * _coef[2 * segmentIndex, 2] * t
+                       + _coef[2 * segmentIndex, 1],
+                         3 * _coef[2 * segmentIndex + 1, 3] * t3 + 2 * _coef[2 * segmentIndex + 1, 2] * t2
+                       + _coef[2 * segmentIndex + 1, 1]);
+        }
+
+        private float Speed(float t, int segmentIndex)
+        {
+            return VectorUtilities.VectorLength(GetDerivate(t, segmentIndex));
+        }
+
+
+        public float GetCurveParameterEuler(float s, int segmentIndex) // 0 <= s <= L , o u t p u t i s t
+        {
+            float t = 0;
+            float h = s / 100;
+
+            for (int i = 1; i <= 100; i++)
+            {
+                // The d i v i s i o ns here migh t be a p r o blem i f t h e d i v i s o r s a r e
+                // n e a r l y z e r o .
+                float k1 = h / Speed(t, segmentIndex);
+                float k2 = h / Speed(t + k1 / 2, segmentIndex);
+                float k3 = h / Speed(t + k2 / 2, segmentIndex);
+                float k4 = h / Speed(t + k3, segmentIndex);
+                t += (k1 + 2 * (k2 + k3) + k4) / 6;
+            }
+
+            return t;
+
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="tf">entre 0 y 1</param>
+        /// <param name="segmentIndex"></param>
+        /// <returns></returns>
+        public float GetArcLength(float tf, int segmentIndex)
+        {
+
+            if (tf > 1) tf = 1;
+            if (tf < 0) tf = 0;
+
+            int grade = (int)(tf * 100);
+            int segX = 2 * segmentIndex;
+
+            float incT = (tf / (float)grade), t, t2, t3;
+            float segLength = 0, xTempI, yTempI, xTempE, yTempE;
+            for (int grd = 0; grd < grade; grd++)
+            {
+                t = grd * incT; t2 = t * t; t3 = t2 * t;
+                xTempI = _coef[segX, 3] * t3 + _coef[segX, 2] * t2
+                    + _coef[segX, 1] * t + _coef[segX, 0];
+                yTempI = _coef[segX + 1, 3] * t3 + _coef[segX + 1, 2] * t2
+                    + _coef[segX + 1, 1] * t + _coef[segX + 1, 0];
+
+                t = (grd + 1) * incT; t2 = t * t; t3 = t2 * t;
+                xTempE = _coef[segX, 3] * t3 + _coef[segX, 2] * t2
+                    + _coef[segX, 1] * t + _coef[segX, 0];
+                yTempE = _coef[segX + 1, 3] * t3 + _coef[segX + 1, 2] * t2
+                    + _coef[segX + 1, 1] * t + _coef[segX + 1, 0];
+
+                segLength += Utilities.VectorUtilities.VectorLength(new Vector2f(xTempI - xTempE, yTempI - yTempE));
+
+            }
+
+            return segLength;
+
+        }
+
+        public float GetCurveParameterNewton(float s, int segmentIndex) 
+        {
+            float t = s /  GetArcLength(1,segmentIndex);
+            float epsilon = 0.0001f;
+
+            float low = 0, upper = 1;
+
+            for (int i = 0; i < 40; i++) 
+            {
+                float F = GetArcLength(t, segmentIndex) - s;
+                if (Math.Abs(F) < epsilon)
+                {
+                    return t;
+                }
+
+                float DF = Speed(t, segmentIndex);
+                float tCandidate = t - F / DF;
+                if (F > 0)
+                {
+                    upper = t;
+                    if (tCandidate <= low)
+                    {
+                        t = 0.5f * (upper + low);
+                    }
+                    else
+                    {
+                        t = tCandidate;
+                    }
+
+                }
+                else
+                {
+                    low = t;
+
+                    if (tCandidate <= upper)
+                    {
+                        t = 0.5f * (upper + low);
+                    }
+                    else
+                    {
+                        t = tCandidate;
+                    }
+                }
+            }
+
+            return t;
+
+
         }
     }
 }

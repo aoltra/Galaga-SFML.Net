@@ -71,6 +71,8 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
         private int _segmentIndex;                  // índice del segmento en el que nave se esta moviendo
         private float _segmentTime;                 // tiempo que lleva recorriendo el segmento actual
         private int _segmentCount;                  // número de segmentos del camino
+
+        Paths.Corkscrew ruta;
        
 #if DEBUG
         private float[,] _waypoints;                // waypoints
@@ -131,7 +133,8 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
             SpawnTime = shipData._spawnTime;
 
             // ruta
-            _path = Paths.Corkscrew.getCoefficients(shipData._xOrigin, shipData._yOrigin,
+            ruta = new Paths.Corkscrew();
+            _path = ruta.getCoefficients(shipData._xOrigin, shipData._yOrigin,
                 shipData._xFormation,shipData._yFormation,
                 worldBounds);
             _segmentCount = (int)_path.GetLongLength(0) / 2;
@@ -142,7 +145,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
 
 #if DEBUG
             // dibujo de los waypoints
-            _waypoints = Paths.Corkscrew.getWaypoints(shipData._xOrigin, shipData._yOrigin,
+            _waypoints = ruta.getWaypoints(shipData._xOrigin, shipData._yOrigin,
                 shipData._xFormation, shipData._yFormation, worldBounds);
 
             _waypointsLines = new SFML.Graphics.VertexArray(SFML.Graphics.PrimitiveType.LinesStrip, (uint)_waypoints.GetLongLength(0));
@@ -177,20 +180,34 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
                 if (_segmentIndex >= _segmentCount) return;
             }
 
-            float t = _segmentTime /  _segmentTimes[_segmentIndex];
-            float t2 = t*t, t3 = t2*t;
-            
-            float xTemp = _path[2 * _segmentIndex, 3] * t3 + _path[2 * _segmentIndex, 2] * t2
-                       + _path[2 * _segmentIndex, 1] * t + _path[2 * _segmentIndex, 0];
-            float yTemp = _path[2 * _segmentIndex + 1, 3] *  t3 + _path[2 * _segmentIndex + 1, 2] * t2
-                + _path[2 * _segmentIndex + 1, 1] *  t + _path[2 * _segmentIndex + 1, 0];
+            //float t = _segmentTime / _segmentTimes[_segmentIndex];
+            //float t2 = t * t, t3 = t2 * t;
 
-            double radians = Math.Atan2(Position.Y - yTemp, Position.X - xTemp) + Math.PI / 2;
+            //float xTemp = _path[2 * _segmentIndex, 3] * t3 + _path[2 * _segmentIndex, 2] * t2
+            //           + _path[2 * _segmentIndex, 1] * t + _path[2 * _segmentIndex, 0];
+            //float yTemp = _path[2 * _segmentIndex + 1, 3] * t3 + _path[2 * _segmentIndex + 1, 2] * t2
+            //    + _path[2 * _segmentIndex + 1, 1] * t + _path[2 * _segmentIndex + 1, 0];
+
+            //double radians = Math.Atan2(Position.Y - yTemp, Position.X - xTemp) + Math.PI / 2;
+
+
+            //Rotation = (float)(radians * (180.0f / Math.PI)) + _rotOrigin;
+
+            //Position = new Vector2f(xTemp, yTemp);
+
+           // t = ruta.GetCurveParameterEuler(_segmentTime * MaxSpeed, _segmentIndex);
+            float t = ruta.GetCurveParameterNewton(_segmentTime * MaxSpeed, _segmentIndex);
+            Vector2f pos = ruta.GetPoint(t, _segmentIndex);//
+
+            //_logger.Log(LogLevel.Info, " seg: "+ _segmentIndex +  " t: " + t);
+
+            double radians = Math.Atan2(Position.Y - pos.Y, Position.X - pos.X) + Math.PI / 2;
 
             Rotation = (float)(radians * (180.0f / Math.PI)) + _rotOrigin;
 
-            Position = new Vector2f(xTemp, yTemp);
-          
+            Position = pos;
+
+
 	    }
 
         /// <summary>
@@ -272,7 +289,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
             EnemiesTypeConf[(int)Type.BEE]._textureKey = "Naves:BeeC1";
             EnemiesTypeConf[(int)Type.BEE]._formationPoints = 80;           // ptos
             EnemiesTypeConf[(int)Type.BEE]._attackPoints = 160;             // ptos
-            EnemiesTypeConf[(int)Type.BEE]._maxSpeed = 250;                 // px/s
+            EnemiesTypeConf[(int)Type.BEE]._maxSpeed = 300;                 // px/s
 
             // tipo Butterfly
             EnemiesTypeConf[(int)Type.BUTTERFLY]._hitPoints = 1;
