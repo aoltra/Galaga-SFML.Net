@@ -49,6 +49,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         private RenderWindow _window;                   // ventana donde se dibujará
         private SceneNode _sceneGraph;                  // nodo raíz del grafo de escena
         private Resources.ResourcesManager _resManager; // Gestor de recursos del mundo 
+        private Dictionary<String,CurvePath> _curveMap; // Diccionario donde se alamncena las posibles trayectorias curvas
         private List<SceneNode> _sceneLayers;           // lista ordenada por orden de dibujo de las capas
         private View _worldView;                        // vista (camara) que visualizará nuestro trozo de mundo
         private FloatRect _worldBounds;                 // dimensiones (límites) del mundo
@@ -58,7 +59,6 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         private Entities.PlayerShip _playerShip;        // entidad nave jugador
         private List<Entities.EnemyShip> _dockShip;     // lista de naves enemigas antes de que salgan a jugar
         private float _stageTime;                       // tiempo actual de la fase en juego (en segundos)
-
 
         private const int BORDER = 40;                  // borde del mundo en el que no se juega
 
@@ -93,6 +93,8 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                 _sceneLayers = new List<SceneNode>();
                 _dockShip = new List<Entities.EnemyShip>();
 
+                _curveMap = new Dictionary<String,CurvePath>();
+     
                 _commandQueue = new CommandQueue();
             
                 // asigno la vista por defecto (viewport completo y tamaño igual en pixeles al de al ventana
@@ -174,7 +176,13 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                 data._yFormation = 100;
                 data._rotationOrigin = 180;
                 data._spawnTime = 3;                 // s
-         
+
+                ///// CURVAS
+                CurvePath a = new Paths.Corkscrew(data._xOrigin, data._yOrigin,
+                data._xFormation, data._yFormation, _worldBounds);
+                _curveMap.Add("Sacacorchos1", a);
+                data._path = _curveMap["Sacacorchos1"];
+
                 // creo las antidades y las añado al muelle de naves
                 Entities.EnemyShip enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE,data,_worldBounds);
                
@@ -189,6 +197,11 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                 // las naves se generan de manera aleatoria, sería más recomendable reordenar la lista
                 // esa reordenación se puede realizar con 
                 // List.Sort((x.y)=> x.propiedad < y.propiedad)
+
+              
+
+
+
             }
             catch (Exception ex)
             {

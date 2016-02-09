@@ -65,7 +65,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
         private Vector2f _posFormation;             // posición formación 
         private float _rotOrigin;
 
-        private float[,] _path;                     // recorrido de la nave
+        private CurvePath _path;                     // recorrido de la nave
        
         private float[] _segmentTimes;              // array que almacena para cada segmento el tiempo que tarda en recorrerse
         private int _segmentIndex;                  // índice del segmento en el que nave se esta moviendo
@@ -133,14 +133,11 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
             SpawnTime = shipData._spawnTime;
 
             // ruta
-            ruta = new Paths.Corkscrew(shipData._xOrigin, shipData._yOrigin,
-                shipData._xFormation, shipData._yFormation,
-                worldBounds);
-            _path = ruta.Coefficients;
-            _segmentCount = (int)_path.GetLongLength(0) / 2;
-            _segmentTimes = new float[_segmentCount];
-            for (int seg = 0; seg < _segmentCount; seg++)                   // cálculo del tiempo que se tarda en recorrer cada uno de los segmentos
-                _segmentTimes[seg] = _path[2 * seg, 4] / MaxSpeed;
+            _path = shipData._path;
+            _segmentCount = _path.NumSegments;
+            _segmentTimes = new float[_path.NumSegments];
+            for (int seg = 0; seg < _path.NumSegments; seg++)                   // cálculo del tiempo que se tarda en recorrer cada uno de los segmentos
+                _segmentTimes[seg] = _path.Coefficients[2 * seg, 4] / MaxSpeed;
 
 
 #if DEBUG
@@ -196,8 +193,8 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
             //Position = new Vector2f(xTemp, yTemp);
 
            // t = ruta.GetCurveParameterEuler(_segmentTime * MaxSpeed, _segmentIndex);
-            float t = ruta.GetCurveParameterNewton(_segmentTime * MaxSpeed, _segmentIndex);
-            Vector2f pos = ruta.GetPoint(t, _segmentIndex);//
+            float t = _path.GetCurveParameterNewton(_segmentTime * MaxSpeed, _segmentIndex);
+            Vector2f pos = _path.GetPoint(t, _segmentIndex);
 
             //_logger.Log(LogLevel.Info, " seg: "+ _segmentIndex +  " t: " + t);
 
@@ -269,8 +266,9 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
             public float _xFormation;               // coordenada x en formación
             public float _yFormation;               // coordenada y en formación   
 
-            public float _spawnTime;                 // momento en el que entra en juego (en relación al incio de la fase)
+            public float _spawnTime;                // momento en el que entra en juego (en relación al incio de la fase)
 
+            public CurvePath _path;                 // curva de entrada de la nave    
 
         }
 

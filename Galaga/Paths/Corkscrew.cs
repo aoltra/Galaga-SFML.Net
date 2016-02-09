@@ -45,7 +45,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Paths
         public Corkscrew(float xIni, float yIni, float xEnd, float yEnd,
             FloatRect worldBounds)
         {
-            _waypoints = new float[7, 4];
+            _waypoints = new float[6, 4];
            
             _waypoints[0, 0] = xIni;
             _waypoints[0, 1] = yIni;
@@ -77,10 +77,10 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Paths
             _waypoints[5, 2] = 0;
             _waypoints[5, 3] = -1;
 
-            _waypoints[6, 0] = xEnd;
-            _waypoints[6, 1] = yEnd;
-            _waypoints[6, 2] = -0f;
-            _waypoints[6, 3] = -1;
+            //_waypoints[6, 0] = xEnd;
+            //_waypoints[6, 1] = yEnd;
+            //_waypoints[6, 2] = -0f;
+            //_waypoints[6, 3] = -1;
 
             // calculo de coeficientes
             _coef = Utilities.PolynomicUtilities.HermiteInterpolation(_waypoints);
