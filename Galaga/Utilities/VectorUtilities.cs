@@ -37,7 +37,18 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Utilities
         /// <returns>longitud del vector</returns>
         public static float VectorLength(SFML.System.Vector2f vector)
         {
-	        return (float)Math.Sqrt(vector.X * vector.X + vector.Y * vector.Y);
+            return VectorLength(vector.X,vector.Y);
+        }
+
+        /// <summary>
+        /// Devuelve la longitud de un vector
+        /// </summary>
+        /// <param name="x">coordenada X</param>
+        /// <param name="y">coordenada Y</param>
+        /// <returns>longitud del vector</returns>
+        public static float VectorLength(float x, float y)
+        {
+            return (float)Math.Sqrt(x * x + y * y);
         }
     }
 }

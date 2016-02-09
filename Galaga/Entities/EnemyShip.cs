@@ -133,10 +133,10 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
             SpawnTime = shipData._spawnTime;
 
             // ruta
-            ruta = new Paths.Corkscrew();
-            _path = ruta.getCoefficients(shipData._xOrigin, shipData._yOrigin,
-                shipData._xFormation,shipData._yFormation,
+            ruta = new Paths.Corkscrew(shipData._xOrigin, shipData._yOrigin,
+                shipData._xFormation, shipData._yFormation,
                 worldBounds);
+            _path = ruta.Coefficients;
             _segmentCount = (int)_path.GetLongLength(0) / 2;
             _segmentTimes = new float[_segmentCount];
             for (int seg = 0; seg < _segmentCount; seg++)                   // cálculo del tiempo que se tarda en recorrer cada uno de los segmentos

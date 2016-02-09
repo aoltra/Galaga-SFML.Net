@@ -46,7 +46,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Utilities
         /// </summary>
         public static Byte Grade { get { return grade;  } set { grade = value;} }
 
-        private static Byte grade = 3;
+        private static Byte grade = 100;
 
         /// <summary>
         /// Calculo de la curva polinómica cúbica que interpola los waypoints manteniendo una determinada
@@ -167,7 +167,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Utilities
                 }
             }
 
-            // calculo de longitudes
+            // calculo de longitudes de cada segmento
             for (int seg = 0; seg < numSegments; seg++)
             {
                 segX = 2 * seg;
@@ -188,7 +188,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Utilities
                     yTempE = polynomicSegments[segX + 1, 3] * t3 + polynomicSegments[segX + 1, 2] * t2
                         + polynomicSegments[segX + 1, 1] * t + polynomicSegments[segX + 1, 0];
 
-                    segLength += Utilities.VectorUtilities.VectorLength(new Vector2f(xTempI - xTempE, yTempI - yTempE));
+                    segLength += Utilities.VectorUtilities.VectorLength(xTempI - xTempE, yTempI - yTempE);
 
                 }
 
