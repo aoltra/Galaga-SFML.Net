@@ -91,6 +91,7 @@
     <Compile Include="Entities\EnemyShip.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="Entities\PlayerShip.cs" />
+    <Compile Include="Paths\User.cs" />
     <Compile Include="Utilities\MatrixUtilities.cs" />
     <Compile Include="Utilities\PolynomicUtilities.cs" />
     <Compile Include="Scenes\GameScene.cs" />

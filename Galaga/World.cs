@@ -62,6 +62,8 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 
         private const int BORDER = 40;                  // borde del mundo en el que no se juega
 
+        private int _level;                              // fase del juego
+
         // logger
         private static Logger _logger = LogManager.GetCurrentClassLogger();
 
@@ -106,6 +108,9 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 
                 // pongo dimensiones al mundo
                 _worldBounds = new FloatRect(0, 0, _worldView.Size.X, _worldView.Size.Y);
+
+                // incializo la fase
+                _level = 1;  
 
                 // construyo el mundo
                 BuildWorld();
@@ -165,6 +170,8 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                 _sceneLayers[(int)Layer.AIR].AddChild(_playerShip);
 
 
+
+
                 ///Nave enemiga prueba
                 ///
                 Entities.EnemyShip.InitializeEnemiesTypeConfiguration(_resManager);
@@ -178,17 +185,25 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                 data._spawnTime = 3;                 // s
 
                 ///// CURVAS
-                CurvePath a = new Paths.Corkscrew(data._xOrigin, data._yOrigin,
-                data._xFormation, data._yFormation, _worldBounds);
-                _curveMap.Add("Sacacorchos1", a);
+                _curveMap.Add("Sacacorchos1", new Paths.Corkscrew(data._xOrigin, data._yOrigin,
+                data._xFormation, data._yFormation, _worldBounds));
+                _curveMap.Add("Sacacorchos2", new Paths.Symmetric(_curveMap["Sacacorchos1"],
+                    new Vector2f [] { new Vector2f(_worldBounds.Width/2,0), 
+                                      new Vector2f(_worldBounds.Width/2,10) }));
                 data._path = _curveMap["Sacacorchos1"];
 
                 // creo las antidades y las añado al muelle de naves
                 Entities.EnemyShip enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE,data,_worldBounds);
-               
                 _dockShip.Add(enemy);
-                data._spawnTime = 3.30f;
+
+                data._xOrigin = .45f * _worldBounds.Width;
+                data._xFormation = _worldBounds.Width / 2 - 20;
+                //data._spawnTime = 3.30f;
+              
+                
+                data._path = _curveMap["Sacacorchos2"];
                 enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data, _worldBounds);
+                
                 _dockShip.Add(enemy);
   
                 // Podría ser aconsejable ordenarla lista una vez insertadas las naves. 
@@ -207,6 +222,13 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
             {
                 _logger.Log(LogLevel.Warn, ex.Message);
             }
+        }
+
+
+        private void LoadLevel() 
+        {
+        
+        
         }
 
         /// <summary>

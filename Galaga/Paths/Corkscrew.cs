@@ -46,7 +46,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Paths
             FloatRect worldBounds)
         {
             _waypoints = new float[6, 4];
-           
+
             _waypoints[0, 0] = xIni;
             _waypoints[0, 1] = yIni;
             _waypoints[0, 2] = 0;
@@ -85,9 +85,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Paths
             // calculo de coeficientes
             _coef = Utilities.PolynomicUtilities.HermiteInterpolation(_waypoints);
 
-            // calculo de la longitud total de la curva
-            for (int nSeg = 0; nSeg < NumSegments; nSeg++)
-                _totalLength += _coef[2*nSeg, 4];
+            CalculateCurveLength();
         }
 
         /// <summary>
@@ -99,4 +97,5 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Paths
             return "CorkscrewPath";
         }
     }
+
 }

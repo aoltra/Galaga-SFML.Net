@@ -26,8 +26,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 using SFML.System;
+
 
 using edu.CiclosFormativos.DAM.DI.Galaga.Utilities;
 
@@ -53,7 +55,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         /// <summary>
         /// Devuelve el número de segmento de la curva
         /// </summary>
-        public int NumSegments { get { return (int)_waypoints.GetLongLength(0) - 1; } }
+        public int NumSegments { get { return (int)_coef.GetLongLength(0)/2; } }
 
         protected float _totalLength;             // longitud total de la curva
         protected float[,] _waypoints;            // puntos que definen los segmentos
@@ -155,7 +157,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         }
 
         /// <summary>
-        /// devuelve el módulo de la velocidad para un <paramref name="t"/> determinado dentro del segmento número <paramref name="segmentIndex"/>
+        /// Devuelve el módulo de la velocidad para un <paramref name="t"/> determinado dentro del segmento número <paramref name="segmentIndex"/>
         /// </summary>
         /// <param name="t">t entre 0 y 1</param>
         /// <param name="segmentIndex">Segmento a estudiar (base zero)</param>
@@ -179,6 +181,17 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                        + _coef[2 * segmentIndex, 1],
                          3 * _coef[2 * segmentIndex + 1, 3] * t3 + 2 * _coef[2 * segmentIndex + 1, 2] * t2
                        + _coef[2 * segmentIndex + 1, 1]);
+        }
+
+        /// <summary>
+        /// Calculo de la longitud total de la curva
+        /// </summary>
+        protected void CalculateCurveLength() 
+        {
+            Debug.Assert(_coef != null);
+
+            for (int nSeg = 0; nSeg < NumSegments; nSeg++)
+                _totalLength += _coef[2 * nSeg, 4];
         }
 
         /// <summary>
