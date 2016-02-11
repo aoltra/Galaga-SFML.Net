@@ -177,7 +177,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                 Entities.EnemyShip.InitializeEnemiesTypeConfiguration(_resManager);
 
                 Entities.EnemyShip.EnemiesShipData data = new Entities.EnemyShip.EnemiesShipData();
-                data._xOrigin = .55f * _worldBounds.Width;
+                data._xOrigin = .45f * _worldBounds.Width;
                 data._yOrigin = -40;
                 data._xFormation = _worldBounds.Width / 2 + 20;
                 data._yFormation = 100;
@@ -196,22 +196,48 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                 Entities.EnemyShip enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE,data,_worldBounds);
                 _dockShip.Add(enemy);
 
-                data._xOrigin = .45f * _worldBounds.Width;
-                data._xFormation = _worldBounds.Width / 2 - 20;
-                //data._spawnTime = 3.30f;
-              
-                
-                data._path = _curveMap["Sacacorchos2"];
+                data._spawnTime = 3.30f;
                 enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data, _worldBounds);
-                
+                _dockShip.Add(enemy);
+
+                data._spawnTime = 3.60f;
+                enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data, _worldBounds);
+                _dockShip.Add(enemy);
+
+                data._spawnTime = 3.90f;
+                enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data, _worldBounds);
+                _dockShip.Add(enemy);
+
+                //data._xOrigin = .55f * _worldBounds.Width;
+                data._xFormation = _worldBounds.Width / 2 - 20;
+                 
+                data._path = _curveMap["Sacacorchos2"];
+                data._spawnTime = 3.0f;
+                enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data, _worldBounds);
+                _dockShip.Add(enemy);
+
+                data._spawnTime = 3.30f;
+                enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data, _worldBounds);
+                _dockShip.Add(enemy);
+
+                data._spawnTime = 3.60f;
+                enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data, _worldBounds);
+                _dockShip.Add(enemy);
+
+                data._spawnTime = 3.90f;
+                enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data, _worldBounds);
                 _dockShip.Add(enemy);
   
                 // Podría ser aconsejable ordenarla lista una vez insertadas las naves. 
                 // siendo por tiempo es posible que sea más fácil simplemente introducirlas ordenadas
-                // pero si por ejemplo se buscara que fuera la mínima distancia a un punto sería o si 
+                // pero si, por ejemplo, se buscara que fuera la mínima distancia a un punto sería o si 
                 // las naves se generan de manera aleatoria, sería más recomendable reordenar la lista
                 // esa reordenación se puede realizar con 
-                // List.Sort((x.y)=> x.propiedad < y.propiedad)
+                // _dockShip.Sort((x,y) => x.propiedad > y.propiedad );
+                // o como en esta caso, con la reescritura del a función CompareTo. Esta función deber 
+                // ser implementada ya que se fuerza a que EnemyShip implemente IComparable
+                _dockShip.Sort();
+
 
               
 

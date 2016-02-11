@@ -38,7 +38,9 @@ using NLog;
 namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
 {
     /// <summary>
-    /// Encapsula la funcionalidad de las naves enemigas.
+    /// Encapsula la funcionalidad de las naves enemigas. 
+    /// Implementea el interfaz IComparable, para 
+    /// poder realizar la operación de ordenación de las naves por tiempo de salida
     /// </summary>
     /// <remarks>
     /// - Puede disparar
@@ -52,7 +54,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
     /// - Cambia de textura según se mueven
     /// - Puede ser necesario impactar en ellos mas de un misil para destruirlos
     /// </remarks>
-    class EnemyShip : Entity
+    class EnemyShip : Entity, IComparable<EnemyShip>
     {
         // variables miembro
         private Type _type;                         // tipo de nave enemiga
@@ -231,6 +233,19 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
             rt.Draw(_waypointsLines);
 #endif        
         }
+
+        /// <summary>
+        /// Compara diferentes naves enemigas.
+        /// </summary>
+        /// <param name="compareShip">Nave con la que comparar</param>
+        /// <returns><0 si la instancia actual es menor que el parámetro, 0 si son iguales, >0 si es menor</returns>
+        /// <remarks>
+        /// La comparación se basa en el menor tiempo de salida a escena
+        /// </remarks>
+        public int CompareTo(EnemyShip compareShip)
+        {
+            return this.SpawnTime.CompareTo(compareShip.SpawnTime);
+        } 
 
         /// <summary> 
         /// Define los datos de configuración de los tipos de naves enemigas
