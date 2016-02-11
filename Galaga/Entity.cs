@@ -38,12 +38,34 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
     /// </summary>
     abstract class Entity : SceneNode
     {
+        // velocidad de la entidad;
+        private Vector2f _velocity;
+        
         /// <summary>
-        /// Asigna o devuelve la velocidad de la entidad
+        /// Devuelve la velocidad de la entidad
         /// </summary>
-        /// <remarks>La velocidad es una magnitud vectorial, no sólo importa el valor absoluto (el módulo), además es necesario
-        /// conocer su dirección y sentido</remarks>
-        public Vector2f Velocity { get; set; }
+        /// <remarks>
+        /// La velocidad es una magnitud vectorial, no sólo importa el valor absoluto (el módulo), además es necesario
+        /// conocer su dirección y sentido
+        /// </remarks>
+        public Vector2f Velocity {  get { return _velocity; } }
+
+        /// <summary>
+        /// Asigna el componente de la velocidad en X
+        /// </summary>
+        /// <remarks>
+        /// El objetivo es reutilizar el mismo vector velocidad
+        /// </remarks>
+        public float VelocityX { set { _velocity.X = value; } }
+
+        /// <summary>
+        /// Asigna el componente de la velocidad en Y
+        /// </summary>
+        /// <remarks>
+        /// El objetivo es reutilizar el mismo vector velocidad
+        /// </remarks>
+        public float VelocityY { set { _velocity.Y = value; } }
+
 
         /// <summary>
         /// Constructor básico. Inicializa a cero la velocidad
@@ -51,7 +73,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         public Entity() 
             : base ()
         {
-            Velocity = new Vector2f(0.0f, 0.0f);
+            _velocity = new Vector2f(0.0f, 0.0f);
         }
 
         /// <summary>
@@ -61,7 +83,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         public Entity(Vector2f velocity)
             : base ()
         {
-            Velocity = velocity;
+            _velocity = velocity;
         }
 
         /// <summary>
