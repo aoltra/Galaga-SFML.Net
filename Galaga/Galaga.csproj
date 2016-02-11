@@ -87,11 +87,13 @@
     <Compile Include="CommandQueue.cs" />
     <Compile Include="Commands\LinealMovementCommand.cs" />
     <Compile Include="CurvePath.cs" />
+    <Compile Include="Entities\PlattonLeader.cs" />
     <Compile Include="Paths\Corkscrew.cs" />
     <Compile Include="Entities\EnemyShip.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="Entities\PlayerShip.cs" />
     <Compile Include="Paths\User.cs" />
+    <Compile Include="Entities\TransformEntity.cs" />
     <Compile Include="Utilities\MatrixUtilities.cs" />
     <Compile Include="Utilities\PolynomicUtilities.cs" />
     <Compile Include="Scenes\GameScene.cs" />

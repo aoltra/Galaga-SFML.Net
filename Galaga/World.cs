@@ -192,6 +192,14 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                                       new Vector2f(_worldBounds.Width/2,10) }));
                 data._path = _curveMap["Sacacorchos1"];
 
+                // platoon leader
+                Entities.PlattonLeader plattonLeader = new Entities.PlattonLeader(-100, _worldBounds.Width * .3f, _worldBounds.Width * .7f);
+#if DEBUG
+                plattonLeader.Visible = true;
+#endif
+                _sceneLayers[(int)Layer.AIR].AddChild(plattonLeader);
+                plattonLeader.Position = new Vector2f(_worldView.Size.X / 2,  60);
+
                 // creo las antidades y las añado al muelle de naves
                 Entities.EnemyShip enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE,data,_worldBounds);
                 _dockShip.Add(enemy);

@@ -229,7 +229,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
             rt.Draw(_sprite);
    
 #if DEBUG
-            // Dibujo los waypoints interpoados linealmente
+            // Dibujo los waypoints interpolados linealmente
             rt.Draw(_waypointsLines);
 #endif        
         }
