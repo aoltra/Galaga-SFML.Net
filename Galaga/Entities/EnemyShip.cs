@@ -144,17 +144,18 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
 
 #if DEBUG
             // dibujo de los waypoints
-            _waypoints = ruta.getWaypoints(shipData._xOrigin, shipData._yOrigin,
-                shipData._xFormation, shipData._yFormation, worldBounds);
+            _waypoints = _path.Waypoints;
 
-            _waypointsLines = new SFML.Graphics.VertexArray(SFML.Graphics.PrimitiveType.LinesStrip, (uint)_waypoints.GetLongLength(0));
-
-            for (uint n = 0; n < _waypoints.GetLongLength(0); n++)
+            if (_waypoints != null)
             {
-                Vertex vrtx = new Vertex(new Vector2f(_waypoints[n, 0], _waypoints[n, 1]), SFML.Graphics.Color.Cyan);
-                _waypointsLines[n] = vrtx;
-            }
+                _waypointsLines = new SFML.Graphics.VertexArray(SFML.Graphics.PrimitiveType.LinesStrip, (uint)_waypoints.GetLongLength(0));
 
+                for (uint n = 0; n < _waypoints.GetLongLength(0); n++)
+                {
+                    Vertex vrtx = new Vertex(new Vector2f(_waypoints[n, 0], _waypoints[n, 1]), SFML.Graphics.Color.Cyan);
+                    _waypointsLines[n] = vrtx;
+                }
+            }
 #endif
            
             _segmentIndex = 0;
@@ -230,7 +231,8 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
    
 #if DEBUG
             // Dibujo los waypoints interpolados linealmente
-            rt.Draw(_waypointsLines);
+            if (_waypointsLines != null)
+                rt.Draw(_waypointsLines);
 #endif        
         }
 
