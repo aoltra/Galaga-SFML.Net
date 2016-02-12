@@ -63,19 +63,24 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Paths
             _waypoints[2, 3] = 1;
 
             _waypoints[3, 0] = worldBounds.Width * 0.125f;
-            _waypoints[3, 1] = worldBounds.Height * .7f;
+            _waypoints[3, 1] = worldBounds.Height * .75f;
             _waypoints[3, 2] = -1;
             _waypoints[3, 3] = 1;
 
             _waypoints[4, 0] = worldBounds.Width * 0.45f;
             _waypoints[4, 1] = worldBounds.Height * 0.6f;
             _waypoints[4, 2] = 1;
-            _waypoints[4, 3] = 10;
+            _waypoints[4, 3] = -6;
 
-            _waypoints[5, 0] = xEnd;
-            _waypoints[5, 1] = yEnd + 70;
+            _waypoints[5, 0] = worldBounds.Width * 0.5f;
+            _waypoints[5, 1] = worldBounds.Height * 0.48f;
             _waypoints[5, 2] = 0;
             _waypoints[5, 3] = -1;
+
+            //_waypoints[5, 0] = xEnd;
+            //_waypoints[5, 1] = yEnd + 70;
+            //_waypoints[5, 2] = 0;
+            //_waypoints[5, 3] = -1;
 
             //_waypoints[6, 0] = xEnd;
             //_waypoints[6, 1] = yEnd;

@@ -84,7 +84,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
             if (tf > 1) tf = 1;
             if (tf < 0) tf = 0;
 
-            int grade = (int)(tf * 100);
+            int grade = (int)(tf * 120);
             int segX = 2 * segmentIndex;
 
             float incT = (tf / (float)grade), t, t2, t3;
