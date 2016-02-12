@@ -73,8 +73,6 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
         private int _segmentIndex;                  // índice del segmento en el que nave se esta moviendo
         private float _segmentTime;                 // tiempo que lleva recorriendo el segmento actual
         private int _segmentCount;                  // número de segmentos del camino
-
-        Paths.Corkscrew ruta;
        
 #if DEBUG
         private float[,] _waypoints;                // waypoints
@@ -87,9 +85,41 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
         public float MaxSpeed { get { return EnemiesTypeConf[(int)_type]._maxSpeed;  } }
 
         /// <summary>
-        /// Devuelve el tiempo desde el inicio de la fase que hay que esperar para que salga 
+        /// Devuelve los datos que definen esta nave
         /// </summary>
-        public float SpawnTime { get; private set; } 
+        public EnemiesShipData EnemyData { get; private set; }
+
+        /// <summary>
+        /// Devuelve el estado actual de la nave
+        /// </summary>
+        public StateType State { get; private set; }
+
+        /// <summary>
+        /// Ancho del sprite de la nave
+        /// </summary>
+        /// <remarks>
+        /// En principio común para todas las naves
+        /// </remarks>
+        public static float Width;
+
+        /// <summary>
+        /// Altura del sprite de la nave
+        /// </summary>
+        /// <remarks>
+        /// En principio común para todas las naves
+        /// </remarks>
+        public static float Height;
+
+        /// <summary>
+        /// delegado ue define la función que recibe el evento de cambio de estado
+        /// </summary>
+        /// <param name="sender">Objeto que envia el mensaje (la nave enemiga)</param>
+        public delegate void StateChange(object sender);
+
+        /// <summary>
+        /// Evento que se lanza cuando la nave enemiga cambia de estado
+        /// </summary>
+        public event StateChange StateChangeEvent;
 
         // logger
         private static Logger _logger = LogManager.GetCurrentClassLogger();
@@ -110,9 +140,10 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
         /// <summary>
         /// Estado en el que esta en un momento determinado la nave
         /// </summary>
-        private enum State
+        public enum StateType
         {
             ENTRY,
+            SYNC,
             FORMATION,
             ATTACK
         }
@@ -132,15 +163,14 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
             FloatRect bounds = _sprite.GetLocalBounds();
             _sprite.Origin = new SFML.System.Vector2f(bounds.Width / 2f, bounds.Height / 2f);
 
-            SpawnTime = shipData._spawnTime;
+            Width = _sprite.Texture.Size.X * _sprite.Scale.X;
+
+            EnemyData = shipData;
+
+            State = StateType.ENTRY;
 
             // ruta
-            _path = shipData._path;
-            _segmentCount = _path.NumSegments;
-            _segmentTimes = new float[_path.NumSegments];
-            for (int seg = 0; seg < _path.NumSegments; seg++)                   // cálculo del tiempo que se tarda en recorrer cada uno de los segmentos
-                _segmentTimes[seg] = _path.Coefficients[2 * seg, 4] / MaxSpeed;
-
+            RenewPath(shipData._path);
 
 #if DEBUG
             // dibujo de los waypoints
@@ -166,10 +196,13 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
 
         private void UpdateMovementPattern(SFML.System.Time dt)
         {
+            //if (State == StateType.FORMATION) return;
+
             _segmentTime += dt.AsSeconds();
 
-            if (_segmentIndex >= _segmentCount) {
-                _sprite.Rotation = 0;
+            if (_segmentIndex >= _segmentCount)
+            {
+                //_sprite.Rotation = 0;
                 return;
             } 
 
@@ -177,38 +210,40 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
             {
                 _segmentIndex++;
                 _segmentTime = 0;
-                if (_segmentIndex >= _segmentCount) return;
+                if (_segmentIndex >= _segmentCount) 
+                {
+                    if (StateChangeEvent != null)
+                    {
+                        StateChangeEvent(this);
+                        ForwardState();
+                    }
+
+                    return; 
+                }
             }
 
-            //float t = _segmentTime / _segmentTimes[_segmentIndex];
-            //float t2 = t * t, t3 = t2 * t;
-
-            //float xTemp = _path[2 * _segmentIndex, 3] * t3 + _path[2 * _segmentIndex, 2] * t2
-            //           + _path[2 * _segmentIndex, 1] * t + _path[2 * _segmentIndex, 0];
-            //float yTemp = _path[2 * _segmentIndex + 1, 3] * t3 + _path[2 * _segmentIndex + 1, 2] * t2
-            //    + _path[2 * _segmentIndex + 1, 1] * t + _path[2 * _segmentIndex + 1, 0];
-
-            //double radians = Math.Atan2(Position.Y - yTemp, Position.X - xTemp) + Math.PI / 2;
-
-
-            //Rotation = (float)(radians * (180.0f / Math.PI)) + _rotOrigin;
-
-            //Position = new Vector2f(xTemp, yTemp);
-
-           // t = ruta.GetCurveParameterEuler(_segmentTime * MaxSpeed, _segmentIndex);
             float t = _path.GetCurveParameterNewton(_segmentTime * MaxSpeed, _segmentIndex);
             Vector2f pos = _path.GetPoint(t, _segmentIndex);
 
-            //_logger.Log(LogLevel.Info, " seg: "+ _segmentIndex +  " t: " + t);
-
             double radians = Math.Atan2(Position.Y - pos.Y, Position.X - pos.X) + Math.PI / 2;
 
-            Rotation = (float)(radians * (180.0f / Math.PI)) + _rotOrigin;
+            Rotation = (float)(radians * (180.0f / Math.PI));
 
             Position = pos;
-
-
 	    }
+
+        public void RenewPath(CurvePath newPath) 
+        {
+            _path = null;
+            _path = newPath;
+
+            _segmentCount = _path.NumSegments;
+            _segmentIndex = 0;
+            _segmentTimes = new float[_path.NumSegments];
+            for (int seg = 0; seg < _path.NumSegments; seg++)                   // cálculo del tiempo que se tarda en recorrer cada uno de los segmentos
+                _segmentTimes[seg] = _path.Coefficients[2 * seg, 4] / MaxSpeed;
+
+        }
 
         /// <summary>
         /// Actualiza el estado de la nave
@@ -219,21 +254,35 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
         /// </remarks>
         override sealed protected void UpdateCurrent(SFML.System.Time dt)
         {
-            UpdateMovementPattern(dt);
-
-            _sprite.Rotation = Rotation;
-            _sprite.Position = Position;
+            if (State != StateType.FORMATION)
+                UpdateMovementPattern(dt);
         }
 
         override protected void DrawCurrent(SFML.Graphics.RenderTarget rt, SFML.Graphics.RenderStates rs)
         {   
-            rt.Draw(_sprite);
+            rt.Draw(_sprite,rs);
    
 #if DEBUG
             // Dibujo los waypoints interpolados linealmente
             if (_waypointsLines != null)
                 rt.Draw(_waypointsLines);
 #endif        
+        }
+
+        public void ForwardState() 
+        {
+            switch (State) 
+            { 
+                case StateType.ENTRY:
+                    State = StateType.SYNC;
+                    break;
+                case StateType.SYNC:
+                    State = StateType.FORMATION;
+                    break;
+            }
+            //if (State == StateType.ENTRY) State = StateType.SYNC;
+            //else if (State == StateType.SYNC) State = StateType.FORMATION;
+            //else if (State == StateType.FORMATION) State = StateType.FORMATION;
         }
 
         /// <summary>
@@ -246,14 +295,18 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
         /// </remarks>
         public int CompareTo(EnemyShip compareShip)
         {
-            return this.SpawnTime.CompareTo(compareShip.SpawnTime);
+            return this.EnemyData._spawnTime.CompareTo(compareShip.EnemyData._spawnTime);
         } 
+
+        /////////////////////////////////////////////////////////
+        /// ESTRUCTURAS DE DATOS
+        /////////////////////////////////////////////////////////
 
         /// <summary> 
         /// Define los datos de configuración de los tipos de naves enemigas
         /// </summary>
         /// <remarks>
-        /// Se utliza una estructura  ya que en realidad lo que hace es definir un tipo de dato, aunque se podría utilizar una clase
+        /// Se utiliza una estructura  ya que en realidad lo que hace es definir un tipo de dato, aunque se podría utilizar una clase
         /// </remarks>
         private struct EnemiesShipTypeData
         {
@@ -272,7 +325,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
         /// Define los datos de configuración de cada nave enemiga en particular
         /// </summary>
         /// <remarks>
-        /// Se utliza una estructura  ya que en realidad lo que hace es definir un tipo de dato, aunque se podría utilizar una clase
+        /// Se utiliza una estructura  ya que en realidad lo que hace es definir un tipo de dato, aunque se podría utilizar una clase
         /// </remarks>
         public struct EnemiesShipData
         {
@@ -288,7 +341,6 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
             public CurvePath _path;                 // curva de entrada de la nave    
 
         }
-
 
         //////////////////////////////////////////////////////////
         /// ELEMENTOS ESTATICOS
@@ -321,4 +373,5 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
 
 
     }
+
 }

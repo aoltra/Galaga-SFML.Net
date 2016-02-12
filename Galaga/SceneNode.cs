@@ -120,7 +120,8 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         /// <remarks>
         /// Se quita de la lista pero no se elimina de memoria
         /// </remarks>
-        public void RemoveChild(SceneNode scNode) {
+        public void RemoveChild(SceneNode scNode) 
+        {
             bool encontrado = _children.Remove(scNode);
             Debug.Assert(encontrado);
 
@@ -208,9 +209,10 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         /// <param name="dt">Incremento de tiempo desde la última actualización</param>
         private void UpdateChildren(SFML.System.Time dt)
         {
-            foreach (SceneNode sc in _children)
+            for (int n=0; n<_children.Count;n++)// (SceneNode sc in _children)
             {
-                sc.Update(dt);
+                //sc.Update(dt);
+                _children[n].Update(dt);
             }
         }
         #endregion

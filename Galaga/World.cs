@@ -58,11 +58,12 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 
         private Entities.PlayerShip _playerShip;        // entidad nave jugador
         private List<Entities.EnemyShip> _dockShip;     // lista de naves enemigas antes de que salgan a jugar
+        private Dictionary<String, Entities.TransformEntity> _leaders;      // mapa de líderes de escuadrones o pelotón
         private float _stageTime;                       // tiempo actual de la fase en juego (en segundos)
 
         private const int BORDER = 40;                  // borde del mundo en el que no se juega
 
-        private int _level;                              // fase del juego
+        private int _level;                             // fase del juego
 
         // logger
         private static Logger _logger = LogManager.GetCurrentClassLogger();
@@ -74,6 +75,15 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
             AIR,                // 1
             LAYERCOUNT          // 2 (número de capas)    
         }
+
+        // constantes
+        private const int ENEMYSHIP_SEP_X = 15;
+        private const int ENEMYSHIP_ROW_0_Y = 50;
+        private const int ENEMYSHIP_ROW_1_Y = 100;
+        private const int ENEMYSHIP_ROW_2_Y = 150;
+        private const int ENEMYSHIP_ROW_3_Y = 200;
+        private const int ENEMYSHIP_ROW_4_Y = 250;
+
 
         /// <summary>
         /// Devuelve la cola de comandos 
@@ -94,7 +104,8 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                 _sceneGraph = new SceneNode();
                 _sceneLayers = new List<SceneNode>();
                 _dockShip = new List<Entities.EnemyShip>();
-
+                _leaders = new Dictionary<String, Entities.TransformEntity>();
+                
                 _curveMap = new Dictionary<String,CurvePath>();
      
                 _commandQueue = new CommandQueue();
@@ -179,8 +190,8 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                 Entities.EnemyShip.EnemiesShipData data = new Entities.EnemyShip.EnemiesShipData();
                 data._xOrigin = .45f * _worldBounds.Width;
                 data._yOrigin = -40;
-                data._xFormation = _worldBounds.Width / 2 + 20;
-                data._yFormation = 100;
+                data._xFormation = ENEMYSHIP_SEP_X/2 + Entities.EnemyShip.Width/2;
+                data._yFormation = ENEMYSHIP_ROW_1_Y;
                 data._rotationOrigin = 180;
                 data._spawnTime = 3;                 // s
 
@@ -193,48 +204,57 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                 data._path = _curveMap["Sacacorchos1"];
 
                 // platoon leader
-                Entities.PlattonLeader plattonLeader = new Entities.PlattonLeader(-100, _worldBounds.Width * .3f, _worldBounds.Width * .7f);
+                Entities.PlatoonLeader platoonLeader = new Entities.PlatoonLeader(-50, _worldBounds.Width * .4f, _worldBounds.Width * .6f);
 #if DEBUG
-                plattonLeader.Visible = true;
+                platoonLeader.Visible = true;
 #endif
-                _sceneLayers[(int)Layer.AIR].AddChild(plattonLeader);
-                plattonLeader.Position = new Vector2f(_worldView.Size.X / 2,  60);
+                _sceneLayers[(int)Layer.AIR].AddChild(platoonLeader);
+                platoonLeader.Position = new Vector2f(_worldView.Size.X / 2, ENEMYSHIP_ROW_0_Y);
+                _leaders.Add("Platoon", platoonLeader);
 
                 // creo las antidades y las añado al muelle de naves
                 Entities.EnemyShip enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE,data,_worldBounds);
+                enemy.StateChangeEvent += new Entities.EnemyShip.StateChange(SyncEnemyWithLeader);
                 _dockShip.Add(enemy);
 
                 data._spawnTime = 3.30f;
+                data._xFormation = 1.5f * (ENEMYSHIP_SEP_X + Entities.EnemyShip.Width);
                 enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data, _worldBounds);
+                enemy.StateChangeEvent += new Entities.EnemyShip.StateChange(SyncEnemyWithLeader);
                 _dockShip.Add(enemy);
 
                 data._spawnTime = 3.60f;
+                data._xFormation = 0;// ENEMYSHIP_SEP_X;
+                data._yFormation = 0;// ENEMYSHIP_ROW_2_Y;
                 enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data, _worldBounds);
-                _dockShip.Add(enemy);
+                //_dockShip.Add(enemy);
+                platoonLeader.AddChild(enemy);
+                ////data._spawnTime = 3.90f;
+                ////enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data, _worldBounds);
+                ////_dockShip.Add(enemy);
 
-                data._spawnTime = 3.90f;
-                enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data, _worldBounds);
-                _dockShip.Add(enemy);
+                //////data._xOrigin = .55f * _worldBounds.Width;
+                ////data._xFormation = _worldBounds.Width / 2 - 20;
 
-                //data._xOrigin = .55f * _worldBounds.Width;
-                data._xFormation = _worldBounds.Width / 2 - 20;
-                 
                 data._path = _curveMap["Sacacorchos2"];
                 data._spawnTime = 3.0f;
+                data._xFormation = -0.5f * (ENEMYSHIP_SEP_X + Entities.EnemyShip.Width);
+                data._yFormation = ENEMYSHIP_ROW_1_Y;
                 enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data, _worldBounds);
+                enemy.StateChangeEvent += new Entities.EnemyShip.StateChange(SyncEnemyWithLeader);
                 _dockShip.Add(enemy);
 
-                data._spawnTime = 3.30f;
-                enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data, _worldBounds);
-                _dockShip.Add(enemy);
+                ////data._spawnTime = 3.30f;
+                ////enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data, _worldBounds);
+                ////_dockShip.Add(enemy);
 
-                data._spawnTime = 3.60f;
-                enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data, _worldBounds);
-                _dockShip.Add(enemy);
+                ////data._spawnTime = 3.60f;
+                ////enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data, _worldBounds);
+                ////_dockShip.Add(enemy);
 
-                data._spawnTime = 3.90f;
-                enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data, _worldBounds);
-                _dockShip.Add(enemy);
+                ////data._spawnTime = 3.90f;
+                ////enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data, _worldBounds);
+                ////_dockShip.Add(enemy);
   
                 // Podría ser aconsejable ordenarla lista una vez insertadas las naves. 
                 // siendo por tiempo es posible que sea más fácil simplemente introducirlas ordenadas
@@ -245,11 +265,6 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                 // o como en esta caso, con la reescritura del a función CompareTo. Esta función deber 
                 // ser implementada ya que se fuerza a que EnemyShip implemente IComparable
                 _dockShip.Sort();
-
-
-              
-
-
 
             }
             catch (Exception ex)
@@ -303,13 +318,38 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
             for (int enm = 0; enm < _dockShip.Count; enm++)
             { 
                 Entities.EnemyShip enemy = (Entities.EnemyShip)_dockShip[enm];
-                if (enemy.SpawnTime > _stageTime) break;
-
+                if (enemy.EnemyData._spawnTime > _stageTime) break;
+                
                 _sceneLayers[(int)Layer.AIR].AddChild(enemy);
                 _dockShip.RemoveAt(enm);
                 enm--;
             }
-        
+        }
+
+        public void SyncEnemyWithLeader(object sender) 
+        {
+            Entities.EnemyShip enemy = (Entities.EnemyShip)sender;
+
+            Entities.TransformEntity platoonLeader;
+            _leaders.TryGetValue("Platoon", out platoonLeader);
+
+            if (enemy.State == Entities.EnemyShip.StateType.ENTRY)
+            {
+                float t0 = (enemy.Position.Y - ENEMYSHIP_ROW_1_Y) / enemy.MaxSpeed;
+
+                float xTarget = platoonLeader.Position.X + platoonLeader.Velocity.X * t0 + enemy.EnemyData._xFormation;
+
+                enemy.RenewPath(new Paths.User(new float[,] { {enemy.Position.X,enemy.Position.Y,0,-1},
+                                            {xTarget,ENEMYSHIP_ROW_1_Y, 0,-1}}));
+            }
+
+            if (enemy.State == Entities.EnemyShip.StateType.SYNC)
+            {
+                enemy.Rotation = 180;
+                enemy.Position = new Vector2f(enemy.EnemyData._xFormation, enemy.EnemyData._yFormation - ENEMYSHIP_ROW_0_Y);
+                enemy.Parent.RemoveChild(enemy);
+                platoonLeader.AddChild(enemy);
+            }
         }
     }
 }
