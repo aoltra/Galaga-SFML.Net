@@ -11,20 +11,22 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Paths
 {
     class User : CurvePath
     {
-        //public User(float [,] waypoints)
-        //{
-        //    _waypoints = waypoints;
-           
-        //    // calculo de coeficientes
-        //    _coef = Utilities.PolynomicUtilities.HermiteInterpolation(_waypoints);
+        public enum DataType { WAYPOINTS, COEFFICENTS };
 
-        //    CalculateCurveLentgh();
-        //}
-
-        public User(float[,] coefficients)
+        public User(float[,] input, DataType data = DataType.WAYPOINTS)
         {
-            _waypoints = null;
-            _coef = coefficients;
+            if (data == DataType.WAYPOINTS)
+            {
+                _waypoints = input;
+
+                // calculo de coeficientes
+                _coef = Utilities.PolynomicUtilities.HermiteInterpolation(_waypoints);
+            }
+            else 
+            {
+                _waypoints = null;
+                _coef = input;
+            }
 
             CalculateCurveLength();
         }

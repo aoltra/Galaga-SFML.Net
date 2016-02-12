@@ -51,7 +51,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
         /// <param name="rs">Estados usados para dibujar</param>
         protected sealed override void DrawCurrent(RenderTarget rt, RenderStates rs)
         {
-            if (Visible) rt.Draw(_shape,rs);
+            if (Visible) rt.Draw(_shape, rs);
         }
 
     }
