@@ -87,7 +87,7 @@
     <Compile Include="CommandQueue.cs" />
     <Compile Include="Commands\LinealMovementCommand.cs" />
     <Compile Include="CurvePath.cs" />
-    <Compile Include="Entities\PlattonLeader.cs" />
+    <Compile Include="Entities\PlatoonLeader.cs" />
     <Compile Include="Paths\Corkscrew.cs" />
     <Compile Include="Entities\EnemyShip.cs" />
     <Compile Include="Entity.cs" />
