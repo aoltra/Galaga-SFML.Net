@@ -73,7 +73,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         /// </summary>
         /// <param name="key">Tacla pulsada</param>
         /// <param name="isPressed">True si está pulsada o se libera</param>
-        /// <returns>true si se deja que las escena inferiores en el gestor también lo controlen, false en caso contrario</returns></returns>
+        /// <returns>true si se deja que las escena inferiores en el gestor también lo controlen, false en caso contrario</returns>
         public abstract bool HandleKeyboardEvent(SFML.Window.Keyboard.Key key, bool isPressed);
 
         /// <summary>

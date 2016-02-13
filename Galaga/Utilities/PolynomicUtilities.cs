@@ -139,7 +139,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Utilities
 		    }
 
 #if DEBUG
-		    /// Impresión del sistema de ecuaciones
+		    // Impresión del sistema de ecuaciones
             //int i2b = 0;
             //for (int i = 0; i < 4 * numSegments; i++)
             //{

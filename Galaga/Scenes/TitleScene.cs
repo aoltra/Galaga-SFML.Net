@@ -49,6 +49,11 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Scenes
         // logger
         private static Logger _logger = LogManager.GetCurrentClassLogger();
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="context">Contexto en el que se ejecuta</param>
+        /// <param name="scnManager">Gestor de escenas</param>
         public TitleScene(Scene.Context context, SceneManager scnManager) 
             : base (context, scnManager)
         {

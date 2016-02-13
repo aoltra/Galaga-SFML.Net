@@ -28,6 +28,9 @@ using System;
 
 namespace edu.CiclosFormativos.DAM.DI.Galaga.Utilities
 {
+    /// <summary>
+    /// Encapsula utilidades de manejo de vectores
+    /// </summary>
     public class VectorUtilities
     {
         /// <summary>

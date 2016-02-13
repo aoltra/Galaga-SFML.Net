@@ -35,6 +35,9 @@ using edu.CiclosFormativos.DAM.DI.Galaga.Utilities;
 
 namespace edu.CiclosFormativos.DAM.DI.Galaga
 {
+    /// <summary>
+    /// Encapsula las funcionalidades comunes de un Path en forma de curva. No se puede instanciar
+    /// </summary>
     public abstract class CurvePath
     {
         /// <summary>
@@ -57,13 +60,32 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         /// </summary>
         public int NumSegments { get { return (int)_coef.GetLongLength(0)/2; } }
 
-        protected float _totalLength;             // longitud total de la curva
-        protected float[,] _waypoints;            // puntos que definen los segmentos
-        protected float[,] _coef;                 // coeficientes
+        /// <summary>
+        /// Longitud total de la curva
+        /// </summary>
+        protected float _totalLength; 
+ 
+        /// <summary>
+        /// Puntos que definen los segmentos
+        /// </summary>
+        protected float[,] _waypoints; 
 
+        /// <summary>
+        /// Coeficientes de la ecuación paramétrica
+        /// </summary>
+        protected float[,] _coef;
 
+        /// <summary>
+        /// Devuelve un punto de la curva, de un <paramref name="segmentIndex"/> determinado, en función del parámetro tiempo <paramref name="t"/>
+        /// </summary>
+        /// <param name="t">Valor de t entre 0 y 1</param>
+        /// <param name="segmentIndex">Segmento</param>
+        /// <returns>Coordenadas x,y de la curva</returns>
         public Vector2f GetPoint(float t, int segmentIndex)
         {
+            if (t < 0) t = 0;
+            if (t > 1) t = 1;
+
             float t2 = t * t, t3 = t2 * t;
 
             return new Vector2f(_coef[2 * segmentIndex, 3] * t3 + _coef[2 * segmentIndex, 2] * t2
