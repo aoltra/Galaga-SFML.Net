@@ -45,7 +45,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
         }
 
         /// <summary>
-        /// Dibuja (sí <paramref name="visible"/> es true) la forma 
+        /// Dibuja (sí <see cref="Visible"/> es true) la forma 
         /// </summary>
         /// <param name="rt">Donde se va a dibujar. Suele ser casi siempre una renderWindow, aunque podría ser una renderTexture</param>
         /// <param name="rs">Estados usados para dibujar</param>
