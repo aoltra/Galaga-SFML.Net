@@ -192,7 +192,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                 ///// CURVAS
                 _curveMap.Add("Sacacorchos1", new Paths.Corkscrew(data._xOrigin, data._yOrigin,
                 data._xFormation, data._yFormation, _worldBounds));
-                _curveMap.Add("Sacacorchos2", new Paths.Symmetric(_curveMap["Sacacorchos1"],
+                _curveMap.Add("Sacacorchos1_sim", new Paths.Symmetric(_curveMap["Sacacorchos1"],
                     new Vector2f [] { new Vector2f(_worldBounds.Width/2,0), 
                                       new Vector2f(_worldBounds.Width/2,10) }));
                 data._path = _curveMap["Sacacorchos1"];
@@ -223,32 +223,50 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                 ////enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data, _worldBounds);
                 //////_dockShip.Add(enemy);
                 ////platoonLeader.AddChild(enemy);
-                ////////data._spawnTime = 3.90f;
-                ////enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data, _worldBounds);
-                ////_dockShip.Add(enemy);
-
-                //////data._xOrigin = .55f * _worldBounds.Width;
-                ////data._xFormation = _worldBounds.Width / 2 - 20;
-
-                data._path = _curveMap["Sacacorchos2"];
-                data._spawnTime = 3.0f;
-                data._xFormation = -1;// -0.5f * (ENEMYSHIP_SEP_X + Entities.EnemyShip.Width);
-                data._yFormation = 2; // ENEMYSHIP_ROW_1_Y;
+                
+                data._spawnTime = 3.60f;
+                data._xFormation = 1;
+                data._yFormation = 3;
                 enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data);
                 enemy.StateChangeEvent += new Entities.EnemyShip.StateChange(SyncEnemyWithLeader);
                 _dockShip.Add(enemy);
 
-                ////data._spawnTime = 3.30f;
-                ////enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data, _worldBounds);
-                ////_dockShip.Add(enemy);
+                data._spawnTime = 3.90f;
+                data._xFormation = 2;
+                data._yFormation = 3;
+                enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data);
+                enemy.StateChangeEvent += new Entities.EnemyShip.StateChange(SyncEnemyWithLeader);
+                _dockShip.Add(enemy);
 
-                ////data._spawnTime = 3.60f;
-                ////enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data, _worldBounds);
-                ////_dockShip.Add(enemy);
 
-                ////data._spawnTime = 3.90f;
-                ////enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data, _worldBounds);
-                ////_dockShip.Add(enemy);
+                data._path = _curveMap["Sacacorchos1_sim"];
+                data._spawnTime = 3.0f;
+                data._xFormation = -1;
+                data._yFormation = 2; 
+                enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data);
+                enemy.StateChangeEvent += new Entities.EnemyShip.StateChange(SyncEnemyWithLeader);
+                _dockShip.Add(enemy);
+
+                data._spawnTime = 3.30f;
+                data._xFormation = -2;
+                data._yFormation = 2; 
+                enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data);
+                enemy.StateChangeEvent += new Entities.EnemyShip.StateChange(SyncEnemyWithLeader);
+                _dockShip.Add(enemy);
+
+                data._spawnTime = 3.60f;
+                data._xFormation = -1;
+                data._yFormation = 3;
+                enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data);
+                enemy.StateChangeEvent += new Entities.EnemyShip.StateChange(SyncEnemyWithLeader);
+                _dockShip.Add(enemy);
+
+                data._spawnTime = 3.90f;
+                data._xFormation = -2;
+                data._yFormation = 3;
+                enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data);
+                enemy.StateChangeEvent += new Entities.EnemyShip.StateChange(SyncEnemyWithLeader);
+                _dockShip.Add(enemy);
   
                 // Podría ser aconsejable ordenarla lista una vez insertadas las naves. 
                 // siendo por tiempo es posible que sea más fácil simplemente introducirlas ordenadas

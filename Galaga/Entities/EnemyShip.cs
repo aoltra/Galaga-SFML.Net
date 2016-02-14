@@ -47,7 +47,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
     /// - Dan puntos al usuario según el estado en el que se encuentren
     /// - Pueden colisionar con los disparos del jugador o con la propia nave del jugador
     /// - Tiene movimientos controlados por la IA
-    /// - Tiene 3 estados: entrada, formación, ataque
+    /// - Tiene 4 estados: entrada, sincronización, formación, ataque
     /// - Se pueden dividir en varios según un evento: les impacta un misil o están en ataque. En formación se vuelven a unir
     /// - Atacan en escuadrones
     /// - Tienen una posición definida en la formación
