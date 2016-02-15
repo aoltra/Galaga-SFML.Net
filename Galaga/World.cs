@@ -182,7 +182,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                 Entities.EnemyShip.InitializeEnemiesTypeConfiguration(_resManager);
 
                 Entities.EnemyShip.EnemiesShipData data = new Entities.EnemyShip.EnemiesShipData();
-                data._xOrigin = .45f * _worldBounds.Width;
+                data._xOrigin = .55f * _worldBounds.Width;
                 data._yOrigin = -40;
                 data._xFormation = 1;
                 data._yFormation = 2;
@@ -217,13 +217,14 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                 enemy.StateChangeEvent += new Entities.EnemyShip.StateChange(SyncEnemyWithLeader);
                 _dockShip.Add(enemy);
 
-                ////data._spawnTime = 3.60f;
-                ////data._xFormation = 0;// ENEMYSHIP_SEP_X;
-                ////data._yFormation = 0;// ENEMYSHIP_ROW_2_Y;
-                ////enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data, _worldBounds);
-                //////_dockShip.Add(enemy);
-                ////platoonLeader.AddChild(enemy);
-                
+                //data._spawnTime = 3.60f;
+                //data._xFormation = -4;
+                //data._yFormation = 1;
+                //enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data);
+                ////_dockShip.Add(enemy);
+                //enemy.Position = new Vector2f(enemy.EnemyData._xFormation, enemy.EnemyData._yFormation - ENEMYSHIP_ROW_Y[0]);
+                //platoonLeader.AddChild(enemy);
+
                 data._spawnTime = 3.60f;
                 data._xFormation = 1;
                 data._yFormation = 3;
@@ -322,7 +323,9 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
             _sceneGraph.Update(dt);
         }
 
-
+        /// <summary>
+        /// Pone una nave enemiga en el grafo de escena
+        /// </summary>
         private void LinkEnemiesToSceneGraph() 
         {
             // repaso todos los enemigos en espera y recojo aquellos cuyo tiempo de salida
@@ -338,6 +341,11 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
             }
         }
 
+        /// <summary>
+        /// Sincroniza la nave enemiga con el líder del pelotón
+        /// Es la función que se subscribe al delegado ChangeStateDelgate para escuchar el evento ChangeSate
+        /// </summary>
+        /// <param name="sender">Nave a sincronizar</param>
         public void SyncEnemyWithLeader(object sender) 
         {
             Entities.EnemyShip enemy = (Entities.EnemyShip)sender;
