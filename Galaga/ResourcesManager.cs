@@ -110,7 +110,10 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Resources
                             String type = res.Element.Name.ToString();
 
                             if (_loadFuncMap.TryGetValue(type, out loadFunc))
+                            {
                                 objectResource = loadFunc(res.Element);
+                                res.Weakref.Target = objectResource;
+                            }
                             else
                                 throw new ResourcesManagerException("No se ha definido una función para la carga del tipo de recurso " +
                                      type + ". No se ha cargado el recurso '" + res.Element + "'");
