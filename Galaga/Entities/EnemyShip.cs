@@ -373,10 +373,10 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
 
             // tipo Butterfly
             EnemiesTypeConf[(int)Type.BUTTERFLY]._hitPoints = 1;
-            EnemiesTypeConf[(int)Type.BUTTERFLY]._textureKey = "Naves:Butterfly";
+            EnemiesTypeConf[(int)Type.BUTTERFLY]._textureKey = "Naves:ButterflyC1";
             EnemiesTypeConf[(int)Type.BUTTERFLY]._formationPoints = 100;    // ptos
             EnemiesTypeConf[(int)Type.BUTTERFLY]._attackPoints = 200;       // ptos
-            EnemiesTypeConf[(int)Type.BUTTERFLY]._maxSpeed = 250;                 // px/s
+            EnemiesTypeConf[(int)Type.BUTTERFLY]._maxSpeed = 300;                 // px/s
 
             for (int type = 0; type < (int)Type.TYPECOUNT; type++) {
                 EnemiesTypeConf[type]._resManager = resManager;

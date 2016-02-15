@@ -185,7 +185,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                 data._xOrigin = .55f * _worldBounds.Width;
                 data._yOrigin = -40;
                 data._xFormation = 1;
-                data._yFormation = 2;
+                data._yFormation = 4;
                 data._rotationOrigin = 180;
                 data._spawnTime = 3;                 // s
 
@@ -207,13 +207,13 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                 _leaders.Add("Platoon", platoonLeader);
 
                 // creo las antidades y las añado al muelle de naves
-                Entities.EnemyShip enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE,data);
+                Entities.EnemyShip enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BUTTERFLY, data);
                 enemy.StateChangeEvent += new Entities.EnemyShip.StateChange(SyncEnemyWithLeader);
                 _dockShip.Add(enemy);
 
                 data._spawnTime = 3.30f;
-                data._xFormation = 2;
-                enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data);
+                data._xFormation = -1;
+                enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BUTTERFLY, data);
                 enemy.StateChangeEvent += new Entities.EnemyShip.StateChange(SyncEnemyWithLeader);
                 _dockShip.Add(enemy);
 
@@ -227,43 +227,43 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 
                 data._spawnTime = 3.60f;
                 data._xFormation = 1;
-                data._yFormation = 3;
-                enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data);
+                data._yFormation = 5;
+                enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BUTTERFLY, data);
                 enemy.StateChangeEvent += new Entities.EnemyShip.StateChange(SyncEnemyWithLeader);
                 _dockShip.Add(enemy);
 
                 data._spawnTime = 3.90f;
-                data._xFormation = 2;
-                data._yFormation = 3;
-                enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data);
+                data._xFormation = -1;
+                data._yFormation = 5;
+                enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BUTTERFLY, data);
                 enemy.StateChangeEvent += new Entities.EnemyShip.StateChange(SyncEnemyWithLeader);
                 _dockShip.Add(enemy);
 
 
                 data._path = _curveMap["Sacacorchos1_sim"];
                 data._spawnTime = 3.0f;
-                data._xFormation = -1;
+                data._xFormation = 1;
                 data._yFormation = 2; 
                 enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data);
                 enemy.StateChangeEvent += new Entities.EnemyShip.StateChange(SyncEnemyWithLeader);
                 _dockShip.Add(enemy);
 
                 data._spawnTime = 3.30f;
-                data._xFormation = -2;
-                data._yFormation = 2; 
+                data._xFormation = -1;
+                data._yFormation = 2;
                 enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data);
                 enemy.StateChangeEvent += new Entities.EnemyShip.StateChange(SyncEnemyWithLeader);
                 _dockShip.Add(enemy);
 
                 data._spawnTime = 3.60f;
-                data._xFormation = -1;
+                data._xFormation = 1;
                 data._yFormation = 3;
                 enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data);
                 enemy.StateChangeEvent += new Entities.EnemyShip.StateChange(SyncEnemyWithLeader);
                 _dockShip.Add(enemy);
 
                 data._spawnTime = 3.90f;
-                data._xFormation = -2;
+                data._xFormation = -1;
                 data._yFormation = 3;
                 enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data);
                 enemy.StateChangeEvent += new Entities.EnemyShip.StateChange(SyncEnemyWithLeader);
