@@ -79,6 +79,8 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         // constantes
         public const float ENEMYSHIP_SEP_X = 15f;
         public static float [] ENEMYSHIP_ROW_Y = {50,100,150,200,250};
+        private static float _leaderBoundRight;
+        private static float _leaderBoundLeft;
         
         /// <summary>
         /// Devuelve la cola de comandos 
@@ -114,6 +116,8 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 
                 // pongo dimensiones al mundo
                 _worldBounds = new FloatRect(0, 0, _worldView.Size.X, _worldView.Size.Y);
+                _leaderBoundLeft = _worldBounds.Width * .4f;
+                _leaderBoundRight = _worldBounds.Width * .6f;
 
                 // incializo la fase
                 _level = 1;  
@@ -154,17 +158,17 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 
                 ///// BACKGROUND
                 // se crea un background estrellado parallax con scroll
-                Star.Size = new FloatRect(0,0,_window.Size.X,_window.Size.Y);
+                Star.Size = new FloatRect(0, 0, _window.Size.X, _window.Size.Y);
 
-                List<SceneNode> deepSpace1 = StarBackgroundGenerator.StarGenerator(55, 
+                List<SceneNode> deepSpace1 = StarBackgroundGenerator.StarGenerator(55,
                     StarBackgroundGenerator.StarType.SMALL, new Vector2f(0, 60f), _window).Cast<SceneNode>().ToList();
                 _sceneLayers[(int)Layer.BACKGROUND].AddChilds(deepSpace1);
 
-                List<SceneNode> deepSpace2 = StarBackgroundGenerator.StarGenerator(15, 
+                List<SceneNode> deepSpace2 = StarBackgroundGenerator.StarGenerator(15,
                     StarBackgroundGenerator.StarType.MEDIUM, new Vector2f(0, 90f), _window).Cast<SceneNode>().ToList();
                 _sceneLayers[(int)Layer.BACKGROUND].AddChilds(deepSpace2);
 
-                List<SceneNode> deepSpace3 = StarBackgroundGenerator.StarGenerator(3, 
+                List<SceneNode> deepSpace3 = StarBackgroundGenerator.StarGenerator(3,
                     StarBackgroundGenerator.StarType.BIG, new Vector2f(0, 100f), _window).Cast<SceneNode>().ToList();
                 _sceneLayers[(int)Layer.BACKGROUND].AddChilds(deepSpace3);
 
@@ -198,7 +202,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                 data._path = _curveMap["Sacacorchos1"];
 
                 // platoon leader
-                Entities.PlatoonLeader platoonLeader = new Entities.PlatoonLeader(-50, _worldBounds.Width * .4f, _worldBounds.Width * .6f);
+                Entities.PlatoonLeader platoonLeader = new Entities.PlatoonLeader(-60, _leaderBoundLeft, _leaderBoundRight);
 #if DEBUG
                 platoonLeader.Visible = true;
 #endif
@@ -206,24 +210,20 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                 platoonLeader.Position = new Vector2f(_worldView.Size.X / 2, ENEMYSHIP_ROW_Y[0]);
                 _leaders.Add("Platoon", platoonLeader);
 
-                // creo las antidades y las añado al muelle de naves
-                Entities.EnemyShip enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BUTTERFLY, data);
+                Entities.EnemyShip enemy;
+                // creo las entidades y las añado al muelle de naves
+                data._xFormation = 1;
+                data._yFormation = 4;
+                enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BUTTERFLY,data);
                 enemy.StateChangeEvent += new Entities.EnemyShip.StateChange(SyncEnemyWithLeader);
                 _dockShip.Add(enemy);
 
                 data._spawnTime = 3.30f;
                 data._xFormation = -1;
+                data._yFormation = 4;
                 enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BUTTERFLY, data);
                 enemy.StateChangeEvent += new Entities.EnemyShip.StateChange(SyncEnemyWithLeader);
                 _dockShip.Add(enemy);
-
-                //data._spawnTime = 3.60f;
-                //data._xFormation = -4;
-                //data._yFormation = 1;
-                //enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data);
-                ////_dockShip.Add(enemy);
-                //enemy.Position = new Vector2f(enemy.EnemyData._xFormation, enemy.EnemyData._yFormation - ENEMYSHIP_ROW_Y[0]);
-                //platoonLeader.AddChild(enemy);
 
                 data._spawnTime = 3.60f;
                 data._xFormation = 1;
@@ -239,11 +239,10 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                 enemy.StateChangeEvent += new Entities.EnemyShip.StateChange(SyncEnemyWithLeader);
                 _dockShip.Add(enemy);
 
-
                 data._path = _curveMap["Sacacorchos1_sim"];
                 data._spawnTime = 3.0f;
                 data._xFormation = 1;
-                data._yFormation = 2; 
+                data._yFormation = 2;
                 enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data);
                 enemy.StateChangeEvent += new Entities.EnemyShip.StateChange(SyncEnemyWithLeader);
                 _dockShip.Add(enemy);
@@ -356,8 +355,16 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
             if (enemy.State == Entities.EnemyShip.StateType.ENTRY)
             {
                 float t0 = (enemy.Position.Y - enemy.EnemyData._yFormation) / enemy.MaxSpeed;
+                  ///  Math.Sign(enemy.EnemyData._xFormation) * (enemy.EnemyData._spawnTime - (float)Math.Floor(enemy.EnemyData._spawnTime));
 
-                float xTarget = platoonLeader.Position.X + platoonLeader.Velocity.X * t0 + enemy.EnemyData._xFormation;
+                float xTarget = platoonLeader.Position.X + platoonLeader.Velocity.X * t0;
+
+                // control del cambio de dirección de líder
+                if (xTarget < _leaderBoundLeft)
+                    xTarget = 2 * _leaderBoundLeft - xTarget + enemy.EnemyData._xFormation;
+
+                if (xTarget > _leaderBoundRight)
+                    xTarget = 2 * _leaderBoundRight - xTarget + enemy.EnemyData._xFormation;
 
                 enemy.RenewPath(new Paths.User(new float[,] { {enemy.Position.X,enemy.Position.Y,0,-1},
                                             {xTarget,enemy.EnemyData._yFormation, 0,-1}}));
