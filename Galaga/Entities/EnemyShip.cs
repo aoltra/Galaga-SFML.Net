@@ -60,6 +60,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
         private Type _type;                         // tipo de nave enemiga
 
         private Sprite _sprite;                     // sprite donde dibujar la textura
+        private Animation _animation;               // animación cuanto está en pelotón
 
         private UInt16 _formationPoints;            // puntos que da si está en formación
         private UInt16 _attackPoints;               // puntos que da si está en ataque   
@@ -144,15 +145,24 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
             _logger.Log(LogLevel.Info, " >>> Creando enemigo. Tipo " + type + " (" + GetHashCode() + ")");
             _type = type;
 
-            _sprite = new Sprite((Texture)EnemiesTypeConf[(int)_type]._resManager[EnemiesTypeConf[(int)_type]._textureKey]);
-            _rotOrigin = _sprite.Rotation = shipData._rotationOrigin;
-            _sprite.Scale = new Vector2f(0.7f,0.7f);
+            //_sprite = new Sprite((Texture)EnemiesTypeConf[(int)_type]._resManager[EnemiesTypeConf[(int)_type]._textureKey]);
+            //_rotOrigin = _sprite.Rotation = shipData._rotationOrigin;
+            //_sprite.Scale = new Vector2f(0.7f, 0.7f);
+            //// ubico el origen del sprite en el centro en vez de en la esquina superior derecha
+            //FloatRect bounds = _sprite.GetLocalBounds();
+            // _sprite.Origin = new SFML.System.Vector2f(bounds.Width / 2f, bounds.Height / 2f);
+            //width = _sprite.Texture.Size.X * _sprite.Scale.X;
+
+            _animation = new Animation((Texture)EnemiesTypeConf[(int)_type]._resManager[EnemiesTypeConf[(int)_type]._textureKey],
+                new Vector2u(55, 55), SFML.System.Time.FromSeconds(1f));
+            _rotOrigin = _animation.Rotation = shipData._rotationOrigin;
+            _animation.Scale = new Vector2f(0.7f, 0.7f);
 
             // ubico el origen del sprite en el centro en vez de en la esquina superior derecha
-            FloatRect bounds = _sprite.GetLocalBounds();
-            _sprite.Origin = new SFML.System.Vector2f(bounds.Width / 2f, bounds.Height / 2f);
+            FloatRect bounds = _animation.LocalBounds;
+            _animation.Origin = new SFML.System.Vector2f(bounds.Width / 2f, bounds.Height / 2f);
 
-            width = _sprite.Texture.Size.X * _sprite.Scale.X;
+            width = _animation.TileSize.X * _animation.Scale.X;
 
             //transformo las coordenadas de posición en pixeles
             shipData._xFormation = Math.Sign(shipData._xFormation) * (Math.Abs(shipData._xFormation) - 0.5f) * (width + World.ENEMYSHIP_SEP_X);
@@ -185,6 +195,8 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
             _segmentTime = 0;
 
             Position = new Vector2f(shipData._xOrigin, shipData._yOrigin);
+
+           // _animation.Run();
         }
 
         /// <summary>
@@ -215,6 +227,8 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
         {
             if (State != StateType.FORMATION)
                 UpdateMovementPattern(dt);
+            else
+                _animation.Update(dt);
         }
 
         /// <summary>
@@ -224,7 +238,8 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
         /// <param name="rs">Estados usados para dibujar</param>
         override protected void DrawCurrent(SFML.Graphics.RenderTarget rt, SFML.Graphics.RenderStates rs)
         {   
-            rt.Draw(_sprite,rs);
+            //rt.Draw(_sprite,rs);
+            rt.Draw(_animation, rs);
    
 #if DEBUG
             // Dibujo los waypoints interpolados linealmente
@@ -262,6 +277,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
                     break;
                 case StateType.SYNC:
                     State = StateType.FORMATION;
+                    _animation.Run();
                     break;
             }
         }
@@ -369,14 +385,14 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
             EnemiesTypeConf[(int)Type.BEE]._textureKey = "Naves:BeeC1";
             EnemiesTypeConf[(int)Type.BEE]._formationPoints = 80;           // ptos
             EnemiesTypeConf[(int)Type.BEE]._attackPoints = 160;             // ptos
-            EnemiesTypeConf[(int)Type.BEE]._maxSpeed = 300;                 // px/s
+            EnemiesTypeConf[(int)Type.BEE]._maxSpeed = 350;                 // px/s
 
             // tipo Butterfly
             EnemiesTypeConf[(int)Type.BUTTERFLY]._hitPoints = 1;
             EnemiesTypeConf[(int)Type.BUTTERFLY]._textureKey = "Naves:ButterflyC1";
             EnemiesTypeConf[(int)Type.BUTTERFLY]._formationPoints = 100;    // ptos
             EnemiesTypeConf[(int)Type.BUTTERFLY]._attackPoints = 200;       // ptos
-            EnemiesTypeConf[(int)Type.BUTTERFLY]._maxSpeed = 300;           // px/s
+            EnemiesTypeConf[(int)Type.BUTTERFLY]._maxSpeed = 350;           // px/s
 
             for (int type = 0; type < (int)Type.TYPECOUNT; type++) {
                 EnemiesTypeConf[type]._resManager = resManager;
