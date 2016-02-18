@@ -32,7 +32,9 @@ using SFML.System;
 
 namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
 {
-
+    /// <summary>
+    /// Encapsula la funcionalidad necesaria para animar una entidad de manera independiente al game loop principal
+    /// </summary>
     class Animation : SFML.Graphics.Transformable, SFML.Graphics.Drawable
     {
         // variables miembro
@@ -69,7 +71,20 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
             set { _sprite.Scale = value; } 
         }
 
+        /// <summary>
+        /// Devuelve los limites del tile actual
+        /// </summary>
         public FloatRect LocalBounds { get { return _localBounds; } }
+
+        /// <summary>
+        /// Devuelve el tile actual
+        /// </summary>
+        public uint CurrentTile  { get { return _currentTile; } }
+
+        /// <summary>
+        /// Devuelve el tiempo transcurrido en el tile actual
+        /// </summary>
+        public SFML.System.Time CurrentTime { get { return _elapsedTime;  } } 
 
         /// <summary>
         /// Devuelve el tamaaño de cada tile
@@ -159,7 +174,10 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
         /// </summary>
         public void Resume() { IsRunning = true;  }
 
-
+        /// <summary>
+        /// Actualiza el estado de la animación en función del tiempo transcurrido desde la última actualización
+        /// </summary>
+        /// <param name="dt">tiempo transcurrido desde la última actualización</param>
         public void Update(SFML.System.Time dt) 
         {
             if (!IsRunning) return;
@@ -186,6 +204,24 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
                 _currentTile++;
 
             _elapsedTime = SFML.System.Time.Zero;
+        }
+
+        /// <summary>
+        /// Sincroniza la animación con unos parámetros dados
+        /// </summary>
+        /// <param name="tile">Tile a sincronizar</param>
+        /// <param name="dt">Tiempo que lleva ese tile activo</param>
+        public void SyncAnimation(uint tile, SFML.System.Time dt) 
+        {
+            if (tile >= _totalTiles)
+                _currentTile = _totalTiles - 1;
+            else if (tile < 0)
+                _currentTile = 0;
+            else
+                _currentTile = tile;
+            
+            _currentTile = tile;
+            _elapsedTime = dt;
         }
         #endregion 
 

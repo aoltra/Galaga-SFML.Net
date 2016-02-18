@@ -249,6 +249,16 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
         }
 
         /// <summary>
+        /// sincronia la animación
+        /// </summary>
+        /// <param name="tile">Tile a sincronizar</param>
+        /// <param name="dt">Tiempo que lleva ese tile activo</param>
+        public void SyncAnimation(uint tile, SFML.System.Time dt)
+        {
+            _animation.SyncAnimation(tile,dt);
+        }
+
+        /// <summary>
         /// Compara diferentes naves enemigas.
         /// </summary>
         /// <param name="compareShip">Nave con la que comparar</param>
@@ -277,7 +287,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
                     break;
                 case StateType.SYNC:
                     State = StateType.FORMATION;
-                    _animation.Run();
+                    _animation.Resume();
                     break;
             }
         }

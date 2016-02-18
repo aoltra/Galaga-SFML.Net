@@ -37,14 +37,30 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
         // limite inferior y superior del movimiento del lider
         private float _lowL, _highL;
 
+        // Animación que marca los tiempos para los elementos del pelotón
+        private Animation _animation;
+
+        /// <summary>
+        /// Devuelve el tile actual
+        /// </summary>
+        public uint CurrentTile 
+        { 
+            get { return _animation.CurrentTile; } 
+        }
+
+        /// <summary>
+        /// Devuelve el tiempo que lleva el tile actual activo
+        /// </summary>
+        public SFML.System.Time CurrentTime { get { return _animation.CurrentTime; } }
+
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="velocity">Velocidad del lider (dirección X)</param>
         /// <param name="lowL">X inferior del movimiento del líder</param>
         /// <param name="highL">X superior del movimiento del líder</param>
-        public PlatoonLeader(float velocity, float lowL, float highL)
-            : this(velocity, lowL, highL, new SFML.Graphics.Color(100,80,250))
+        public PlatoonLeader(float velocity, float lowL, float highL, Resources.ResourcesManager resManager)
+            : this(velocity, lowL, highL, new SFML.Graphics.Color(100,80,250), resManager)
         { }
 
         /// <summary>
@@ -54,12 +70,16 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
         /// <param name="lowL">X inferior del movimiento del líder</param>
         /// <param name="highL">X superior del movimiento del líder</param>
         /// <param name="color">Color con que se representa</param>
-        public PlatoonLeader(float velocity, float lowL, float highL, SFML.Graphics.Color color)
+        public PlatoonLeader(float velocity, float lowL, float highL, SFML.Graphics.Color color,Resources.ResourcesManager resManager)
             : base(new Vector2f(velocity,0))
         {
             _shape.FillColor = color;
             _lowL = lowL;
             _highL = highL;
+
+            _animation = new Animation((SFML.Graphics.Texture)resManager["Naves:DummyLeader"], new Vector2u(1, 1), SFML.System.Time.FromSeconds(1f));
+
+            _animation.Run();
         }
 
         /// <summary>
@@ -72,6 +92,8 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
         override sealed protected void UpdateCurrent(SFML.System.Time dt)
         {
             base.UpdateCurrent(dt);
+
+            _animation.Update(dt);
 
             if (Position.X <= _lowL || Position.X >= _highL)
                 VelocityX  = -Velocity.X;
