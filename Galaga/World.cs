@@ -202,7 +202,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                 data._path = _curveMap["Sacacorchos1"];
 
                 // platoon leader
-                Entities.PlatoonLeader platoonLeader = new Entities.PlatoonLeader(-60, _leaderBoundLeft, _leaderBoundRight);
+                Entities.PlatoonLeader platoonLeader = new Entities.PlatoonLeader(-60, _leaderBoundLeft, _leaderBoundRight,_resManager);
 #if DEBUG
                 platoonLeader.Visible = true;
 #endif
@@ -214,7 +214,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                 // creo las entidades y las añado al muelle de naves
                 data._xFormation = 1;
                 data._yFormation = 4;
-                enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BUTTERFLY,data);
+                enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BUTTERFLY, data);
                 enemy.StateChangeEvent += new Entities.EnemyShip.StateChange(SyncEnemyWithLeader);
                 _dockShip.Add(enemy);
 
@@ -376,6 +376,8 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                 enemy.Position = new Vector2f(enemy.EnemyData._xFormation, enemy.EnemyData._yFormation - ENEMYSHIP_ROW_Y[0]);
                 enemy.Parent.RemoveChild(enemy);
                 platoonLeader.AddChild(enemy);
+                enemy.SyncAnimation(((Entities.PlatoonLeader)platoonLeader).CurrentTile,((Entities.PlatoonLeader)platoonLeader).CurrentTime);
+
             }
         }
     }
