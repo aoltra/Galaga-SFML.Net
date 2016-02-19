@@ -209,7 +209,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         /// <param name="dt">Incremento de tiempo desde la última actualización</param>
         private void UpdateChildren(SFML.System.Time dt)
         {
-            // no se implementa con foreach par evitar problemas de mantenimiento al borrar elementos internos
+            // no se implementa con foreach para evitar problemas de mantenimiento al borrar elementos internos
             for (int n=0; n<_children.Count;n++)
             {
                 _children[n].Update(dt);
@@ -264,9 +264,15 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                 command.Execute(this, dt);
             }
 
-            foreach (SceneNode sc in _children)
+            //foreach (SceneNode sc in _children)
+            //{
+            //    sc.OnCommand(command, dt);
+            //}
+
+            // no se implementa con foreach para evitar problemas de mantenimiento al borrar elementos internos
+            for (int n = 0; n < _children.Count; n++)
             {
-                sc.OnCommand(command, dt);
+                _children[n].OnCommand(command,dt);
             }
         }
 

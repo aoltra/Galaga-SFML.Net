@@ -42,7 +42,8 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         private enum Action 
         { 
             MOVERIGHT,
-            MOVELEFT
+            MOVELEFT,
+            FIRE
         }
 
         /// <summary>
@@ -56,6 +57,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
             // inicializo las posibles acciones que puede que realizar el usuario
             _actionBinding.Add(Action.MOVELEFT, new Commands.LinealMovementCommand(-_playerSpeed, 0));
             _actionBinding.Add(Action.MOVERIGHT, new Commands.LinealMovementCommand(_playerSpeed, 0));
+            _actionBinding.Add(Action.FIRE, new Commands.FireCommand());
 
             // indico que todas las acciones afectan a la nave de usuario
             foreach (KeyValuePair<Action,Command> cmd in _actionBinding)
@@ -81,6 +83,12 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
             if (SFML.Window.Keyboard.IsKeyPressed(SFML.Window.Keyboard.Key.D))
             {
                 Commands.LinealMovementCommand lmC = (Commands.LinealMovementCommand)_actionBinding[Action.MOVERIGHT];
+                commands.Push(lmC);
+            }
+
+            if (SFML.Window.Keyboard.IsKeyPressed(SFML.Window.Keyboard.Key.Space))
+            {
+                Commands.FireCommand lmC = (Commands.FireCommand)_actionBinding[Action.FIRE];
                 commands.Push(lmC);
             }
         }

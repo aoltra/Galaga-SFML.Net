@@ -27,6 +27,7 @@
 using System;
 
 using SFML.Graphics;
+using SFML.System;
 
 namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
 {
@@ -97,6 +98,21 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
                 
             Position = new SFML.System.Vector2f(posX, Position.Y);
             
+        }
+
+        /// <summary>
+        /// Dispara un misil
+        /// </summary>
+        public void Fire() 
+        { 
+            // crea un misil
+            Entities.Shoot shoot = new Entities.Shoot(Shoot.Type.PLAYER);
+        
+            Vector2f offset = new Vector2f(0, -0.5f * _sprite.GetGlobalBounds().Height);
+
+	        shoot.Position = WorldPosition + offset;
+		    this.Parent.AddChild(shoot);
+        
         }
       
     }

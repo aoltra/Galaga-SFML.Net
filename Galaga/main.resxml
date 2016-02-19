@@ -13,6 +13,9 @@
     <texture id="BeeC1" src="./assets/textures/bee_C1_tile.png" smooth="true" repeated="false"/>
     <texture id="ButterflyC1" src="./assets/textures/butterfly_C1_tile.png" smooth="true" repeated="false"/>
   </section>
+  <section id="Misiles">
+    <texture id="Jugador" src="./assets/textures/shoot_player.png" smooth="true" repeated="false"/>
+  </section>
   <section id="Fondos">
     <texture id="Titulo" src="./assets/textures/titulo.png" smooth="false" repeated="false"/>
   </section>

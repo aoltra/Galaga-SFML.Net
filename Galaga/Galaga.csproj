@@ -86,6 +86,7 @@
     <Compile Include="Category.cs" />
     <Compile Include="Command.cs" />
     <Compile Include="CommandQueue.cs" />
+    <Compile Include="Commands\FireCommand.cs" />
     <Compile Include="Commands\LinealMovementCommand.cs" />
     <Compile Include="CurvePath.cs" />
     <Compile Include="Entities\PlatoonLeader.cs" />
@@ -130,6 +131,7 @@
     <None Include="assets\Textures\titulo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Content Include="assets\Levels\L0001.xml" />
     <None Include="assets\Textures\bee_C1_tile.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -137,6 +139,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="assets\Textures\butterfly_C1_tile.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="assets\Textures\shoot_player.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Content Include="NLog.config">
