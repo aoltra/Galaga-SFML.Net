@@ -86,18 +86,18 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                 commands.Push(lmC);
             }
 
-            if (SFML.Window.Keyboard.IsKeyPressed(SFML.Window.Keyboard.Key.Space))
-            {
-                Commands.FireCommand lmC = (Commands.FireCommand)_actionBinding[Action.FIRE];
-                commands.Push(lmC);
-            }
+            //if (SFML.Window.Keyboard.IsKeyPressed(SFML.Window.Keyboard.Key.Space))
+            //{
+            //    Commands.FireCommand lmC = (Commands.FireCommand)_actionBinding[Action.FIRE];
+            //    commands.Push(lmC);
+            //}
         }
 
         /// <summary>
         /// Maneja los eventos de teclado creando un comando e introduciendolo en la cola
         /// </summary>
         /// <param name="key">tecla pulsada</param>
-        /// <param name="isPressed">Si estla pulsada</param>
+        /// <param name="isPressed">Si está pulsada</param>
         /// <param name="commands">Cola de comandos en la que se introducura el comando</param>
         /// <remarks> 
         /// En C# la gestion de los eventos se realiza con eventos y delegados, por lo que aqui ya llega el evento procesado.
@@ -106,7 +106,11 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         /// </remarks>
         public void HandleKeyboardEvent(SFML.Window.Keyboard.Key key, bool isPressed, CommandQueue commands)
         {
-            
+            if ( key == SFML.Window.Keyboard.Key.Space && !isPressed)
+            {
+                Commands.FireCommand lmC = (Commands.FireCommand)_actionBinding[Action.FIRE];
+                commands.Push(lmC);
+            }
         }
 
 
