@@ -181,8 +181,10 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 	    public void RecycleObject(T item) 
         {
 		    if(item == null) {
-                throw new ObjectoPoolException("El Objeto null no puede ser reciclado");
+                throw new ObjectoPoolException("El objeto null no puede ser reciclado");
 		    }
+
+            Debug.WriteLine("Reciclando: <" + item.GetType().Name + ">. Piscina: <" + this.GetType().Name +">");
 
 		    HandleRecycleObject(item);
 
@@ -219,6 +221,39 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         }
 
     }
+
+    /// <summary>
+    /// Encpasula entidades que van a ser incluidos en una piscina 
+    /// </summary>
+    abstract class Recyclable : Entity
+    {
+        /// <summary>
+        /// Delegado ue define la función que recibe el evento de reciclado
+        /// </summary>
+        /// <param name="sender">Objeto que envia el mensaje (la nave enemiga)</param>
+        public delegate void RecycleObjectInPool(object sender);
+
+        /// <summary>
+        /// Evento que se lanza cuando el objeto debe reciclarse
+        /// </summary>
+        public event RecycleObjectInPool RecycleEvent;
+
+        /// <summary>
+        /// Genera el evento de reciclado
+        /// </summary>
+        /// <param name="e">Objeto que quiere ser reciclado</param>
+        /// <remarks>
+        /// Los eventos ni se pueden heredar, por lo que es necesario crear un método
+        /// protegido y llamarlo desde las clases hijas
+        /// </remarks>
+        protected virtual void OnRecycle(object e)
+        {
+            RecycleObjectInPool handler = RecycleEvent;
+            if(handler != null)
+                handler(e);
+        }
+
+    } 
 
     /// <summary>
     /// Encapsula una excepción generada por la piscina de objetos

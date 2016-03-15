@@ -40,11 +40,10 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
     /// - Tienen un vida limitada
     /// - Pueden colisionar con las naves enemigas o con la del propio jugador
     /// </remarks>
-    class Shoot : Entity
+    class Shoot : Recyclable
     {
         // variables miembro
         private Type _type;                           // tipo de nave enemiga
-
         private SFML.Graphics.Sprite _sprite;         // sprite donde dibujar la textura
 
         /// <summary>
@@ -81,6 +80,14 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
         /// </remarks>
         override sealed protected void UpdateCurrent(SFML.System.Time dt)
         {
+            // comprobacion de si está fuera del mundo
+            if (_type == Type.PLAYER && Position.Y + _sprite.GetGlobalBounds().Height < 0)
+            {
+                // lo quito del grafo de escena
+                Parent.RemoveChild(this);
+                OnRecycle(this);
+            }
+
             base.UpdateCurrent(dt);
         }
 

@@ -49,7 +49,18 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         /// <returns>Misíl del jugador</returns>
         override protected Entities.Shoot AllocObject() 
         {
-            return new Entities.Shoot(Entities.Shoot.Type.PLAYER);
+            Entities.Shoot shoot = new Entities.Shoot(Entities.Shoot.Type.PLAYER);
+            shoot.RecycleEvent += new Recyclable.RecycleObjectInPool(RecycleShoot);
+            return shoot;
+        }
+
+        /// <summary>
+        /// Recicla el misíl
+        /// </summary>
+        /// <param name="shoot">Objeto a reciclar</param>
+        private void RecycleShoot(object shoot) 
+        {
+            this.RecycleObject((Entities.Shoot)shoot);
         }
     }
 
@@ -76,4 +87,6 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
             return new Entities.Shoot(Entities.Shoot.Type.ENEMIES);
         }
     }
+
+   
 }

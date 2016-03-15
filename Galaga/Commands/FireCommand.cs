@@ -6,7 +6,7 @@ using System.Text;
 namespace edu.CiclosFormativos.DAM.DI.Galaga.Commands
 {
     /// <summary>
-    /// Encapsula un comando que mueve de manera lineal una entidad
+    /// Encapsula un comando que dispara un misíl
     /// </summary>
     class FireCommand : Command
     {
