@@ -61,6 +61,8 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         private Dictionary<String, Entities.TransformEntity> _leaders;      // mapa de líderes de escuadrones o pelotón
         private float _stageTime;                       // tiempo actual de la fase en juego (en segundos)
 
+        private ShootPlayerPool _shootPlayerPool;       // piscina de misiles disponibles para el jugador
+
         private const int BORDER = 40;                  // borde del mundo en el que no se juega
 
         private int _level;                             // fase del juego
@@ -120,7 +122,13 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                 _leaderBoundRight = _worldBounds.Width * .6f;
 
                 // incializo la fase
-                _level = 1;  
+                _level = 1;
+
+                // inicializo las piscinas de objetos
+                Entities.EnemyShip.InitializeEnemiesTypeConfiguration(_resManager);
+                Entities.Shoot.InitializeShootTypeConfiguration(_resManager);
+
+                _shootPlayerPool = new ShootPlayerPool(15);     // 15 misiles de partida. Si hacen falta más se incrementará de uno en uno
 
                 // construyo el mundo
                 BuildWorld();
@@ -148,7 +156,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 
             try 
             {
-
+         
                 // Creo las capas como SceneNode's hijos del árbol raíz.
                 for (int contLayer = 0; contLayer < (int)Layer.LAYERCOUNT; contLayer++) {
                     layer = new SceneNode();
@@ -175,7 +183,8 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                 ////// NAVE JUGADOR
                 // Añado la nave del jugador
                 _playerShip = new Entities.PlayerShip(_resManager, 
-                    new FloatRect(_worldBounds.Left + BORDER, 0, _worldBounds.Width - BORDER, _worldBounds.Height));
+                    new FloatRect(_worldBounds.Left + BORDER, 0, _worldBounds.Width - BORDER, _worldBounds.Height),
+                    _shootPlayerPool);
                 _playerShip.Position = new Vector2f(_worldView.Size.X / 2, _worldView.Size.Y - 60);
                 _sceneLayers[(int)Layer.AIR].AddChild(_playerShip);
 
@@ -183,9 +192,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 
 
                 // Nave enemiga prueba
-                Entities.EnemyShip.InitializeEnemiesTypeConfiguration(_resManager);
-                Entities.Shoot.InitializeShootTypeConfiguration(_resManager);
-
+              
                 Entities.EnemyShip.EnemiesShipData data = new Entities.EnemyShip.EnemiesShipData();
                 data._xOrigin = .55f * _worldBounds.Width;
                 data._yOrigin = -40;

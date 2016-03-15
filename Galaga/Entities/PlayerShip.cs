@@ -41,8 +41,9 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
     /// </remarks>
     class PlayerShip : Entity
     {
-        private Sprite _sprite;         // sprite donde dibujar la textura
-        private FloatRect _worldBounds; // espacio del mundo en el que la nave se puede mover
+        private Sprite _sprite;             // sprite donde dibujar la textura
+        private FloatRect _worldBounds;     // espacio del mundo en el que la nave se puede mover
+        private ShootPlayerPool _shootPool; // piscina de misiles
 
         /// <summary>
         /// Devuelve la/s categoria/s del PlayerShip
@@ -57,7 +58,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
         /// </summary>
         /// <param name="resManager">Gestor de recursos</param>
         /// <param name="worldBounds">Dimensiones de area de movimiento del PlayerShip</param>
-        public PlayerShip(Resources.ResourcesManager resManager, FloatRect worldBounds)
+        public PlayerShip(Resources.ResourcesManager resManager, FloatRect worldBounds,ShootPlayerPool shootPool)
             : base() 
         {
             _sprite = new Sprite((Texture)resManager["Naves:NaveJugador"]);
@@ -66,6 +67,8 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
             // ubico el origen del sprite en el centro en vez de en la esquina superior derecha
             FloatRect bounds = _sprite.GetLocalBounds();
             _sprite.Origin = new SFML.System.Vector2f(bounds.Width / 2f, bounds.Height / 2f);
+
+            _shootPool = shootPool;
         }
 
         /// <summary>
@@ -97,7 +100,6 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
             posX = posX > _worldBounds.Width ? _worldBounds.Width : posX; 
                 
             Position = new SFML.System.Vector2f(posX, Position.Y);
-            
         }
 
         /// <summary>
@@ -106,8 +108,9 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
         public void Fire() 
         { 
             // crea un misil
-            Entities.Shoot shoot = new Entities.Shoot(Shoot.Type.PLAYER);
-        
+            //Entities.Shoot shoot = new Entities.Shoot(Shoot.Type.PLAYER);
+            Entities.Shoot shoot = _shootPool.GetObject();
+
             Vector2f offset = new Vector2f(0, -0.5f * _sprite.GetGlobalBounds().Height);
 
 	        shoot.Position = WorldPosition + offset;
