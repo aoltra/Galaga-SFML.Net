@@ -3,7 +3,7 @@
   <Class Name="edu.CiclosFormativos.DAM.DI.Galaga.Entity" Collapsed="true">
     <Position X="5" Y="2" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <HashCode>AAIAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
       <FileName>Entity.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -30,17 +30,32 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="edu.CiclosFormativos.DAM.DI.Galaga.Entities.PlayerShip" Collapsed="true">
-    <Position X="6" Y="3.75" Width="1.5" />
+    <Position X="5.5" Y="3.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAIAEAAAAAAAAAAAAAAAAAAACAAAAAAAAAEAAAAACAA=</HashCode>
+      <HashCode>AAIAEAAAAAAAAAAAAAAAAAAACAAEAIAAAAEAAAAACAA=</HashCode>
       <FileName>Entities\PlayerShip.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="edu.CiclosFormativos.DAM.DI.Galaga.Entities.EnemyShip" Collapsed="true">
-    <Position X="8.5" Y="3.75" Width="1.5" />
+    <Position X="8" Y="3.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAABQAAAAABAAAAAAAAAAAAAAIAAAAAAg=</HashCode>
+      <HashCode>AAoAEAQAAQECAAwBAAAEJBAEoAAAQAAQACEABAAASAg=</HashCode>
       <FileName>Entities\EnemyShip.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="edu.CiclosFormativos.DAM.DI.Galaga.Recyclable" Collapsed="true">
+    <Position X="10.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>ObjectPool.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="edu.CiclosFormativos.DAM.DI.Galaga.Entities.Shoot" Collapsed="true">
+    <Position X="10.25" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAEAAAAAAAAAQAAAAAEAAAAAAIAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Entities\Shoot.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />
