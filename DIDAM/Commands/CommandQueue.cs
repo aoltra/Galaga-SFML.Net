@@ -23,36 +23,43 @@
     or you can follow on Twitter: @aoltra
 */
 #endregion
-using System;
-using System.Text;
 
-namespace edu.CiclosFormativos.DAM.DI.Galaga
+using System.Collections.Generic;
+
+namespace edu.CiclosFormativos.Games.DIDAM.Commands
 {
     /// <summary>
-    /// Encapsula un comando. 
+    /// Encapsula una cola FIFO de comandos
     /// </summary>
-    /// <remarks>
-    /// Abstracta. No se puede instanciar
-    /// </remarks>
-    abstract class Command
+    public class CommandQueue
     {
-        /// <summary>
-        /// Asigna o devuelve la categoria del sceneNode para la que está dirigido el comando
-        /// </summary>
-        /// <remarks>
-        /// Admite 16 categorias posibles y la combinaciones posibles entre ellas.
-        /// A efectos de un mejor manejo de las mismas es interesante crearse un tipo Enumerado categoria
-        /// </remarks>
-        public UInt16 Category { get; set; }
+        // variables miembro
+        private Queue<Command> queue = new Queue<Command>();
 
         /// <summary>
-        /// Función a ejecutar en el comando
+        /// Devuelve true si la cola esta vacía o false en caso contrario
         /// </summary>
+        public bool IsEmpty { get { return queue.Count == 0; } }
+
+        /// <summary>
+        /// Mete un comando en la cola
+        /// </summary>
+        /// <param name="command">Comando a introducirse en la cola</param>
         /// <remarks>
-        /// La función debe implementarse de manera obligatoria en la clases hijas
+        /// Lo pone en la última posición
         /// </remarks>
-        /// <param name="scNode">Nodo en el que se ejecuta el comando</param>
-        /// <param name="dt">Incremento de tiemp desde la última actualización</param>
-        public abstract void Execute(SceneNode scNode, SFML.System.Time dt);
+        public void Push(Command command)
+        {
+            queue.Enqueue(command);
+        }
+    
+        /// <summary>
+        /// Saca un comando de la cola
+        /// </summary>
+        /// <returns>El primer comando de la cola</returns>
+        public Command Pop()
+        {
+            return queue.Dequeue();
+        }
     }
 }

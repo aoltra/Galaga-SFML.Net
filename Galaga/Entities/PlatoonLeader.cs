@@ -28,6 +28,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
+using edu.CiclosFormativos.Games.DIDAM.Resources;
+
 using SFML.System;
 
 namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
@@ -59,7 +61,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
         /// <param name="velocity">Velocidad del lider (dirección X)</param>
         /// <param name="lowL">X inferior del movimiento del líder</param>
         /// <param name="highL">X superior del movimiento del líder</param>
-        public PlatoonLeader(float velocity, float lowL, float highL, Resources.ResourcesManager resManager)
+        public PlatoonLeader(float velocity, float lowL, float highL, ResourcesManager resManager)
             : this(velocity, lowL, highL, new SFML.Graphics.Color(100,80,250), resManager)
         { }
 
@@ -70,7 +72,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
         /// <param name="lowL">X inferior del movimiento del líder</param>
         /// <param name="highL">X superior del movimiento del líder</param>
         /// <param name="color">Color con que se representa</param>
-        public PlatoonLeader(float velocity, float lowL, float highL, SFML.Graphics.Color color,Resources.ResourcesManager resManager)
+        public PlatoonLeader(float velocity, float lowL, float highL, SFML.Graphics.Color color, ResourcesManager resManager)
             : base(new Vector2f(velocity,0))
         {
             _shape.FillColor = color;

@@ -26,10 +26,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
-namespace edu.CiclosFormativos.DAM.DI.Galaga
+namespace edu.CiclosFormativos.Games.DIDAM.Scenes
 {
     /// <summary>
     /// Gestiona la creación y uso de las escenas

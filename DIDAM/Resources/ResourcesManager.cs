@@ -32,7 +32,7 @@ using System.Xml.Linq;
 
 using System.Diagnostics;
 
-namespace edu.CiclosFormativos.DAM.DI.Galaga.Resources
+namespace edu.CiclosFormativos.Games.DIDAM.Resources
 {
     /// <summary>
     /// Gestiona la carga de todo tipo de recursos desde ficheros XML

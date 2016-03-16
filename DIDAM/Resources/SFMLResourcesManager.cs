@@ -35,12 +35,12 @@ using System.Reflection;
 using System.Diagnostics;
 using SFML.Graphics;
 
-namespace edu.CiclosFormativos.DAM.DI.Galaga.Resources
+namespace edu.CiclosFormativos.Games.DIDAM.Resources
 {
     /// <summary>
     /// Gestiona la carga de recursos de SFML. Clase estática: no permite su instancianción.
     /// </summary>
-    static class SFMLResourcesManager
+    public static class SFMLResourcesManager
     {
         /// <summary>
         /// Carga una Texture desde el disco

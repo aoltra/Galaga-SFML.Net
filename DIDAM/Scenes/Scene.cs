@@ -28,7 +28,7 @@ using System.Collections.Generic;
 
 using SFML.Graphics;
 
-namespace edu.CiclosFormativos.DAM.DI.Galaga
+namespace edu.CiclosFormativos.Games.DIDAM.Scenes
 {
     /// <summary>
     /// Encapsula una escena o estado del juego

@@ -27,6 +27,8 @@
 using System;
 using System.Collections.Generic;
 
+using edu.CiclosFormativos.Games.DIDAM.Scenes;
+
 using NLog;
 
 namespace edu.CiclosFormativos.DAM.DI.Galaga.Scenes

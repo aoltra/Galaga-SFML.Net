@@ -25,46 +25,24 @@
 #endregion
 
 using System;
+using System.Text;
 
-using SFML.System;
-
-using edu.CiclosFormativos.Games.DIDAM.Scenes;
-using edu.CiclosFormativos.Games.DIDAM.Commands;
-
-using edu.CiclosFormativos.DAM.DI.Galaga.Entities;
-
-namespace edu.CiclosFormativos.DAM.DI.Galaga.Commands
+namespace edu.CiclosFormativos.Games.DIDAM.Scenes
 {
     /// <summary>
-    /// Encapsula un comando que mueve de manera lineal una entidad
+    /// Categorias de SceneNode disponibles. Se numeran en potencias de dos
     /// </summary>
-    class LinealMovementCommand : Command
+    public enum Category
     {
-        // Variables miembrp
-        private Vector2f velocity;
+        // la 0 y la 1 la proporcionanel motor
+        /// <summary>
+        /// Ninguna categoria
+        /// </summary>
+        NONE = 0,
 
         /// <summary>
-        /// Constructor.
+        /// Nodo de grafo de escena genérico
         /// </summary>
-        /// <param name="x">Velocidad en la dirección x</param>
-        /// <param name="y">Velocidad en la dirección y</param>
-        public LinealMovementCommand(float x, float y)
-            : this (new Vector2f(x, y))
-        {
-        }
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="vel">Vector velocidad</param>
-        public LinealMovementCommand(Vector2f vel)
-        {
-            velocity = vel;
-        }
-
-        public override void Execute(SceneNode subject, SFML.System.Time dt)
-        {
-            ((Entity)subject).Position += velocity * dt.AsSeconds();
-        }
+        SCENE = 1,
     }
 }

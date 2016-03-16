@@ -31,11 +31,15 @@ using System.Text;
 using SFML.Window;
 using SFML.Graphics;
 
+using edu.CiclosFormativos.Games.DIDAM.Resources;
+using edu.CiclosFormativos.Games.DIDAM.Scenes;
+
 using NLog.Config;
 using NLog.Targets;
 using NLog;
 
 using System.Diagnostics;
+ 
 
 namespace edu.CiclosFormativos.DAM.DI.Galaga
 {
@@ -57,7 +61,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         // Variables miembro
         private RenderWindow _window;                   // ventana principal
         private SceneManager _scnManager;               // gestor de escenas
-        private Resources.ResourcesManager _resManager; // Gestor de recursos del mundo 
+        private ResourcesManager _resManager;           // Gestor de recursos del mundo 
         private Scene.Context _context;                 // contexto de trabajo
 
         private SFML.System.Time _timePerFrame;         // en este caso indica el mínimo requerido
@@ -109,10 +113,10 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 
             // Se crea el gestor de recursos y se leen los elementos
             _logger.Log(LogLevel.Info, " >> Creando gestor de recursos.");
-            _resManager = new Resources.ResourcesManager(
+            _resManager = new ResourcesManager(
                 this.GetType().Assembly.GetManifestResourceStream("Galaga.main.resxml"));
-            _resManager.RegisterLoadFunction("texture", Resources.SFMLResourcesManager.LoadTexture);
-            _resManager.RegisterLoadFunction("font", Resources.SFMLResourcesManager.LoadFont);
+            _resManager.RegisterLoadFunction("texture", SFMLResourcesManager.LoadTexture);
+            _resManager.RegisterLoadFunction("font", SFMLResourcesManager.LoadFont);
 
             // creación del contexto
             _context = new Scene.Context(_window, _resManager);

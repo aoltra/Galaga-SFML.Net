@@ -31,7 +31,7 @@ using System.Text;
 
 using System.Diagnostics;
 
-namespace edu.CiclosFormativos.DAM.DI.Galaga
+namespace edu.CiclosFormativos.Games.DIDAM.Scenes
 {
     /// <summary>
     /// Encapsula un nodo del grafo de escena
@@ -40,7 +40,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
     /// Se utiliza un List y no una LinkedList ya que se va a utilizar
     /// un acceso indexado
     /// </remarks>
-    class SceneNode : SFML.Graphics.Transformable, SFML.Graphics.Drawable
+    public class SceneNode : SFML.Graphics.Transformable, SFML.Graphics.Drawable
     {
         /// <summary>
         /// Asigna o devuelve el nodo padre
@@ -77,7 +77,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         /// </remarks>
         public virtual UInt16 Category 
         {
-            get { return (UInt16)edu.CiclosFormativos.DAM.DI.Galaga.Category.SCENE; }
+            get { return (UInt16)edu.CiclosFormativos.Games.DIDAM.Scenes.Category.SCENE; }
         }
 
 
@@ -256,7 +256,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         /// </summary>
         /// <param name="command">Comando a a ejecutar</param>
         /// <param name="dt">Incremento de tiempo desde la última actualización</param>
-        public void OnCommand(Command command, SFML.System.Time dt)
+        public void OnCommand(Commands.Command command, SFML.System.Time dt)
         { 
             // comparación binaria
             if ((command.Category & Category) == Category)

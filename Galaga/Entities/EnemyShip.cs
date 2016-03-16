@@ -29,6 +29,8 @@ using System.Collections.Generic;
 
 using System.Diagnostics;
 
+using edu.CiclosFormativos.Games.DIDAM.Resources; 
+
 using SFML.System;
 using SFML.Graphics;
 
@@ -353,7 +355,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
             public float _maxSpeed;                             // modulo de la velocidad que alcanza la entidad (se alcanzará en recorrido lineales)
 
             // comunes a todos los tipos
-            public Resources.ResourcesManager _resManager;      // gestor de recursos
+            public ResourcesManager _resManager;      // gestor de recursos
         }
 
         /// <summary> 
@@ -386,7 +388,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
         //////////////////////////////////////////////////////////
         private static EnemiesShipTypeData[] EnemiesTypeConf;
 
-        public static void InitializeEnemiesTypeConfiguration(Resources.ResourcesManager resManager)
+        public static void InitializeEnemiesTypeConfiguration(ResourcesManager resManager)
         {
             EnemiesTypeConf = new EnemiesShipTypeData[(int)Type.TYPECOUNT];
 

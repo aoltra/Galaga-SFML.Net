@@ -26,6 +26,9 @@
 
 using System;
 
+using edu.CiclosFormativos.Games.DIDAM.Scenes;
+using edu.CiclosFormativos.Games.DIDAM.Resources;
+
 using SFML.Graphics;
 using SFML.System;
 
@@ -58,7 +61,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
         /// </summary>
         /// <param name="resManager">Gestor de recursos</param>
         /// <param name="worldBounds">Dimensiones de area de movimiento del PlayerShip</param>
-        public PlayerShip(Resources.ResourcesManager resManager, FloatRect worldBounds,ShootPlayerPool shootPool)
+        public PlayerShip(ResourcesManager resManager, FloatRect worldBounds,ShootPlayerPool shootPool)
             : base() 
         {
             _sprite = new Sprite((Texture)resManager["Naves:NaveJugador"]);

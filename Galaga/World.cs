@@ -29,7 +29,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using edu.CiclosFormativos.DAM.DI.Galaga.Resources;
+using edu.CiclosFormativos.Games.DIDAM.Resources;
+using edu.CiclosFormativos.Games.DIDAM.Scenes;
+using edu.CiclosFormativos.Games.DIDAM.Commands;
 
 using SFML.Graphics;
 using SFML.System;
@@ -48,7 +50,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         // variables miembro
         private RenderWindow _window;                   // ventana donde se dibujará
         private SceneNode _sceneGraph;                  // nodo raíz del grafo de escena
-        private Resources.ResourcesManager _resManager; // Gestor de recursos del mundo 
+        private ResourcesManager _resManager; // Gestor de recursos del mundo 
         private Dictionary<String,CurvePath> _curveMap; // Diccionario donde se alamncena las posibles trayectorias curvas
         private List<SceneNode> _sceneLayers;           // lista ordenada por orden de dibujo de las capas
         private View _worldView;                        // vista (camara) que visualizará nuestro trozo de mundo

@@ -33,6 +33,8 @@ using SFML.Graphics;
 
 using NLog;
 
+using edu.CiclosFormativos.Games.DIDAM.Scenes;
+
 namespace edu.CiclosFormativos.DAM.DI.Galaga.Scenes
 {
     /// <summary>

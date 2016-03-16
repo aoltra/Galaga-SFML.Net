@@ -23,43 +23,36 @@
     or you can follow on Twitter: @aoltra
 */
 #endregion
+using System;
+using System.Text;
 
-using System.Collections.Generic;
-
-namespace edu.CiclosFormativos.DAM.DI.Galaga
+namespace edu.CiclosFormativos.Games.DIDAM.Commands
 {
     /// <summary>
-    /// Encapsula una cola FIFO de comandos
+    /// Encapsula un comando. 
     /// </summary>
-    class CommandQueue
+    /// <remarks>
+    /// Abstracta. No se puede instanciar
+    /// </remarks>
+    public abstract class Command
     {
-        // variables miembro
-        private Queue<Command> queue = new Queue<Command>();
-
         /// <summary>
-        /// Devuelve true si la cola esta vacía o false en caso contrario
+        /// Asigna o devuelve la categoria del sceneNode para la que está dirigido el comando
         /// </summary>
-        public bool IsEmpty { get { return queue.Count == 0; } }
-
-        /// <summary>
-        /// Mete un comando en la cola
-        /// </summary>
-        /// <param name="command">Comando a introducirse en la cola</param>
         /// <remarks>
-        /// Lo pone en la última posición
+        /// Admite 16 categorias posibles y la combinaciones posibles entre ellas.
+        /// A efectos de un mejor manejo de las mismas es interesante crearse un tipo Enumerado categoria
         /// </remarks>
-        public void Push(Command command)
-        {
-            queue.Enqueue(command);
-        }
-    
+        public UInt16 Category { get; set; }
+
         /// <summary>
-        /// Saca un comando de la cola
+        /// Función a ejecutar en el comando
         /// </summary>
-        /// <returns>El primer comando de la cola</returns>
-        public Command Pop()
-        {
-            return queue.Dequeue();
-        }
+        /// <remarks>
+        /// La función debe implementarse de manera obligatoria en la clases hijas
+        /// </remarks>
+        /// <param name="scNode">Nodo en el que se ejecuta el comando</param>
+        /// <param name="dt">Incremento de tiemp desde la última actualización</param>
+        public abstract void Execute(Scenes.SceneNode scNode, SFML.System.Time dt);
     }
 }

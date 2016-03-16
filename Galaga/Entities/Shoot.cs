@@ -28,6 +28,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
+using edu.CiclosFormativos.Games.DIDAM.Resources; 
+
 using SFML.Graphics;
 using SFML.System;
 
@@ -118,7 +120,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
             public float _maxSpeed;                             // velocidad en el eje Y que alcanza la entidad 
 
             // comunes a todos los tipos
-            public Resources.ResourcesManager _resManager;      // gestor de recursos
+            public ResourcesManager _resManager;      // gestor de recursos
         }
 
         //////////////////////////////////////////////////////////
@@ -126,7 +128,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
         //////////////////////////////////////////////////////////
         private static ShootTypeData[] ShootTypeConf;
 
-        public static void InitializeShootTypeConfiguration(Resources.ResourcesManager resManager)
+        public static void InitializeShootTypeConfiguration(ResourcesManager resManager)
         {
             ShootTypeConf = new ShootTypeData[(int)Type.TYPECOUNT];
 
