@@ -26,7 +26,7 @@
 
 using System;
 
-namespace edu.CiclosFormativos.Games.DIDAM.Utilities
+namespace edu.CiclosFormativos.Games.DIDAM.Paths
 {
     /// <summary>
     /// Encapsula las utilidades necesarias para la resolución de SLE (sistemas de ecuaciones lineales)

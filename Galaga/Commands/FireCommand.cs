@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-using edu.CiclosFormativos.Games.DIDAM.Scenes;
+using edu.CiclosFormativos.Games.DIDAM.Entities;
 using edu.CiclosFormativos.Games.DIDAM.Commands;
+using edu.CiclosFormativos.Games.DIDAM.Scenes;
 
 namespace edu.CiclosFormativos.DAM.DI.Galaga.Commands
 {

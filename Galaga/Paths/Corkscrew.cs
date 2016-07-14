@@ -29,7 +29,6 @@ using System.Diagnostics;
 using SFML.Graphics;
 using SFML.System;
 
-using edu.CiclosFormativos.Games.DIDAM.Utilities;
 using edu.CiclosFormativos.Games.DIDAM.Paths;
 
 namespace edu.CiclosFormativos.DAM.DI.Galaga.Paths

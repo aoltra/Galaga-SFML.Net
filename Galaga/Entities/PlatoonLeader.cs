@@ -29,6 +29,7 @@ using System.Collections.Generic;
 using System.Text;
 
 using edu.CiclosFormativos.Games.DIDAM.Resources;
+using edu.CiclosFormativos.Games.DIDAM.Entities;
 
 using SFML.System;
 

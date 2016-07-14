@@ -31,7 +31,9 @@ using System.Text;
 
 using SFML.System;
 
-namespace edu.CiclosFormativos.Games.DIDAM.Scenes
+using edu.CiclosFormativos.Games.DIDAM.Scenes;
+
+namespace edu.CiclosFormativos.Games.DIDAM.Entities
 {
     /// <summary>
     /// Encapsula un objeto del juego

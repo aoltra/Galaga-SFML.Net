@@ -31,7 +31,7 @@ using System.Text;
 
 using System.Diagnostics;
 
-using edu.CiclosFormativos.Games.DIDAM.Scenes;
+using edu.CiclosFormativos.Games.DIDAM.Entities;
 
 namespace edu.CiclosFormativos.Games.DIDAM.Patterns
 {

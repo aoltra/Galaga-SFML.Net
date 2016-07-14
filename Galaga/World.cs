@@ -30,6 +30,7 @@ using System.Linq;
 using System.Text;
 
 using edu.CiclosFormativos.Games.DIDAM.Resources;
+using edu.CiclosFormativos.Games.DIDAM.Entities;
 using edu.CiclosFormativos.Games.DIDAM.Scenes;
 using edu.CiclosFormativos.Games.DIDAM.Commands;
 using edu.CiclosFormativos.Games.DIDAM.Paths;

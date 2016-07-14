@@ -31,8 +31,6 @@ using System.Diagnostics;
 using SFML.System;
 
 
-using edu.CiclosFormativos.Games.DIDAM.Utilities;
-
 namespace edu.CiclosFormativos.Games.DIDAM.Paths
 {
     /// <summary>

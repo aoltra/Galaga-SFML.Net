@@ -37,6 +37,7 @@ using SFML.Graphics;
 
 using NLog;
 
+using edu.CiclosFormativos.Games.DIDAM.Entities;
 using edu.CiclosFormativos.Games.DIDAM.Scenes;
 
 namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities

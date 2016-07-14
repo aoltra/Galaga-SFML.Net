@@ -29,7 +29,7 @@ using System;
 using System.Diagnostics;
 using SFML.System;
 
-namespace edu.CiclosFormativos.Games.DIDAM.Utilities
+namespace edu.CiclosFormativos.Games.DIDAM.Paths
 {
     /// <summary>
     /// Encapsula la creación de curvas polinómicas
@@ -188,7 +188,7 @@ namespace edu.CiclosFormativos.Games.DIDAM.Utilities
                     yTempE = polynomicSegments[segX + 1, 3] * t3 + polynomicSegments[segX + 1, 2] * t2
                         + polynomicSegments[segX + 1, 1] * t + polynomicSegments[segX + 1, 0];
 
-                    segLength += Utilities.VectorUtilities.VectorLength(xTempI - xTempE, yTempI - yTempE);
+                    segLength += Paths.VectorUtilities.VectorLength(xTempI - xTempE, yTempI - yTempE);
 
                 }
 

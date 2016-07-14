@@ -29,11 +29,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using edu.CiclosFormativos.Games.DIDAM.Scenes;
-
 using SFML.Graphics;
 
-namespace edu.CiclosFormativos.DAM.DI.Galaga
+namespace edu.CiclosFormativos.Games.DIDAM.Scenes
 {
     /// <summary>
     /// Encapsula un nodo que únicamente muestra un sprite, sin movimiento.

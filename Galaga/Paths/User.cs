@@ -29,7 +29,7 @@ using System.Diagnostics;
 
 using SFML.System;
 
-using edu.CiclosFormativos.Games.DIDAM.Utilities;
+using edu.CiclosFormativos.Games.DIDAM.Paths;
 using edu.CiclosFormativos.Games.DIDAM.Paths;
 
 

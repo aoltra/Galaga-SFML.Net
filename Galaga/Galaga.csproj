@@ -81,7 +81,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Animation.cs" />
     <Compile Include="Application.cs" />
     <Compile Include="Category.cs" />
     <Compile Include="Commands\FireCommand.cs" />
@@ -101,7 +100,6 @@
     <Compile Include="Scenes\PauseScene.cs" />
     <Compile Include="Scenes\TitleScene.cs" />
     <Compile Include="Entities\Shoot.cs" />
-    <Compile Include="SpriteNode.cs" />
     <Compile Include="Background\Star.cs" />
     <Compile Include="Background\StarBackground.cs" />
     <Compile Include="World.cs" />

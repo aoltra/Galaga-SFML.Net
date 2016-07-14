@@ -28,8 +28,9 @@ using System;
 
 using SFML.System;
 
-using edu.CiclosFormativos.Games.DIDAM.Scenes;
+using edu.CiclosFormativos.Games.DIDAM.Entities;
 using edu.CiclosFormativos.Games.DIDAM.Commands;
+using edu.CiclosFormativos.Games.DIDAM.Scenes;
 
 using edu.CiclosFormativos.DAM.DI.Galaga.Entities;
 

@@ -30,12 +30,12 @@ using System.Collections.Generic;
 using SFML.Graphics;
 using SFML.System;
 
-namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
+namespace edu.CiclosFormativos.Games.DIDAM.Entities
 {
     /// <summary>
     /// Encapsula la funcionalidad necesaria para animar una entidad de manera independiente al game loop principal
     /// </summary>
-    class Animation : SFML.Graphics.Transformable, SFML.Graphics.Drawable
+    public class Animation : SFML.Graphics.Transformable, SFML.Graphics.Drawable
     {
         // variables miembro
         private int _numLoops;                                  // número de veces que se repite 0 = infinito

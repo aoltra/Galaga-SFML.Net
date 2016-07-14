@@ -32,6 +32,7 @@ using SFML.Window;
 using SFML.Graphics;
 
 using edu.CiclosFormativos.Games.DIDAM.Resources;
+using edu.CiclosFormativos.Games.DIDAM.Entities;
 using edu.CiclosFormativos.Games.DIDAM.Scenes;
 
 using NLog.Config;

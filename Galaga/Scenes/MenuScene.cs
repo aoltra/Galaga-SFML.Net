@@ -27,6 +27,7 @@
 using System;
 using System.Collections.Generic;
 
+using edu.CiclosFormativos.Games.DIDAM.Entities;
 using edu.CiclosFormativos.Games.DIDAM.Scenes;
 
 using NLog;

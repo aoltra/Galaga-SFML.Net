@@ -53,6 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entitites\Animation.cs" />
     <Compile Include="Paths\CurvePath.cs" />
     <Compile Include="Patterns\ObjectPool.cs" />
     <Compile Include="Resources\SFMLResourcesManager.cs" />
@@ -61,10 +62,11 @@
     <Compile Include="Commands\CommandQueue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\ResourcesManager.cs" />
-    <Compile Include="Scenes\Entity.cs" />
+    <Compile Include="Entitites\Entity.cs" />
     <Compile Include="Scenes\Scene.cs" />
     <Compile Include="Scenes\SceneManager.cs" />
     <Compile Include="Scenes\SceneNode.cs" />
+    <Compile Include="Scenes\SpriteNode.cs" />
     <Compile Include="Utilities\MatrixUtilities.cs" />
     <Compile Include="Utilities\PolynomicUtilities.cs" />
     <Compile Include="Utilities\VectorUtilities.cs" />
