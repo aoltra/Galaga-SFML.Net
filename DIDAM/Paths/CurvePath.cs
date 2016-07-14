@@ -31,9 +31,9 @@ using System.Diagnostics;
 using SFML.System;
 
 
-using edu.CiclosFormativos.DAM.DI.Galaga.Utilities;
+using edu.CiclosFormativos.Games.DIDAM.Utilities;
 
-namespace edu.CiclosFormativos.DAM.DI.Galaga
+namespace edu.CiclosFormativos.Games.DIDAM.Paths
 {
     /// <summary>
     /// Encapsula las funcionalidades comunes de un Path en forma de curva. No se puede instanciar
@@ -125,7 +125,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                 yTempE = _coef[segX + 1, 3] * t3 + _coef[segX + 1, 2] * t2
                     + _coef[segX + 1, 1] * t + _coef[segX + 1, 0];
 
-                segLength += Utilities.VectorUtilities.VectorLength(xTempI - xTempE, yTempI - yTempE);
+                segLength += VectorUtilities.VectorLength(xTempI - xTempE, yTempI - yTempE);
             }
 
             return segLength;

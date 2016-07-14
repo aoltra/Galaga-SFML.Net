@@ -29,7 +29,7 @@ using System;
 using System.Diagnostics;
 using SFML.System;
 
-namespace edu.CiclosFormativos.DAM.DI.Galaga.Utilities
+namespace edu.CiclosFormativos.Games.DIDAM.Utilities
 {
     /// <summary>
     /// Encapsula la creación de curvas polinómicas

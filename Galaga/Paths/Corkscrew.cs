@@ -29,7 +29,8 @@ using System.Diagnostics;
 using SFML.Graphics;
 using SFML.System;
 
-using edu.CiclosFormativos.DAM.DI.Galaga.Utilities;
+using edu.CiclosFormativos.Games.DIDAM.Utilities;
+using edu.CiclosFormativos.Games.DIDAM.Paths;
 
 namespace edu.CiclosFormativos.DAM.DI.Galaga.Paths
 {
@@ -88,7 +89,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Paths
             //_waypoints[6, 3] = -1;
 
             // calculo de coeficientes
-            _coef = Utilities.PolynomicUtilities.HermiteInterpolation(_waypoints);
+            _coef = PolynomicUtilities.HermiteInterpolation(_waypoints);
 
             CalculateCurveLength();
         }

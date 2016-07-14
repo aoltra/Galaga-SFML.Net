@@ -28,7 +28,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-using edu.CiclosFormativos.Games.DIDAM.Resources; 
+using edu.CiclosFormativos.Games.DIDAM.Resources;
+using edu.CiclosFormativos.Games.DIDAM.Patterns; 
 
 using SFML.Graphics;
 using SFML.System;

@@ -31,7 +31,9 @@ using System.Text;
 
 using System.Diagnostics;
 
-namespace edu.CiclosFormativos.DAM.DI.Galaga
+using edu.CiclosFormativos.Games.DIDAM.Scenes;
+
+namespace edu.CiclosFormativos.Games.DIDAM.Patterns
 {
     /// <summary>
     /// Encapsula la funcionalidad de una piscina de objetos
@@ -40,7 +42,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
     /// No puede ser instanciada, sólo hace funciones de clase base
     /// </summary>
     /// <typeparam name="T">Tipo del objeto del que se crea la piscina</typeparam>
-    abstract class ObjectPool<T>
+    public abstract class ObjectPool<T>
     {
         // variables miembro
         private List<T> _items;                     // lista de objetos
@@ -225,7 +227,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
     /// <summary>
     /// Encpasula entidades que van a ser incluidos en una piscina 
     /// </summary>
-    abstract class Recyclable : Entity
+    public abstract class Recyclable : Entity
     {
         /// <summary>
         /// Delegado ue define la función que recibe el evento de reciclado

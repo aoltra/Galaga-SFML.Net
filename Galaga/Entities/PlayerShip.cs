@@ -61,6 +61,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
         /// </summary>
         /// <param name="resManager">Gestor de recursos</param>
         /// <param name="worldBounds">Dimensiones de area de movimiento del PlayerShip</param>
+        /// <param name="shootPool">Piscina que gestiona el reciclaje de las balas</param>
         public PlayerShip(ResourcesManager resManager, FloatRect worldBounds,ShootPlayerPool shootPool)
             : base() 
         {

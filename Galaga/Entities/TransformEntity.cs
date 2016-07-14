@@ -29,6 +29,8 @@ using System;
 using SFML.Graphics;
 using SFML.System;
 
+using edu.CiclosFormativos.Games.DIDAM.Scenes;
+
 namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
 {
     /// <summary>

@@ -86,18 +86,13 @@
     <Compile Include="Category.cs" />
     <Compile Include="Commands\FireCommand.cs" />
     <Compile Include="Commands\LinealMovementCommand.cs" />
-    <Compile Include="CurvePath.cs" />
     <Compile Include="Entities\PlatoonLeader.cs" />
-    <Compile Include="ObjectPool.cs" />
     <Compile Include="Paths\Corkscrew.cs" />
     <Compile Include="Entities\EnemyShip.cs" />
-    <Compile Include="Entity.cs" />
     <Compile Include="Entities\PlayerShip.cs" />
     <Compile Include="Paths\User.cs" />
     <Compile Include="Entities\TransformEntity.cs" />
     <Compile Include="ShootPool.cs" />
-    <Compile Include="Utilities\MatrixUtilities.cs" />
-    <Compile Include="Utilities\PolynomicUtilities.cs" />
     <Compile Include="Scenes\GameScene.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
@@ -107,9 +102,8 @@
     <Compile Include="Scenes\TitleScene.cs" />
     <Compile Include="Entities\Shoot.cs" />
     <Compile Include="SpriteNode.cs" />
-    <Compile Include="Star.cs" />
-    <Compile Include="StarBackground.cs" />
-    <Compile Include="Utilities\VectorUtilities.cs" />
+    <Compile Include="Background\Star.cs" />
+    <Compile Include="Background\StarBackground.cs" />
     <Compile Include="World.cs" />
   </ItemGroup>
   <ItemGroup>

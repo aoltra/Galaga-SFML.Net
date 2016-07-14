@@ -32,9 +32,12 @@ using System.Text;
 using edu.CiclosFormativos.Games.DIDAM.Resources;
 using edu.CiclosFormativos.Games.DIDAM.Scenes;
 using edu.CiclosFormativos.Games.DIDAM.Commands;
+using edu.CiclosFormativos.Games.DIDAM.Paths;
 
 using SFML.Graphics;
 using SFML.System;
+
+using edu.CiclosFormativos.DAM.DI.Galaga.Background;
 
 using NLog.Config;
 using NLog.Targets;

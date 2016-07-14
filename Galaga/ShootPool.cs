@@ -28,6 +28,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
+using edu.CiclosFormativos.Games.DIDAM.Patterns;
+
 namespace edu.CiclosFormativos.DAM.DI.Galaga
 {
     /// <summary>

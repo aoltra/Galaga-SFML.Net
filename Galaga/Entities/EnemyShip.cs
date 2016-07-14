@@ -30,12 +30,14 @@ using System.Collections.Generic;
 using System.Diagnostics;
 
 using edu.CiclosFormativos.Games.DIDAM.Resources; 
+using edu.CiclosFormativos.Games.DIDAM.Paths;
 
 using SFML.System;
 using SFML.Graphics;
 
 using NLog;
 
+using edu.CiclosFormativos.Games.DIDAM.Scenes;
 
 namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
 {

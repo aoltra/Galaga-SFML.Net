@@ -29,16 +29,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using edu.CiclosFormativos.Games.DIDAM.Scenes;
-
 using SFML.System;
 
-namespace edu.CiclosFormativos.DAM.DI.Galaga
+namespace edu.CiclosFormativos.Games.DIDAM.Scenes
 {
     /// <summary>
     /// Encapsula un objeto del juego
     /// </summary>
-    abstract class Entity : SceneNode
+    public abstract class Entity : SceneNode
     {
         // velocidad de la entidad;
         private Vector2f _velocity;

@@ -32,7 +32,7 @@ using System.Text;
 using SFML.System;
 using SFML.Graphics;
 
-namespace edu.CiclosFormativos.DAM.DI.Galaga
+namespace edu.CiclosFormativos.DAM.DI.Galaga.Background
 {
     /// <summary>
     /// Encapsula un generador de estrellas

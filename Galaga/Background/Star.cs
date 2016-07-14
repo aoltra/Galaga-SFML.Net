@@ -34,7 +34,9 @@ using System.Diagnostics;
 using SFML.Graphics;
 using SFML.System;
 
-namespace edu.CiclosFormativos.DAM.DI.Galaga
+using edu.CiclosFormativos.Games.DIDAM.Scenes;
+
+namespace edu.CiclosFormativos.DAM.DI.Galaga.Background
 {
     /// <summary>
     /// Encapsula una estrella del background
@@ -45,7 +47,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         private CircleShape _shape;                 // circulo que define la estrella
 
         /// <summary>
-        /// Asiga no devuelve el valor del tamaño del campo de estrellas. Es común para todas las estrellas generadas
+        /// Asigna y devuelve el valor del tamaño del campo de estrellas. Es común para todas las estrellas generadas
         /// </summary>
         public static FloatRect Size { get; set; }
 

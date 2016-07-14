@@ -25,10 +25,13 @@
 #endregion
 
 using System;
-
 using System.Diagnostics;
 
 using SFML.System;
+
+using edu.CiclosFormativos.Games.DIDAM.Utilities;
+using edu.CiclosFormativos.Games.DIDAM.Paths;
+
 
 namespace edu.CiclosFormativos.DAM.DI.Galaga.Paths
 {
@@ -43,7 +46,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Paths
                 _waypoints = input;
 
                 // calculo de coeficientes
-                _coef = Utilities.PolynomicUtilities.HermiteInterpolation(_waypoints);
+                _coef = PolynomicUtilities.HermiteInterpolation(_waypoints);
             }
             else 
             {

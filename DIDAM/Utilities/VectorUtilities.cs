@@ -26,7 +26,7 @@
 
 using System;
 
-namespace edu.CiclosFormativos.DAM.DI.Galaga.Utilities
+namespace edu.CiclosFormativos.Games.DIDAM.Utilities
 {
     /// <summary>
     /// Encapsula utilidades de manejo de vectores

@@ -53,16 +53,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Paths\CurvePath.cs" />
+    <Compile Include="Patterns\ObjectPool.cs" />
     <Compile Include="Resources\SFMLResourcesManager.cs" />
     <Compile Include="Scenes\Category.cs" />
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Commands\CommandQueue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\ResourcesManager.cs" />
+    <Compile Include="Scenes\Entity.cs" />
     <Compile Include="Scenes\Scene.cs" />
     <Compile Include="Scenes\SceneManager.cs" />
     <Compile Include="Scenes\SceneNode.cs" />
+    <Compile Include="Utilities\MatrixUtilities.cs" />
+    <Compile Include="Utilities\PolynomicUtilities.cs" />
+    <Compile Include="Utilities\VectorUtilities.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
