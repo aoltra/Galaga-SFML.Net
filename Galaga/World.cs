@@ -369,7 +369,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
             if (enemy.State == Entities.EnemyShip.StateType.ENTRY)
             {
                 float t0 = (enemy.Position.Y - enemy.EnemyData._yFormation) / enemy.MaxSpeed;
-                  ///  Math.Sign(enemy.EnemyData._xFormation) * (enemy.EnemyData._spawnTime - (float)Math.Floor(enemy.EnemyData._spawnTime));
+                //  Math.Sign(enemy.EnemyData._xFormation) * (enemy.EnemyData._spawnTime - (float)Math.Floor(enemy.EnemyData._spawnTime));
 
                 float xTarget = platoonLeader.Position.X + platoonLeader.Velocity.X * t0;
 

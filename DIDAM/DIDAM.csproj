@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entitites\Animation.cs" />
+    <Compile Include="Entitites\Collider.cs" />
     <Compile Include="Paths\CurvePath.cs" />
     <Compile Include="Patterns\ObjectPool.cs" />
     <Compile Include="Resources\SFMLResourcesManager.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="Scenes\SceneManager.cs" />
     <Compile Include="Scenes\SceneNode.cs" />
     <Compile Include="Scenes\SpriteNode.cs" />
+    <Compile Include="Utilities\ColliderUtilities.cs" />
     <Compile Include="Utilities\MatrixUtilities.cs" />
     <Compile Include="Utilities\PolynomicUtilities.cs" />
     <Compile Include="Utilities\VectorUtilities.cs" />

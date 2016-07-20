@@ -221,7 +221,7 @@ namespace edu.CiclosFormativos.Games.DIDAM.Scenes
         /// <summary>
         /// Devuuelve la Transformacion necesaria para pasar a coordenadas globales (del mundo)
         /// </summary>
-        public SFML.Graphics.Transform WorldTrasform 
+        public SFML.Graphics.Transform WorldTransform 
         {
             get 
             { 
@@ -235,7 +235,7 @@ namespace edu.CiclosFormativos.Games.DIDAM.Scenes
         }
 
         /// <summary>
-        /// Devuuelve la Transformacion necesaria para pasar a coordenadas globales (del mundo)
+        /// Devuuelve la posición de la coordenada 0,0 de la entidad en coordenadas globales
         /// </summary>
         public SFML.System.Vector2f WorldPosition
         {
@@ -245,7 +245,7 @@ namespace edu.CiclosFormativos.Games.DIDAM.Scenes
                 // de referencia de su nodo padre. Ese (0,0) por defecto es la esquina superior derecha del nodo
                 // al hacer el calculo de la transformación global tengo ya en cuenta la transformación del nodo en cuestión
                 // luego el punto que traslado es el origen (0,0).. esté donde esté
-                return WorldTrasform * new SFML.System.Vector2f();
+                return WorldTransform * new SFML.System.Vector2f();
             }
 
         }
@@ -275,7 +275,5 @@ namespace edu.CiclosFormativos.Games.DIDAM.Scenes
                 _children[n].OnCommand(command,dt);
             }
         }
-
- 
     }
 }

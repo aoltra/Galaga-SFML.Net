@@ -25,33 +25,35 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
+
+using SFML.System;
+using SFML.Graphics;
+
+using edu.CiclosFormativos.Games.DIDAM.Entities;
 
 namespace edu.CiclosFormativos.Games.DIDAM.Utilities
 {
     /// <summary>
-    /// Encapsula utilidades de manejo de vectores
+    /// Encapsula utilidades de manejo de colisiones
     /// </summary>
-    public class VectorUtilities
+    public class ColliderUtilities
     {
         /// <summary>
-        /// Devuelve la longitud de un vector
+        /// Devuelve la si hay o no colisión entre dos nodos del grafo de escena
         /// </summary>
         /// <param name="vector">vector</param>
         /// <returns>longitud del vector</returns>
-        public static float VectorLength(SFML.System.Vector2f vector)
+        public static bool Collision(ICollider lhs, ICollider rhs)
         {
-            return VectorLength(vector.X,vector.Y);
-        }
+            Collider colliderL = lhs.GetCollider();
+            Collider colliderR = rhs.GetCollider();
 
-        /// <summary>
-        /// Devuelve la longitud de un vector
-        /// </summary>
-        /// <param name="x">coordenada X</param>
-        /// <param name="y">coordenada Y</param>
-        /// <returns>longitud del vector</returns>
-        public static float VectorLength(float x, float y)
-        {
-            return (float)Math.Sqrt(x * x + y * y);
+            // los dos collider son rectangulos
+            if (!colliderL.IsCircle && !colliderR.IsCircle)
+                return colliderL.Rectangle.Intersects(colliderR.Rectangle);
+
+            return false;
         }
     }
 }

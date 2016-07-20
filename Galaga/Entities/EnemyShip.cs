@@ -59,7 +59,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
     /// - Cambia de textura según se mueven
     /// - Puede ser necesario impactar en ellos mas de un misil para destruirlos
     /// </remarks>
-    class EnemyShip : Entity, IComparable<EnemyShip>
+    class EnemyShip : Entity, IComparable<EnemyShip>, ICollider
     {
         // variables miembro
         private Type _type;                         // tipo de nave enemiga
@@ -338,6 +338,26 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
             Position = pos;
         }
 
+        /// <summary>
+        /// Devuelve la posición del collider, o lo que es lo mismo del rectángulo que va a circunscribir
+        /// la nave y que va a servir para detectar colisiones
+        /// </summary>
+        /// <returns>Coordenadas del rectangulo que hace las veces de collider</returns>
+        public Collider GetCollider()
+        {
+            
+            // GetGlobalBounds()  proporciona las coordenadas locales del sprite desde el centro del sprite
+            // utilizo la matriz de tranformación que me proporciona SceneNode
+            Collider a = new Collider();
+
+            {
+                a.IsCircle = false;
+                a.Rectangle = WorldTransform.TransformRect(_sprite.GetGlobalBounds()); 
+            }
+
+            return a;
+        }
+
         /////////////////////////////////////////////////////////
         //// ESTRUCTURAS DE DATOS
         /////////////////////////////////////////////////////////
@@ -414,8 +434,6 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
             }
 
         }
-
-
     }
 
 }
