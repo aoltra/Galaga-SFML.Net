@@ -40,7 +40,8 @@ namespace edu.CiclosFormativos.Games.DIDAM.Utilities
     public class ColliderUtilities
     {
         /// <summary>
-        /// Devuelve la si hay o no colisión entre dos nodos del grafo de escena
+        /// Devuelve si hay o no colisión entre dos nodos del grafo de escena 
+        /// que tengan un collider asociado
         /// </summary>
         /// <param name="vector">vector</param>
         /// <returns>longitud del vector</returns>
@@ -52,8 +53,13 @@ namespace edu.CiclosFormativos.Games.DIDAM.Utilities
             // los dos collider son rectangulos
             if (!colliderL.IsCircle && !colliderR.IsCircle)
                 return colliderL.Rectangle.Intersects(colliderR.Rectangle);
+            else if (colliderL.IsCircle && colliderR.IsCircle)    // los dos son círculos
+                return colliderL.Circle.Intersects(colliderL.Circle);
+            else if (!colliderL.IsCircle && colliderR.IsCircle)
+                return colliderR.Circle.Intersects(colliderL.Rectangle);
+            else
+                return colliderL.Circle.Intersects(colliderR.Rectangle);
 
-            return false;
         }
     }
 }

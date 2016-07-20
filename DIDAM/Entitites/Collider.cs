@@ -109,7 +109,7 @@ namespace edu.CiclosFormativos.Games.DIDAM.Entities
         }
 
         /// <summary>
-        /// Comprueba si dos circulos se tocane entre sí
+        /// Comprueba si dos circulos se tocan entre sí
         /// </summary>
         /// <param name="rect">Circulo con el que comparar</param>
         /// <returns>true si los círculos se solapan, false en caso contrario</returns>
@@ -118,6 +118,17 @@ namespace edu.CiclosFormativos.Games.DIDAM.Entities
             float distCenter = Utilities.VectorUtilities.VectorLength(rect.CenterX-CenterX,rect.CenterY-CenterY);
                 
             return (distCenter<=(rect.Radius+Radius));
+        }
+
+        /// <summary>
+        /// Comprueba si un círculo y un rectángulo se tocan entre sí
+        /// </summary>
+        /// <param name="rect">Círculo con el que comparar</param>
+        /// <returns>true si los círculos se solapan, false en caso contrario</returns>
+        public bool Intersects(FloatRect rect)
+        {
+            return (Contains(rect.Left, rect.Top) || Contains(rect.Left + rect.Width, rect.Top) 
+                || Contains(rect.Left,rect.Top + rect.Height) || Contains(rect.Left + rect.Width,rect.Top + rect.Height));
         }
 
         ////////////////////////////////////////////////////////////
