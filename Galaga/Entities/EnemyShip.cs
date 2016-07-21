@@ -348,14 +348,12 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
             
             // GetGlobalBounds()  proporciona las coordenadas locales del sprite desde el centro del sprite
             // utilizo la matriz de tranformación que me proporciona SceneNode
-            Collider a = new Collider();
+            Collider collider= new Collider();
 
-            {
-                a.IsCircle = false;
-                a.Rectangle = WorldTransform.TransformRect(_sprite.GetGlobalBounds()); 
-            }
+            collider.IsCircle = false;
+            collider.Rectangle = WorldTransform.TransformRect(_sprite.GetGlobalBounds());
 
-            return a;
+            return collider; 
         }
 
         /////////////////////////////////////////////////////////

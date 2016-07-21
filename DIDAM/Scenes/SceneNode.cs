@@ -26,10 +26,13 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 using System.Diagnostics;
+
+using edu.CiclosFormativos.Games.DIDAM.Entities;
+
+using Tuple = System.Tuple<edu.CiclosFormativos.Games.DIDAM.Scenes.SceneNode, edu.CiclosFormativos.Games.DIDAM.Scenes.SceneNode>;
 
 namespace edu.CiclosFormativos.Games.DIDAM.Scenes
 {
@@ -82,6 +85,7 @@ namespace edu.CiclosFormativos.Games.DIDAM.Scenes
 
 
         private List<SceneNode> _children = null;     // lista de hijos
+
 
         /// <summary>
         /// Constructor
@@ -250,6 +254,35 @@ namespace edu.CiclosFormativos.Games.DIDAM.Scenes
 
         }
         #endregion
+
+        /// <summary>
+        /// Comprueba la colisión de un nodo y sus hijos con otro nodo
+        /// </summary>
+        /// <param name="node">Nodo con el que se va a comparar</param>
+        /// <param name="collisionPairs">Conjunto que almacena todos los pares de elementos colisionados</param>
+        void CheckNodeCollision(SceneNode node,SortedSet<Tuple> collisionPairs)
+        {
+            if (this is ICollider && node is ICollider && this != node &&
+                Utilities.ColliderUtilities.Collision((ICollider)this, (ICollider)node))
+                collisionPairs.Add(Utilities.ColliderUtilities.GetSortedTuple((ICollider)this, (ICollider)node));
+
+                foreach (SceneNode sc in _children) {
+                    sc.CheckNodeCollision(node,collisionPairs);
+                }
+        }
+
+        /// <summary>
+        /// Comprueba las colisiones de cada uno de los nodos del grafo de escena con el resto. Esta pensada para ser llamada
+        /// desde el nodo de raiz
+        /// </summary>
+        /// <param name="sceneGraph"></param>
+        /// <param name="collisionPairs"></param>
+        void CheckSceneCollision(SceneNode sceneGraph,SortedSet<Tuple> collisionPairs)
+        {
+            CheckNodeCollision(sceneGraph, collisionPairs);
+            foreach (SceneNode child in sceneGraph._children)
+                CheckSceneCollision(child, collisionPairs);
+        }
 
         /// <summary>
         /// Ejecuta, si su categoria lo indica, el comando. Además reenvía el comando a sus hijos

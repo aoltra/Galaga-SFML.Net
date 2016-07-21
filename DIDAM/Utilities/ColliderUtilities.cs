@@ -61,5 +61,12 @@ namespace edu.CiclosFormativos.Games.DIDAM.Utilities
                 return colliderL.Circle.Intersects(colliderR.Rectangle);
 
         }
+
+        public static Tuple<Scenes.SceneNode,Scenes.SceneNode> GetSortedTuple(ICollider lhs, ICollider rhs) 
+        {
+            return (lhs.GetHashCode() > rhs.GetHashCode()) ? 
+                new Tuple<Scenes.SceneNode, Scenes.SceneNode>((Scenes.SceneNode)rhs, (Scenes.SceneNode)lhs) : 
+                new Tuple<Scenes.SceneNode, Scenes.SceneNode>((Scenes.SceneNode)rhs, (Scenes.SceneNode)lhs);
+        }
     }
 }
