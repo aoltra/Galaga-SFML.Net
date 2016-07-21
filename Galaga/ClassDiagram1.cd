@@ -1,61 +1,81 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="edu.CiclosFormativos.DAM.DI.Galaga.Entity" Collapsed="true">
-    <Position X="5" Y="2" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAIAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
-      <FileName>Entity.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="edu.CiclosFormativos.DAM.DI.Galaga.Star" Collapsed="true">
-    <Position X="3" Y="3.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAIAEgAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Star.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="edu.CiclosFormativos.DAM.DI.Galaga.SpriteNode" Collapsed="true">
-    <Position X="0.5" Y="2" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAEAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>SpriteNode.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="edu.CiclosFormativos.DAM.DI.Galaga.SceneNode" Collapsed="true">
-    <Position X="4" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAYQEAAAAAAAkgAAAAQAUAAQAEIAAAABAQAAAIAACAA=</HashCode>
-      <FileName>SceneNode.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" />
-  </Class>
   <Class Name="edu.CiclosFormativos.DAM.DI.Galaga.Entities.PlayerShip" Collapsed="true">
-    <Position X="5.5" Y="3.75" Width="1.5" />
+    <Position X="8.25" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAIAEAAAAAAAAAAAAAAAAAAACAAEAIAAAAEAAAAACAA=</HashCode>
       <FileName>Entities\PlayerShip.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="edu.CiclosFormativos.DAM.DI.Galaga.Entities.EnemyShip" Collapsed="true">
-    <Position X="8" Y="3.75" Width="1.5" />
+    <Position X="10.75" Y="4.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAoAEAQAAQECAAwBAAAEJBAEoAAAQAAQACEABAAASAg=</HashCode>
+      <HashCode>AAoAEAQAAQECAAwBAAAEJBAUoAAAQAAQACEABAAASAg=</HashCode>
       <FileName>Entities\EnemyShip.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="edu.CiclosFormativos.DAM.DI.Galaga.Recyclable" Collapsed="true">
-    <Position X="10.25" Y="3.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAEAAA=</HashCode>
-      <FileName>ObjectPool.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="edu.CiclosFormativos.DAM.DI.Galaga.Entities.Shoot" Collapsed="true">
-    <Position X="10.25" Y="5.25" Width="1.5" />
+    <Position X="12.5" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAIAEAAAAAAAAAQAAAAAEAAAAAAIAAAAAAEAAAAAAAA=</HashCode>
       <FileName>Entities\Shoot.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="edu.CiclosFormativos.Games.DIDAM.Entities.Entity" Collapsed="true">
+    <Position X="9.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="edu.CiclosFormativos.Games.DIDAM.Scenes.SceneNode" Collapsed="true">
+    <Position X="9.25" Y="1.25" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="edu.CiclosFormativos.Games.DIDAM.Patterns.Recyclable" Collapsed="true">
+    <Position X="12.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="edu.CiclosFormativos.DAM.DI.Galaga.Background.Star" Collapsed="true">
+    <Position X="6.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAEgAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Background\Star.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="edu.CiclosFormativos.Games.DIDAM.Scenes.SceneManager" Collapsed="true">
+    <Position X="2.75" Y="2" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="edu.CiclosFormativos.Games.DIDAM.Scenes.Scene" Collapsed="true">
+    <Position X="2.75" Y="3" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="edu.CiclosFormativos.DAM.DI.Galaga.Scenes.GameScene" Collapsed="true">
+    <Position X="2.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAgAAAAAAiAAAIAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Scenes\GameScene.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="edu.CiclosFormativos.DAM.DI.Galaga.Scenes.MenuScene" Collapsed="true">
+    <Position X="4" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAQAAAgAAAAAAgAAAIBAAAAAAAAAAAAAAAkA=</HashCode>
+      <FileName>Scenes\MenuScene.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="edu.CiclosFormativos.DAM.DI.Galaga.Scenes.PauseScene" Collapsed="true">
+    <Position X="0.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAgAAAAAAgAAAIBAAEAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Scenes\PauseScene.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="edu.CiclosFormativos.DAM.DI.Galaga.Scenes.TitleScene" Collapsed="true">
+    <Position X="5.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQCAAAAAAAAAgAAAAAAgAAAIAAAAAgIAAAAAACAAgA=</HashCode>
+      <FileName>Scenes\TitleScene.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />
