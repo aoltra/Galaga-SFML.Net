@@ -34,7 +34,7 @@ namespace edu.CiclosFormativos.Games.DIDAM.Scenes
     /// </summary>
     public enum Category
     {
-        // la 0 y la 1 la proporcionanel motor
+        // la 0 y la 1 las proporcionan el motor
         /// <summary>
         /// Ninguna categoria
         /// </summary>

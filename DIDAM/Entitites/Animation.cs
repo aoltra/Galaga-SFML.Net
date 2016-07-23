@@ -72,9 +72,14 @@ namespace edu.CiclosFormativos.Games.DIDAM.Entities
         }
 
         /// <summary>
-        /// Devuelve los limites del tile actual
+        /// Devuelve los límites del tile actual
         /// </summary>
         public FloatRect LocalBounds { get { return _localBounds; } }
+
+        /// <summary>
+        /// Devuelve los límites del tile actual centrado
+        /// </summary>
+        public FloatRect GlobalBounds { get { return _sprite.GetGlobalBounds(); } }
 
         /// <summary>
         /// Devuelve el tile actual

@@ -100,6 +100,17 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
         public StateType State { get; private set; }
 
         /// <summary>
+        /// Devuelve la categoría del nodo
+        /// </summary>
+        /// <remarks>
+        /// Se declara virtual para que pueda ser modificada en las clases hijas sobreescibiendose (override)
+        /// </remarks>
+        public override UInt16 Category
+        {
+            get { return (UInt16)edu.CiclosFormativos.DAM.DI.Galaga.Category.ENEMYSHIP; }
+        }
+
+        /// <summary>
         /// delegado ue define la función que recibe el evento de cambio de estado
         /// </summary>
         /// <param name="sender">Objeto que envia el mensaje (la nave enemiga)</param>
@@ -351,7 +362,8 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
             Collider collider= new Collider();
 
             collider.IsCircle = false;
-            collider.Rectangle = WorldTransform.TransformRect(_sprite.GetGlobalBounds());
+            collider.Rectangle = WorldTransform.TransformRect(_animation.GlobalBounds);
+            System.Diagnostics.Debug.WriteLine(collider.Rectangle);
 
             return collider; 
         }

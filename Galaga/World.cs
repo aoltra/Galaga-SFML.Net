@@ -27,10 +27,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Diagnostics;
 
 using edu.CiclosFormativos.Games.DIDAM.Resources;
 using edu.CiclosFormativos.Games.DIDAM.Entities;
+using edu.CiclosFormativos.Games.DIDAM.Utilities;
 using edu.CiclosFormativos.Games.DIDAM.Scenes;
 using edu.CiclosFormativos.Games.DIDAM.Commands;
 using edu.CiclosFormativos.Games.DIDAM.Paths;
@@ -43,6 +44,8 @@ using edu.CiclosFormativos.DAM.DI.Galaga.Background;
 using NLog.Config;
 using NLog.Targets;
 using NLog;
+
+using Pair = System.Tuple<edu.CiclosFormativos.Games.DIDAM.Scenes.SceneNode, edu.CiclosFormativos.Games.DIDAM.Scenes.SceneNode>;
 
 namespace edu.CiclosFormativos.DAM.DI.Galaga
 {
@@ -72,6 +75,8 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         private const int BORDER = 40;                  // borde del mundo en el que no se juega
 
         private int _level;                             // fase del juego
+
+        private SortedSet<Pair> _collisionPairs;        // conjunto de colisiones (pares de SceneNode que colisionan)
 
         // logger
         private static Logger _logger = LogManager.GetCurrentClassLogger();
@@ -126,6 +131,9 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                 _worldBounds = new FloatRect(0, 0, _worldView.Size.X, _worldView.Size.Y);
                 _leaderBoundLeft = _worldBounds.Width * .4f;
                 _leaderBoundRight = _worldBounds.Width * .6f;
+
+                // inicializo el conjunot de colisiones
+                _collisionPairs = new SortedSet<Pair>(new ByHashCode());
 
                 // incializo la fase
                 _level = 1;
@@ -239,48 +247,48 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                 enemy.StateChangeEvent += new Entities.EnemyShip.StateChange(SyncEnemyWithLeader);
                 _dockShip.Add(enemy);
 
-                data._spawnTime = 3.60f;
-                data._xFormation = 1;
-                data._yFormation = 5;
-                enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BUTTERFLY, data);
-                enemy.StateChangeEvent += new Entities.EnemyShip.StateChange(SyncEnemyWithLeader);
-                _dockShip.Add(enemy);
+                //data._spawnTime = 3.60f;
+                //data._xFormation = 1;
+                //data._yFormation = 5;
+                //enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BUTTERFLY, data);
+                //enemy.StateChangeEvent += new Entities.EnemyShip.StateChange(SyncEnemyWithLeader);
+                //_dockShip.Add(enemy);
 
-                data._spawnTime = 3.90f;
-                data._xFormation = -1;
-                data._yFormation = 5;
-                enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BUTTERFLY, data);
-                enemy.StateChangeEvent += new Entities.EnemyShip.StateChange(SyncEnemyWithLeader);
-                _dockShip.Add(enemy);
+                //data._spawnTime = 3.90f;
+                //data._xFormation = -1;
+                //data._yFormation = 5;
+                //enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BUTTERFLY, data);
+                //enemy.StateChangeEvent += new Entities.EnemyShip.StateChange(SyncEnemyWithLeader);
+                //_dockShip.Add(enemy);
 
-                data._path = _curveMap["Sacacorchos1_sim"];
-                data._spawnTime = 3.0f;
-                data._xFormation = 1;
-                data._yFormation = 2;
-                enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data);
-                enemy.StateChangeEvent += new Entities.EnemyShip.StateChange(SyncEnemyWithLeader);
-                _dockShip.Add(enemy);
+                //data._path = _curveMap["Sacacorchos1_sim"];
+                //data._spawnTime = 3.0f;
+                //data._xFormation = 1;
+                //data._yFormation = 2;
+                //enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data);
+                //enemy.StateChangeEvent += new Entities.EnemyShip.StateChange(SyncEnemyWithLeader);
+                //_dockShip.Add(enemy);
 
-                data._spawnTime = 3.30f;
-                data._xFormation = -1;
-                data._yFormation = 2;
-                enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data);
-                enemy.StateChangeEvent += new Entities.EnemyShip.StateChange(SyncEnemyWithLeader);
-                _dockShip.Add(enemy);
+                //data._spawnTime = 3.30f;
+                //data._xFormation = -1;
+                //data._yFormation = 2;
+                //enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data);
+                //enemy.StateChangeEvent += new Entities.EnemyShip.StateChange(SyncEnemyWithLeader);
+                //_dockShip.Add(enemy);
 
-                data._spawnTime = 3.60f;
-                data._xFormation = 1;
-                data._yFormation = 3;
-                enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data);
-                enemy.StateChangeEvent += new Entities.EnemyShip.StateChange(SyncEnemyWithLeader);
-                _dockShip.Add(enemy);
+                //data._spawnTime = 3.60f;
+                //data._xFormation = 1;
+                //data._yFormation = 3;
+                //enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data);
+                //enemy.StateChangeEvent += new Entities.EnemyShip.StateChange(SyncEnemyWithLeader);
+                //_dockShip.Add(enemy);
 
-                data._spawnTime = 3.90f;
-                data._xFormation = -1;
-                data._yFormation = 3;
-                enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data);
-                enemy.StateChangeEvent += new Entities.EnemyShip.StateChange(SyncEnemyWithLeader);
-                _dockShip.Add(enemy);
+                //data._spawnTime = 3.90f;
+                //data._xFormation = -1;
+                //data._yFormation = 3;
+                //enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data);
+                //enemy.StateChangeEvent += new Entities.EnemyShip.StateChange(SyncEnemyWithLeader);
+                //_dockShip.Add(enemy);
   
                 // Podría ser aconsejable ordenarla lista una vez insertadas las naves. 
                 // siendo por tiempo es posible que sea más fácil simplemente introducirlas ordenadas
@@ -331,6 +339,10 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
             // Introduzco los commandos de la cola en el grafo
             while (!_commandQueue.IsEmpty)
                 _sceneGraph.OnCommand(_commandQueue.Pop(), dt);
+
+            // Gestión de la colisiones
+            HandleCollisions();
+
 
             // actualizamos el grafo de escena
             _sceneGraph.Update(dt);
@@ -393,6 +405,48 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                 enemy.SyncAnimation(((Entities.PlatoonLeader)platoonLeader).CurrentTile,((Entities.PlatoonLeader)platoonLeader).CurrentTime);
 
             }
+        }
+
+        public void HandleCollisions() 
+        {
+            _collisionPairs.Clear();
+
+            _sceneGraph.CheckSceneCollision(_sceneGraph, _collisionPairs);
+            
+            for (int pair = 0; pair < _collisionPairs.Count; pair++)
+            {
+                //Debug.Write("Colision " + t.Item1 + " (" + t.Item1.GetType() + ")," + t.Item2 + " (" + t.Item2.GetType() + ")");
+                Pair pairVar = _collisionPairs.ElementAt<Pair>(pair);
+
+                if (ColliderUtilities.MatchesCategories(ref pairVar, (uint)Category.ENEMYSHIP, (uint)Category.SHOOT))
+                {
+                    Debug.Write("Colision " + _collisionPairs.ElementAt<Pair>(pair).Item1.WorldPosition + " (" + _collisionPairs.ElementAt<Pair>(pair).Item1.GetType() + ")," + _collisionPairs.ElementAt<Pair>(pair).Item2.WorldPosition + " (" + _collisionPairs.ElementAt<Pair>(pair).Item2.GetType() + ")");
+                   
+
+                }
+                else if (ColliderUtilities.MatchesCategories(ref pairVar, (uint)Category.PLAYERSHIP, (uint)Category.SHOOT))
+                {
+               
+                }
+                else if (ColliderUtilities.MatchesCategories(ref pairVar, (uint)Category.PLAYERSHIP, (uint)Category.ENEMYSHIP))
+                { 
+                
+                
+                
+                }
+
+            }
+        }
+    }
+
+    /// <summary>
+    /// Implementa un comparador a utilizar con SortedSet
+    /// </summary>
+    public class ByHashCode : IComparer<Pair>
+    {
+        public int Compare(Pair x, Pair y)
+        {
+            return (x.Item1.GetHashCode() < y.Item1.GetHashCode()) ? 1 : -1;
         }
     }
 }

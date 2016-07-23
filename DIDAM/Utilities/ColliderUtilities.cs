@@ -62,11 +62,39 @@ namespace edu.CiclosFormativos.Games.DIDAM.Utilities
 
         }
 
-        public static Tuple<Scenes.SceneNode,Scenes.SceneNode> GetSortedTuple(ICollider lhs, ICollider rhs) 
+        /// <summary>
+        /// Devuelve un par ordenado, es decir, el nodo con HashID más bajo delente
+        /// </summary>
+        /// <param name="lhs">Primer Collider</param>
+        /// <param name="rhs">Segundo Collider</param>
+        /// <returns>un objeto tipo pair de SceneNode ordenados</returns>
+        public static Tuple<Scenes.SceneNode,Scenes.SceneNode> GetSortedPair(ICollider lhs, ICollider rhs) 
         {
             return (lhs.GetHashCode() > rhs.GetHashCode()) ? 
                 new Tuple<Scenes.SceneNode, Scenes.SceneNode>((Scenes.SceneNode)rhs, (Scenes.SceneNode)lhs) : 
                 new Tuple<Scenes.SceneNode, Scenes.SceneNode>((Scenes.SceneNode)rhs, (Scenes.SceneNode)lhs);
         }
+
+        public static bool MatchesCategories(ref Tuple<Scenes.SceneNode, Scenes.SceneNode> colliders, uint type1, uint type2)
+        {
+            uint category1 = ((Scenes.SceneNode)colliders.Item1).Category;
+            uint category2 = ((Scenes.SceneNode)colliders.Item2).Category;
+
+            // hay que recordar que los SceneNode podrían ser de varias categorías al mismo tiempo
+            if ((type1 & category1) !=0  && (type2 & category2) !=0)
+            {
+                return true;
+            }
+            else if ((type1 & category2) !=0  && ((type2 & category1)!=0))
+            {
+                colliders = new Tuple<Scenes.SceneNode, Scenes.SceneNode>((Scenes.SceneNode)colliders.Item2, (Scenes.SceneNode)colliders.Item1);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
     }
 }

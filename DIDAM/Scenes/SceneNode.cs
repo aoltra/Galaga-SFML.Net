@@ -32,7 +32,7 @@ using System.Diagnostics;
 
 using edu.CiclosFormativos.Games.DIDAM.Entities;
 
-using Tuple = System.Tuple<edu.CiclosFormativos.Games.DIDAM.Scenes.SceneNode, edu.CiclosFormativos.Games.DIDAM.Scenes.SceneNode>;
+using Pair = System.Tuple<edu.CiclosFormativos.Games.DIDAM.Scenes.SceneNode, edu.CiclosFormativos.Games.DIDAM.Scenes.SceneNode>;
 
 namespace edu.CiclosFormativos.Games.DIDAM.Scenes
 {
@@ -73,7 +73,7 @@ namespace edu.CiclosFormativos.Games.DIDAM.Scenes
         }
 
         /// <summary>
-        /// Asigna o devuelve la categoria del nodo
+        /// Devuelve la categoría del nodo
         /// </summary>
         /// <remarks>
         /// Se declara virtual para que pueda ser modificada en las clases hijas sobreescibiendose (override)
@@ -83,9 +83,7 @@ namespace edu.CiclosFormativos.Games.DIDAM.Scenes
             get { return (UInt16)edu.CiclosFormativos.Games.DIDAM.Scenes.Category.SCENE; }
         }
 
-
         private List<SceneNode> _children = null;     // lista de hijos
-
 
         /// <summary>
         /// Constructor
@@ -260,12 +258,14 @@ namespace edu.CiclosFormativos.Games.DIDAM.Scenes
         /// </summary>
         /// <param name="node">Nodo con el que se va a comparar</param>
         /// <param name="collisionPairs">Conjunto que almacena todos los pares de elementos colisionados</param>
-        void CheckNodeCollision(SceneNode node,SortedSet<Tuple> collisionPairs)
+        protected void CheckNodeCollision(SceneNode node,SortedSet<Pair> collisionPairs)
         {
             if (this is ICollider && node is ICollider && this != node &&
                 Utilities.ColliderUtilities.Collision((ICollider)this, (ICollider)node))
-                collisionPairs.Add(Utilities.ColliderUtilities.GetSortedTuple((ICollider)this, (ICollider)node));
-
+            {
+                Pair a = Utilities.ColliderUtilities.GetSortedPair((ICollider)this, (ICollider)node);
+                collisionPairs.Add(a);
+            }
                 foreach (SceneNode sc in _children) {
                     sc.CheckNodeCollision(node,collisionPairs);
                 }
@@ -277,7 +277,7 @@ namespace edu.CiclosFormativos.Games.DIDAM.Scenes
         /// </summary>
         /// <param name="sceneGraph"></param>
         /// <param name="collisionPairs"></param>
-        void CheckSceneCollision(SceneNode sceneGraph,SortedSet<Tuple> collisionPairs)
+        public void CheckSceneCollision(SceneNode sceneGraph,SortedSet<Pair> collisionPairs)
         {
             CheckNodeCollision(sceneGraph, collisionPairs);
             foreach (SceneNode child in sceneGraph._children)

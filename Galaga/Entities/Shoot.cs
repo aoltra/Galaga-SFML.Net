@@ -29,7 +29,8 @@ using System.Collections.Generic;
 using System.Text;
 
 using edu.CiclosFormativos.Games.DIDAM.Resources;
-using edu.CiclosFormativos.Games.DIDAM.Patterns; 
+using edu.CiclosFormativos.Games.DIDAM.Patterns;
+using edu.CiclosFormativos.Games.DIDAM.Entities;
 
 using SFML.Graphics;
 using SFML.System;
@@ -43,7 +44,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
     /// - Tienen un vida limitada
     /// - Pueden colisionar con las naves enemigas o con la del propio jugador
     /// </remarks>
-    class Shoot : Recyclable
+    class Shoot : Recyclable, ICollider
     {
         // variables miembro
         private Type _type;                           // tipo de nave enemiga
@@ -59,6 +60,16 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
             TYPECOUNT
         }
 
+        /// <summary>
+        /// Devuelve la categoría del nodo
+        /// </summary>
+        /// <remarks>
+        /// Se declara virtual para que pueda ser modificada en las clases hijas sobreescibiendose (override)
+        /// </remarks>
+        public override UInt16 Category
+        {
+            get { return (UInt16)edu.CiclosFormativos.DAM.DI.Galaga.Category.SHOOT; }
+        }
 
         public Shoot(Type type)
             : base()
@@ -146,6 +157,24 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
                 ShootTypeConf[type]._resManager = resManager;
             }
 
+        }
+
+        /// <summary>
+        /// Devuelve la posición del collider, o lo que es lo mismo del rectángulo que va a circunscribir
+        /// el disparo y que va a servir para detectar colisiones
+        /// </summary>
+        /// <returns>Coordenadas del rectangulo que hace las veces de collider</returns>
+        public Collider GetCollider()
+        {
+
+            // GetGlobalBounds()  proporciona las coordenadas locales del sprite desde el centro del sprite
+            // utilizo la matriz de tranformación que me proporciona SceneNode
+            Collider collider = new Collider();
+
+            collider.IsCircle = false;
+            collider.Rectangle = WorldTransform.TransformRect(_sprite.GetGlobalBounds());
+
+            return collider;
         }
     }
 }

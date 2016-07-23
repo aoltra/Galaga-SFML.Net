@@ -51,8 +51,13 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
         PLAYERSHIP = 2,
 
         /// <summary>
-        /// Simplemente para hacer notar que se numeran como potencias de dos
+        /// Nave enemiga
         /// </summary>
-        DUMMY = 4 
+        ENEMYSHIP = 4,
+
+        /// <summary>
+        /// Disparo jugador
+        /// </summary>
+        SHOOT = 8 
     }
 }
