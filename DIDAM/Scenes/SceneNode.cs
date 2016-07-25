@@ -137,19 +137,25 @@ namespace edu.CiclosFormativos.Games.DIDAM.Scenes
         /// <param name="rt">Donde se va a dibujar. Suele ser casi siempre una renderWindow, aunque podría ser una renderTexture</param>
         /// <param name="rs">Estados usados para dibujar</param>
         /// <remarks>
-        /// Esta función ya hace lo que tiene que hace y no necesita ser particularizada en ningún nodo. Para particularizar
+        /// Esta función ya hace lo que tiene que hacer y no necesita ser particularizada en ningún nodo. Para particularizar
         /// el dibujo de un nodo se utiliza DrawCurrent
         /// </remarks>
         public void Draw(SFML.Graphics.RenderTarget rt, SFML.Graphics.RenderStates rs)
         { 
             // almaceno la combinación de la transformación de el padre y de este nodo (hay que recordar que la 
             // de este nodo es relativa al padre). Lo que obtengo es la transformación global del nodo
-            // esto funciona bien ya que rednerStates y Transform son struct y no una clase!! se hace una copia, 
+            // esto funciona bien ya que renderStates y Transform son struct y no una clase!! se hace una copia, 
             // no se crea otra referencia
             rs.Transform.Combine(Transform);
 
             DrawCurrent(rt, rs);                // Dibujo el nodo actual
             DrawChildren(rt,rs);
+
+#if DEBUG
+            // Dibujo el collider
+            if (this is ICollider)
+                (((ICollider)this).GetCollider()).Draw(rt, rs);
+#endif
         }
 
         /// <summary>

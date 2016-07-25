@@ -42,19 +42,75 @@ namespace edu.CiclosFormativos.Games.DIDAM.Entities
     }
 
     /// <summary>
-    /// Union que define el collider
+    /// Implementa un collider
     /// </summary>
-    [StructLayout(LayoutKind.Explicit)] 
-    public struct Collider 
+    public abstract class Collider 
     {
-        [FieldOffset(0)] 
-        public bool IsCircle;
+        /// <summary>
+        /// Devuelve si el Collider es un circulo. 
+        /// </summary>
+        public virtual bool? IsCircle { get { return null; } }
 
-        [FieldOffset(1)] 
-        public FloatRect Rectangle;
+        public abstract void Draw(SFML.Graphics.RenderTarget rt, SFML.Graphics.RenderStates rs);
+    }
 
-        [FieldOffset(5)]
-        public CircleRect Circle;
+
+    /// <summary>
+    /// Implementa un collider rectangular
+    /// </summary>
+    public class ColliderRect : Collider
+    {
+        // rectangulo que define el collider
+        private FloatRect Rectangle;
+
+        /// <summary>
+        /// Devuelve si el Collider es un circulo (false)
+        /// </summary>
+        new public bool? IsCircle { get { return false; } }
+
+#if DEBUG
+        // forma que representa el collider. Para dibujarla en DEBUG
+        private SFML.Graphics.RectangleShape shape = new SFML.Graphics.RectangleShape();
+
+        /// <summary>
+        /// Constructor 
+        /// </summary>
+        /// <param name="color"></param>
+        public ColliderRect(FloatRect rect, SFML.System.Vector2f origin, SFML.Graphics.Color color)
+        {
+            shape.FillColor = SFML.Graphics.Color.Transparent;
+            shape.OutlineColor = color;
+            shape.OutlineThickness = 1f;
+            shape.Origin = origin;
+            shape.Size = new SFML.System.Vector2f(rect.Width, rect.Height);
+
+            Rectangle = rect;
+        }
+
+        /// <summary>
+        /// Constructor por defecto. Color verde
+        /// </summary>
+        public ColliderRect(FloatRect rect,SFML.System.Vector2f origin) : this (rect, origin, SFML.Graphics.Color.Green) { }
+
+        /// <summary>
+        /// Dibuja el collider
+        /// </summary>
+        /// <param name="rt">Donde se va a dibujar. Suele ser casi siempre una renderWindow, aunque podría ser una renderTexture</param>
+        /// <param name="rs">Estados usados para dibujar</param>
+        /// <remarks>
+        /// Se usa en depuraciones
+        /// </remarks>
+        public override void Draw(SFML.Graphics.RenderTarget rt, SFML.Graphics.RenderStates rs)
+        {
+            rt.Draw(shape, rs);
+        }
+#else
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public ColliderRect(FloatRect rect) {  Rectangle = rect; }
+#endif
+
     }
 
     /// <summary>

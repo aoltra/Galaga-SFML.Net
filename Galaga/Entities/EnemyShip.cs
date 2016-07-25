@@ -111,6 +111,11 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
         }
 
         /// <summary>
+        /// Collider, en este caso usamos un rectangulo
+        /// </summary>
+        private edu.CiclosFormativos.Games.DIDAM.Entities.ColliderRect _collider;
+
+        /// <summary>
         /// delegado ue define la función que recibe el evento de cambio de estado
         /// </summary>
         /// <param name="sender">Objeto que envia el mensaje (la nave enemiga)</param>
@@ -172,11 +177,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
             _animation = new Animation((Texture)EnemiesTypeConf[(int)_type]._resManager[EnemiesTypeConf[(int)_type]._textureKey],
                 new Vector2u(55, 55), SFML.System.Time.FromSeconds(1f));
             _rotOrigin = _animation.Rotation = shipData._rotationOrigin;
-            _animation.Scale = new Vector2f(0.7f, 0.7f);
-
-            // ubico el origen del sprite en el centro en vez de en la esquina superior derecha
-            FloatRect bounds = _animation.LocalBounds;
-            _animation.Origin = new SFML.System.Vector2f(bounds.Width / 2f, bounds.Height / 2f);
+            _animation.ScaleSprite = new Vector2f(0.7f, 0.7f);
 
             width = _animation.TileSize.X * _animation.Scale.X;
 
@@ -211,6 +212,9 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
             _segmentTime = 0;
 
             Position = new Vector2f(shipData._xOrigin, shipData._yOrigin);
+
+            FloatRect bounds = _animation.GlobalBounds;
+            _collider = new ColliderRect(bounds,new SFML.System.Vector2f(bounds.Width / 2f, bounds.Height / 2f));
 
            // _animation.Run();
         }
@@ -359,13 +363,13 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
             
             // GetGlobalBounds()  proporciona las coordenadas locales del sprite desde el centro del sprite
             // utilizo la matriz de tranformación que me proporciona SceneNode
-            Collider collider= new Collider();
+          //  Collider collider= new Collider();
 
-            collider.IsCircle = false;
-            collider.Rectangle = WorldTransform.TransformRect(_animation.GlobalBounds);
-            System.Diagnostics.Debug.WriteLine(collider.Rectangle);
+          //  collider.IsCircle = false;
+          //  collider.Rectangle = WorldTransform.TransformRect(_animation.GlobalBounds);
+          ////  System.Diagnostics.Debug.WriteLine(collider.Rectangle);
 
-            return collider; 
+            return _collider; 
         }
 
         /////////////////////////////////////////////////////////

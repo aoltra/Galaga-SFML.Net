@@ -226,7 +226,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                 // platoon leader
                 Entities.PlatoonLeader platoonLeader = new Entities.PlatoonLeader(-60, _leaderBoundLeft, _leaderBoundRight,_resManager);
 #if DEBUG
-                platoonLeader.Visible = true;
+                platoonLeader.Visible = false;
 #endif
                 _sceneLayers[(int)Layer.AIR].AddChild(platoonLeader);
                 platoonLeader.Position = new Vector2f(_worldView.Size.X / 2, ENEMYSHIP_ROW_Y[0]);
@@ -240,12 +240,12 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                 enemy.StateChangeEvent += new Entities.EnemyShip.StateChange(SyncEnemyWithLeader);
                 _dockShip.Add(enemy);
 
-                data._spawnTime = 3.30f;
-                data._xFormation = -1;
-                data._yFormation = 4;
-                enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BUTTERFLY, data);
-                enemy.StateChangeEvent += new Entities.EnemyShip.StateChange(SyncEnemyWithLeader);
-                _dockShip.Add(enemy);
+                //data._spawnTime = 3.30f;
+                //data._xFormation = -1;
+                //data._yFormation = 4;
+                //enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BUTTERFLY, data);
+                //enemy.StateChangeEvent += new Entities.EnemyShip.StateChange(SyncEnemyWithLeader);
+                //_dockShip.Add(enemy);
 
                 //data._spawnTime = 3.60f;
                 //data._xFormation = 1;

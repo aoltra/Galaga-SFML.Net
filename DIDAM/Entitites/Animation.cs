@@ -64,11 +64,24 @@ namespace edu.CiclosFormativos.Games.DIDAM.Entities
         /// <summary>
         /// Devuelve o asigna la escala del sprite
         /// </summary>
-        public Vector2f Escale 
+        /// <remarks>
+        /// No la llamo Scale para no colisionar con la definida en Transformable
+        /// </remarks>
+        public Vector2f ScaleSprite
         { 
             get { return _sprite.Scale; }
 
-            set { _sprite.Scale = value; } 
+            set 
+            { 
+                _sprite.Scale = value;
+                //uint row = (uint)(_currentTile / _numTilesX);
+                //uint column = _currentTile - row * _numTilesX;
+                //_sprite.TextureRect = new IntRect((int)(column * TileSize.X ), (int)(row * TileSize.Y * value.Y),
+                //    (int)(TileSize.X), (int)(TileSize.Y));
+                //_localBounds = (FloatRect)_sprite.TextureRect;
+                //_sprite.Origin = new SFML.System.Vector2f(_localBounds.Width / 2f, _localBounds.Height / 2f);
+
+            } 
         }
 
         /// <summary>
@@ -77,7 +90,7 @@ namespace edu.CiclosFormativos.Games.DIDAM.Entities
         public FloatRect LocalBounds { get { return _localBounds; } }
 
         /// <summary>
-        /// Devuelve los límites del tile actual centrado
+        /// Devuelve los límites del tile (sprite) con respecto al origen
         /// </summary>
         public FloatRect GlobalBounds { get { return _sprite.GetGlobalBounds(); } }
 
@@ -142,6 +155,7 @@ namespace edu.CiclosFormativos.Games.DIDAM.Entities
             _sprite.TextureRect = new IntRect(0, 0, (int)tileSize.X, (int)tileSize.Y);
 
             _localBounds = (FloatRect)_sprite.TextureRect;
+            _sprite.Origin = new SFML.System.Vector2f(_localBounds.Width / 2f, _localBounds.Height / 2f);
 
             _tileDuration = new SFML.System.Time[_totalTiles];
 
@@ -194,8 +208,12 @@ namespace edu.CiclosFormativos.Games.DIDAM.Entities
             uint row = (uint)(_currentTile / _numTilesX);
             uint column = _currentTile - row*_numTilesX;
 
-            _sprite.TextureRect =  new IntRect((int)(column * TileSize.X), (int)(row * TileSize.Y), (int)TileSize.X, (int)TileSize.Y);
-            _localBounds = (FloatRect)_sprite.TextureRect;
+            _sprite.TextureRect = new IntRect((int)(column * TileSize.X), (int)(row * TileSize.Y ),
+                (int)(TileSize.X), (int)(TileSize.Y));
+           // _localBounds = (FloatRect)_sprite.TextureRect;
+            //_localBounds.Width *= _sprite.Scale.X;
+            //_localBounds.Height *= _sprite.Scale.Y;
+          //  _sprite.Origin = new SFML.System.Vector2f(_localBounds.Width / 2f, _localBounds.Height / 2f);
 
             // se ha acabado un ciclo
             if ((_currentTile + 1) >= _totalTiles)

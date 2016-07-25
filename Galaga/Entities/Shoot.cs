@@ -78,7 +78,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
 
             _sprite = new Sprite((Texture)ShootTypeConf[(int)_type]._resManager[ShootTypeConf[(int)_type]._textureKey]);
             _sprite.Scale = new Vector2f(0.7f, 0.7f);
-            // ubico el origen del sprite en el centro en vez de en la esquina superior derecha
+            // ubico el origen del sprite en el centro en vez de en la esquina superior izquierda
             FloatRect bounds = _sprite.GetLocalBounds();
             _sprite.Origin = new SFML.System.Vector2f(bounds.Width / 2f, bounds.Height / 2f);
 
@@ -167,14 +167,14 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
         public Collider GetCollider()
         {
 
-            // GetGlobalBounds()  proporciona las coordenadas locales del sprite desde el centro del sprite
-            // utilizo la matriz de tranformación que me proporciona SceneNode
-            Collider collider = new Collider();
+            //// GetGlobalBounds()  proporciona las coordenadas locales del sprite desde el centro del sprite
+            //// utilizo la matriz de tranformación que me proporciona SceneNode
+            //Collider collider = new Collider();
 
-            collider.IsCircle = false;
-            collider.Rectangle = WorldTransform.TransformRect(_sprite.GetGlobalBounds());
+            //collider.IsCircle = false;
+            //collider.Rectangle = WorldTransform.TransformRect(_sprite.GetGlobalBounds());
 
-            return collider;
+            return null;
         }
     }
 }

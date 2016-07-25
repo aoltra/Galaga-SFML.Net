@@ -51,14 +51,16 @@ namespace edu.CiclosFormativos.Games.DIDAM.Utilities
             Collider colliderR = rhs.GetCollider();
 
             // los dos collider son rectangulos
-            if (!colliderL.IsCircle && !colliderR.IsCircle)
-                return colliderL.Rectangle.Intersects(colliderR.Rectangle);
-            else if (colliderL.IsCircle && colliderR.IsCircle)    // los dos son círculos
-                return colliderL.Circle.Intersects(colliderL.Circle);
-            else if (!colliderL.IsCircle && colliderR.IsCircle)
-                return colliderR.Circle.Intersects(colliderL.Rectangle);
-            else
-                return colliderL.Circle.Intersects(colliderR.Rectangle);
+            //if (!colliderL.IsCircle && !colliderR.IsCircle)
+            //    return colliderL.Rectangle.Intersects(colliderR.Rectangle);
+            //else if (colliderL.IsCircle && colliderR.IsCircle)    // los dos son círculos
+            //    return colliderL.Circle.Intersects(colliderL.Circle);
+            //else if (!colliderL.IsCircle && colliderR.IsCircle)
+            //    return colliderR.Circle.Intersects(colliderL.Rectangle);
+            //else
+            //    return colliderL.Circle.Intersects(colliderR.Rectangle);
+
+            return false;
 
         }
 
