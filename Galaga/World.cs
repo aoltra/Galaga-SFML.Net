@@ -420,7 +420,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 
                 if (ColliderUtilities.MatchesCategories(ref pairVar, (uint)Category.ENEMYSHIP, (uint)Category.SHOOT))
                 {
-                    Debug.Write("Colision " + _collisionPairs.ElementAt<Pair>(pair).Item1.WorldPosition + " (" + _collisionPairs.ElementAt<Pair>(pair).Item1.GetType() + ")," + _collisionPairs.ElementAt<Pair>(pair).Item2.WorldPosition + " (" + _collisionPairs.ElementAt<Pair>(pair).Item2.GetType() + ")");
+                    Debug.WriteLine("Colision: (" + _collisionPairs.ElementAt<Pair>(pair).Item1.GetType() + "), (" + _collisionPairs.ElementAt<Pair>(pair).Item2.GetType() + ")");
                    
 
                 }

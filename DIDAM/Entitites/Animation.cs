@@ -48,6 +48,7 @@ namespace edu.CiclosFormativos.Games.DIDAM.Entities
         private uint _totalTiles;                               // número total de tiles
         private uint _numTilesX, _numTilesY;                    // número de tiles en la textura en X e Y
         private FloatRect _localBounds;                         // limites del tile actual
+        private IntRect [] _rectTiles;                             // rectangulo que ocupa cada uno de los tiles
 
         private SFML.Graphics.Sprite _sprite;                   // sprite donde dibujaremos
 
@@ -71,17 +72,7 @@ namespace edu.CiclosFormativos.Games.DIDAM.Entities
         { 
             get { return _sprite.Scale; }
 
-            set 
-            { 
-                _sprite.Scale = value;
-                //uint row = (uint)(_currentTile / _numTilesX);
-                //uint column = _currentTile - row * _numTilesX;
-                //_sprite.TextureRect = new IntRect((int)(column * TileSize.X ), (int)(row * TileSize.Y * value.Y),
-                //    (int)(TileSize.X), (int)(TileSize.Y));
-                //_localBounds = (FloatRect)_sprite.TextureRect;
-                //_sprite.Origin = new SFML.System.Vector2f(_localBounds.Width / 2f, _localBounds.Height / 2f);
-
-            } 
+            set { _sprite.Scale = value; } 
         }
 
         /// <summary>
@@ -151,8 +142,16 @@ namespace edu.CiclosFormativos.Games.DIDAM.Entities
             TileSize = tileSize;
             _numLoops = numLoops;
 
+            _rectTiles = new IntRect[_totalTiles];
+            
+            // los rects se numeran empezando en la esquina superior izquierda y hacia la derecha y luego nueva fila
+            for (int row=0;row<_numTilesY;row++)
+                for (int col=0;col<_numTilesX;col++)
+                    _rectTiles[col + row * _numTilesX] = 
+                        new IntRect((int)(col * TileSize.X), (int)(row * TileSize.Y), (int)TileSize.X, (int)TileSize.Y);
+
             _sprite = new Sprite(texture);
-            _sprite.TextureRect = new IntRect(0, 0, (int)tileSize.X, (int)tileSize.Y);
+            _sprite.TextureRect = _rectTiles[0];
 
             _localBounds = (FloatRect)_sprite.TextureRect;
             _sprite.Origin = new SFML.System.Vector2f(_localBounds.Width / 2f, _localBounds.Height / 2f);
@@ -208,13 +207,8 @@ namespace edu.CiclosFormativos.Games.DIDAM.Entities
             uint row = (uint)(_currentTile / _numTilesX);
             uint column = _currentTile - row*_numTilesX;
 
-            _sprite.TextureRect = new IntRect((int)(column * TileSize.X), (int)(row * TileSize.Y ),
-                (int)(TileSize.X), (int)(TileSize.Y));
-           // _localBounds = (FloatRect)_sprite.TextureRect;
-            //_localBounds.Width *= _sprite.Scale.X;
-            //_localBounds.Height *= _sprite.Scale.Y;
-          //  _sprite.Origin = new SFML.System.Vector2f(_localBounds.Width / 2f, _localBounds.Height / 2f);
-
+            _sprite.TextureRect = _rectTiles[column + row*_numTilesX];
+        
             // se ha acabado un ciclo
             if ((_currentTile + 1) >= _totalTiles)
             {

@@ -179,7 +179,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
             _rotOrigin = _animation.Rotation = shipData._rotationOrigin;
             _animation.ScaleSprite = new Vector2f(0.7f, 0.7f);
 
-            width = _animation.TileSize.X * _animation.Scale.X;
+            width = _animation.TileSize.X * _animation.ScaleSprite.X;
 
             //transformo las coordenadas de posición en pixeles
             shipData._xFormation = Math.Sign(shipData._xFormation) * (Math.Abs(shipData._xFormation) - 0.5f) * (width + World.ENEMYSHIP_SEP_X);
@@ -360,14 +360,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
         /// <returns>Coordenadas del rectangulo que hace las veces de collider</returns>
         public Collider GetCollider()
         {
-            
-            // GetGlobalBounds()  proporciona las coordenadas locales del sprite desde el centro del sprite
-            // utilizo la matriz de tranformación que me proporciona SceneNode
-          //  Collider collider= new Collider();
-
-          //  collider.IsCircle = false;
-          //  collider.Rectangle = WorldTransform.TransformRect(_animation.GlobalBounds);
-          ////  System.Diagnostics.Debug.WriteLine(collider.Rectangle);
+            _collider.Update(WorldTransform);
 
             return _collider; 
         }
