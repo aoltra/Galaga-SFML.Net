@@ -71,6 +71,11 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
             get { return (UInt16)edu.CiclosFormativos.DAM.DI.Galaga.Category.SHOOT; }
         }
 
+        /// <summary>
+        /// Collider, en este caso usamos un rectangulo
+        /// </summary>
+        private edu.CiclosFormativos.Games.DIDAM.Entities.ColliderRect _collider;
+
         public Shoot(Type type)
             : base()
         {
@@ -83,6 +88,8 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
             _sprite.Origin = new SFML.System.Vector2f(bounds.Width / 2f, bounds.Height / 2f);
 
             VelocityY = ShootTypeConf[(int)_type]._maxSpeed;
+
+            _collider = new ColliderRect(bounds, new SFML.System.Vector2f(bounds.Width / 2f, bounds.Height / 2f));
         }
 
         /// <summary>
@@ -166,15 +173,9 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
         /// <returns>Coordenadas del rectangulo que hace las veces de collider</returns>
         public Collider GetCollider()
         {
+            _collider.Update(WorldTransform);
 
-            //// GetGlobalBounds()  proporciona las coordenadas locales del sprite desde el centro del sprite
-            //// utilizo la matriz de tranformación que me proporciona SceneNode
-            //Collider collider = new Collider();
-
-            //collider.IsCircle = false;
-            //collider.Rectangle = WorldTransform.TransformRect(_sprite.GetGlobalBounds());
-
-            return null;
+            return _collider;
         }
     }
 }
