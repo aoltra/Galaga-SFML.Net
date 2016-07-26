@@ -226,7 +226,7 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                 // platoon leader
                 Entities.PlatoonLeader platoonLeader = new Entities.PlatoonLeader(-60, _leaderBoundLeft, _leaderBoundRight,_resManager);
 #if DEBUG
-                platoonLeader.Visible = false;
+                platoonLeader.Visible = true;
 #endif
                 _sceneLayers[(int)Layer.AIR].AddChild(platoonLeader);
                 platoonLeader.Position = new Vector2f(_worldView.Size.X / 2, ENEMYSHIP_ROW_Y[0]);
@@ -240,19 +240,19 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                 enemy.StateChangeEvent += new Entities.EnemyShip.StateChange(SyncEnemyWithLeader);
                 _dockShip.Add(enemy);
 
-                //data._spawnTime = 3.30f;
-                //data._xFormation = -1;
-                //data._yFormation = 4;
-                //enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BUTTERFLY, data);
-                //enemy.StateChangeEvent += new Entities.EnemyShip.StateChange(SyncEnemyWithLeader);
-                //_dockShip.Add(enemy);
+                data._spawnTime = 3.30f;
+                data._xFormation = -1;
+                data._yFormation = 4;
+                enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BUTTERFLY, data);
+                enemy.StateChangeEvent += new Entities.EnemyShip.StateChange(SyncEnemyWithLeader);
+                _dockShip.Add(enemy);
 
-                //data._spawnTime = 3.60f;
-                //data._xFormation = 1;
-                //data._yFormation = 5;
-                //enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BUTTERFLY, data);
-                //enemy.StateChangeEvent += new Entities.EnemyShip.StateChange(SyncEnemyWithLeader);
-                //_dockShip.Add(enemy);
+                data._spawnTime = 3.60f;
+                data._xFormation = 1;
+                data._yFormation = 5;
+                enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BUTTERFLY, data);
+                enemy.StateChangeEvent += new Entities.EnemyShip.StateChange(SyncEnemyWithLeader);
+                _dockShip.Add(enemy);
 
                 //data._spawnTime = 3.90f;
                 //data._xFormation = -1;
@@ -420,9 +420,14 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
 
                 if (ColliderUtilities.MatchesCategories(ref pairVar, (uint)Category.ENEMYSHIP, (uint)Category.SHOOT))
                 {
-                    Debug.WriteLine("Colision: (" + _collisionPairs.ElementAt<Pair>(pair).Item1.GetType() + "), (" + _collisionPairs.ElementAt<Pair>(pair).Item2.GetType() + ")");
-                   
+                    Debug.WriteLine("Colision: (" + _collisionPairs.ElementAt<Pair>(pair).Item1.GetHashCode() + "," 
+                        + _collisionPairs.ElementAt<Pair>(pair).Item1.GetType() + "), ("
+                        + _collisionPairs.ElementAt<Pair>(pair).Item2.GetHashCode() +  ", "
+                        + _collisionPairs.ElementAt<Pair>(pair).Item2.GetType() + ")");
 
+                    Entities.EnemyShip enemy = ((Entities.EnemyShip)pairVar.Item1);
+                    _sceneLayers[(int)Layer.AIR].RemoveChild(enemy);
+                    enemy = null;
                 }
                 else if (ColliderUtilities.MatchesCategories(ref pairVar, (uint)Category.PLAYERSHIP, (uint)Category.SHOOT))
                 {
@@ -446,6 +451,8 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
     {
         public int Compare(Pair x, Pair y)
         {
+            // hay que controlar que sean iguales. En ese caso no se introduce nada
+            if (x.Item1.GetHashCode() == y.Item1.GetHashCode()) return 0;
             return (x.Item1.GetHashCode() < y.Item1.GetHashCode()) ? 1 : -1;
         }
     }
