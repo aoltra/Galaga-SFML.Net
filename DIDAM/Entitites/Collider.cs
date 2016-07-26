@@ -49,7 +49,7 @@ namespace edu.CiclosFormativos.Games.DIDAM.Entities
         /// <summary>
         /// Devuelve si el Collider es un circulo. 
         /// </summary>
-        public virtual bool? IsCircle { get { return null; } }
+        public abstract bool IsCircle { get; }
 
         public abstract void Draw(SFML.Graphics.RenderTarget rt, SFML.Graphics.RenderStates rs);
     }
@@ -61,12 +61,25 @@ namespace edu.CiclosFormativos.Games.DIDAM.Entities
     public class ColliderRect : Collider
     {
         // rectangulo que define el collider
-        private FloatRect Rectangle;
+        public FloatRect Rectangle { get; private set; }
+
+        private SFML.System.Vector2f [] p;
+        private SFML.System.Vector2f axis;
+
+        public SFML.System.Vector2f this[int index] 
+        {
+            get 
+            {
+                if (index < 0) index = 0;
+                if (index > 3) index = 3;
+                return p[index]; 
+            }
+        }
 
         /// <summary>
         /// Devuelve si el Collider es un circulo (false)
         /// </summary>
-        new public bool? IsCircle { get { return false; } }
+        public override bool IsCircle { get { return false; } }
 
 #if DEBUG
         // forma que representa el collider. Para dibujarla en DEBUG
@@ -85,6 +98,8 @@ namespace edu.CiclosFormativos.Games.DIDAM.Entities
             shape.Size = new SFML.System.Vector2f(rect.Width, rect.Height);
 
             Rectangle = rect;
+
+            p = new SFML.System.Vector2f[4];
         }
 
         /// <summary>
@@ -110,7 +125,87 @@ namespace edu.CiclosFormativos.Games.DIDAM.Entities
         /// </summary>
         public ColliderRect(FloatRect rect) {  Rectangle = rect; }
 #endif
+        /// <summary>
+        /// Devuelve si hay intersección entre dos rectangulos girados
+        /// </summary>
+        /// <param name="rect"></param>
+        /// <returns>true si hay intersección, false en caso contrario</returns>
+        public bool Intersects(ColliderRect other)
+        {
+            if (!AxisIntersection(this,other)) 
+                return false;
 
+            if (!AxisIntersection(other, this))
+                return false;
+
+            return true;
+        }
+
+        /// <summary>
+        /// Devuelve si hay intersección entre ejes
+        /// </summary>
+        /// <param name="col1"></param>
+        /// <param name="col2"></param>
+        /// <returns>true si la hay, false en caso contrario</returns>
+        /// <remarks>
+        /// Se basa en el teorema de los ejes. Más info en http://www.gamedev.net/page/resources/_/technical/game-programming/2d-rotated-rectangle-collision-r2604
+        /// </remarks>
+        private bool AxisIntersection(ColliderRect col1,ColliderRect col2) 
+        {
+            float pend, denominador = 1;
+            float max1, min1, max2, min2;
+            float proyX, proyY, comp;
+
+            // ejes del rectángulo 1
+            for (int numAxis = 0; numAxis < 2; numAxis++)
+            {
+                max1 = -999999.9f; min1 = 999999.9f; max2 = -999999.9f; min2 = 999999.9f;
+                axis = col1[numAxis] - col1[numAxis + 1];
+                denominador = (axis.X * axis.X + axis.Y * axis.Y);
+
+                // vertices del rectángulo 1 (sólo dos ya que los otros dos son perpendiculares)
+                for (int numVertex = 0; numVertex < 2; numVertex++)
+                {
+                    pend = (col1[numVertex + numAxis].X * axis.X + col1[numVertex + numAxis].Y * axis.Y) / denominador;
+                    proyX = col1[numVertex + numAxis].X * pend;
+                    proyY = col1[numVertex + numAxis].Y * pend;
+
+                    comp = proyX * axis.X + proyY * axis.Y;
+
+                    max1 = Math.Max(max1, comp);
+                    min1 = Math.Min(min1, comp);
+                }
+
+                // vertices del rectangulo 2 
+                for (int numVertex = 0; numVertex < 4; numVertex++)
+                {
+                    pend = (col2[numVertex].X * axis.X + col2[numVertex].Y * axis.Y) / denominador;
+                    proyX = col2[numVertex].X * pend;
+                    proyY = col2[numVertex].Y * pend;
+
+                    comp = proyX * axis.X + proyY * axis.Y;
+
+                    max2 = Math.Max(max2, comp);
+                    min2 = Math.Min(min2, comp);
+                }
+
+                if (min2 > max1 || max2 < min1) return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Actualiza el estado de los puntos que conforman el collider
+        /// </summary>
+        /// <param name="trans">Matriz de trnasformacion</param>
+        public void Update(Transform trans)
+        {
+            p[0] = trans.TransformPoint(Rectangle.Left, Rectangle.Left);
+            p[1] = trans.TransformPoint(Rectangle.Left + Rectangle.Width, Rectangle.Top);
+            p[2] = trans.TransformPoint(Rectangle.Left + Rectangle.Width, Rectangle.Top + Rectangle.Height);
+            p[3] = trans.TransformPoint(Rectangle.Left, Rectangle.Top + Rectangle.Height);
+        }
     }
 
     /// <summary>
@@ -142,7 +237,7 @@ namespace edu.CiclosFormativos.Games.DIDAM.Entities
         /// <param name="centerY">Coordenada Y del centro del círculo</param>
         /// <param name="radius">Radio del círculo</param>
         public CircleRect(float centerX, float centerY, float radius)
-        {
+        { 
             CenterX = centerX;
             CenterY = centerY;
 

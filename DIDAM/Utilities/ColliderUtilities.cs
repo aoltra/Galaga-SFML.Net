@@ -51,8 +51,9 @@ namespace edu.CiclosFormativos.Games.DIDAM.Utilities
             Collider colliderR = rhs.GetCollider();
 
             // los dos collider son rectangulos
-            //if (!colliderL.IsCircle && !colliderR.IsCircle)
-            //    return colliderL.Rectangle.Intersects(colliderR.Rectangle);
+            if (colliderL.IsCircle == false && colliderR.IsCircle ==  false)
+                return ((ColliderRect)colliderL).Intersects(((ColliderRect)colliderR));
+            // TODO: interseccion entre otros colliders
             //else if (colliderL.IsCircle && colliderR.IsCircle)    // los dos son círculos
             //    return colliderL.Circle.Intersects(colliderL.Circle);
             //else if (!colliderL.IsCircle && colliderR.IsCircle)
@@ -77,6 +78,13 @@ namespace edu.CiclosFormativos.Games.DIDAM.Utilities
                 new Tuple<Scenes.SceneNode, Scenes.SceneNode>((Scenes.SceneNode)rhs, (Scenes.SceneNode)lhs);
         }
 
+        /// <summary>
+        /// Comprueba si la colision se realiza entre elementos de la misma categoría
+        /// </summary>
+        /// <param name="colliders">par de collider a estudiar</param>
+        /// <param name="type1">Categoría que deberái tener el collider 1</param>
+        /// <param name="type2">Categoría que deberái tener el collider 2</param>
+        /// <returns>true si los colliders cumplen las características de las categorias o false en caso contrario</returns>
         public static bool MatchesCategories(ref Tuple<Scenes.SceneNode, Scenes.SceneNode> colliders, uint type1, uint type2)
         {
             uint category1 = ((Scenes.SceneNode)colliders.Item1).Category;

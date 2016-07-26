@@ -32,6 +32,8 @@ using edu.CiclosFormativos.Games.DIDAM.Resources;
 using SFML.Graphics;
 using SFML.System;
 
+using System.Diagnostics;
+
 namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
 {
     /// <summary>
@@ -112,15 +114,12 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga.Entities
         public void Fire() 
         { 
             // crea un misil
-            //Entities.Shoot shoot = new Entities.Shoot(Shoot.Type.PLAYER);
             Entities.Shoot shoot = _shootPool.GetObject();
 
             Vector2f offset = new Vector2f(0, -0.5f * _sprite.GetGlobalBounds().Height);
 
 	        shoot.Position = WorldPosition + offset;
-		    this.Parent.AddChild(shoot);
-        
-        }
-      
+		    this.Parent.AddChild(shoot);        
+        }      
     }
 }
