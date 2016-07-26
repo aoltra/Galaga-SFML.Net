@@ -122,12 +122,25 @@ namespace edu.CiclosFormativos.Games.DIDAM.Scenes
         /// <remarks>
         /// Se quita de la lista pero no se elimina de memoria
         /// </remarks>
-        public void RemoveChild(SceneNode scNode) 
+        public bool RemoveChild(SceneNode scNode) 
         {
             bool encontrado = _children.Remove(scNode);
-            Debug.Assert(encontrado);
 
-            scNode.Parent = null;
+            if (encontrado)
+            {
+                scNode.Parent = null;
+                return true;
+            }
+
+            for (int n = 0; n < _children.Count; n++)
+            {
+                if (_children[n].RemoveChild(scNode) == true)
+                    return true;
+            }
+
+            return false;
+            
+            Debug.Assert(encontrado);
         }
 
         #region Funciones relativas al dibujado
@@ -259,6 +272,7 @@ namespace edu.CiclosFormativos.Games.DIDAM.Scenes
         }
         #endregion
 
+        #region Funciones relativas a las colisiones
         /// <summary>
         /// Comprueba la colisión de un nodo y sus hijos con otro nodo
         /// </summary>
@@ -272,9 +286,10 @@ namespace edu.CiclosFormativos.Games.DIDAM.Scenes
                 Pair a = Utilities.ColliderUtilities.GetSortedPair((ICollider)this, (ICollider)node);
                 collisionPairs.Add(a);
             }
-                foreach (SceneNode sc in _children) {
-                    sc.CheckNodeCollision(node,collisionPairs);
-                }
+
+            foreach (SceneNode sc in _children) {
+                sc.CheckNodeCollision(node,collisionPairs);
+            }
         }
 
         /// <summary>
@@ -289,6 +304,7 @@ namespace edu.CiclosFormativos.Games.DIDAM.Scenes
             foreach (SceneNode child in sceneGraph._children)
                 CheckSceneCollision(child, collisionPairs);
         }
+        #endregion
 
         /// <summary>
         /// Ejecuta, si su categoria lo indica, el comando. Además reenvía el comando a sus hijos
