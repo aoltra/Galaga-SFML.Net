@@ -75,7 +75,7 @@ namespace edu.CiclosFormativos.Games.DIDAM.Utilities
         {
             return (lhs.GetHashCode() > rhs.GetHashCode()) ? 
                 new Tuple<Scenes.SceneNode, Scenes.SceneNode>((Scenes.SceneNode)rhs, (Scenes.SceneNode)lhs) : 
-                new Tuple<Scenes.SceneNode, Scenes.SceneNode>((Scenes.SceneNode)rhs, (Scenes.SceneNode)lhs);
+                new Tuple<Scenes.SceneNode, Scenes.SceneNode>((Scenes.SceneNode)lhs, (Scenes.SceneNode)rhs);
         }
 
         /// <summary>
