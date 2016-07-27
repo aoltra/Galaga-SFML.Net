@@ -254,41 +254,41 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                 enemy.StateChangeEvent += new Entities.EnemyShip.StateChange(SyncEnemyWithLeader);
                 _dockShip.Add(enemy);
 
-                //data._spawnTime = 3.90f;
-                //data._xFormation = -1;
-                //data._yFormation = 5;
-                //enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BUTTERFLY, data);
-                //enemy.StateChangeEvent += new Entities.EnemyShip.StateChange(SyncEnemyWithLeader);
-                //_dockShip.Add(enemy);
+                data._spawnTime = 3.90f;
+                data._xFormation = -1;
+                data._yFormation = 5;
+                enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BUTTERFLY, data);
+                enemy.StateChangeEvent += new Entities.EnemyShip.StateChange(SyncEnemyWithLeader);
+                _dockShip.Add(enemy);
 
-                //data._path = _curveMap["Sacacorchos1_sim"];
-                //data._spawnTime = 3.0f;
-                //data._xFormation = 1;
-                //data._yFormation = 2;
-                //enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data);
-                //enemy.StateChangeEvent += new Entities.EnemyShip.StateChange(SyncEnemyWithLeader);
-                //_dockShip.Add(enemy);
+                data._path = _curveMap["Sacacorchos1_sim"];
+                data._spawnTime = 3.0f;
+                data._xFormation = 1;
+                data._yFormation = 2;
+                enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data);
+                enemy.StateChangeEvent += new Entities.EnemyShip.StateChange(SyncEnemyWithLeader);
+                _dockShip.Add(enemy);
 
-                //data._spawnTime = 3.30f;
-                //data._xFormation = -1;
-                //data._yFormation = 2;
-                //enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data);
-                //enemy.StateChangeEvent += new Entities.EnemyShip.StateChange(SyncEnemyWithLeader);
-                //_dockShip.Add(enemy);
+                data._spawnTime = 3.30f;
+                data._xFormation = -1;
+                data._yFormation = 2;
+                enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data);
+                enemy.StateChangeEvent += new Entities.EnemyShip.StateChange(SyncEnemyWithLeader);
+                _dockShip.Add(enemy);
 
-                //data._spawnTime = 3.60f;
-                //data._xFormation = 1;
-                //data._yFormation = 3;
-                //enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data);
-                //enemy.StateChangeEvent += new Entities.EnemyShip.StateChange(SyncEnemyWithLeader);
-                //_dockShip.Add(enemy);
+                data._spawnTime = 3.60f;
+                data._xFormation = 1;
+                data._yFormation = 3;
+                enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data);
+                enemy.StateChangeEvent += new Entities.EnemyShip.StateChange(SyncEnemyWithLeader);
+                _dockShip.Add(enemy);
 
-                //data._spawnTime = 3.90f;
-                //data._xFormation = -1;
-                //data._yFormation = 3;
-                //enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data);
-                //enemy.StateChangeEvent += new Entities.EnemyShip.StateChange(SyncEnemyWithLeader);
-                //_dockShip.Add(enemy);
+                data._spawnTime = 3.90f;
+                data._xFormation = -1;
+                data._yFormation = 3;
+                enemy = new Entities.EnemyShip(Entities.EnemyShip.Type.BEE, data);
+                enemy.StateChangeEvent += new Entities.EnemyShip.StateChange(SyncEnemyWithLeader);
+                _dockShip.Add(enemy);
   
                 // Podría ser aconsejable ordenarla lista una vez insertadas las naves. 
                 // siendo por tiempo es posible que sea más fácil simplemente introducirlas ordenadas
@@ -407,6 +407,9 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
             }
         }
 
+        /// <summary>
+        /// Crea las posibles colisiones y controla si cumplen las características buscadas
+        /// </summary>
         public void HandleCollisions() 
         {
             _collisionPairs.Clear();
@@ -428,6 +431,10 @@ namespace edu.CiclosFormativos.DAM.DI.Galaga
                     Entities.EnemyShip enemy = ((Entities.EnemyShip)pairVar.Item1);
                     _sceneLayers[(int)Layer.AIR].RemoveChild(enemy);
                     enemy = null;
+
+                    Entities.Shoot shoot = ((Entities.Shoot)pairVar.Item2);
+                    _sceneLayers[(int)Layer.AIR].RemoveChild(shoot);
+                    shoot = null;
                 }
                 else if (ColliderUtilities.MatchesCategories(ref pairVar, (uint)Category.PLAYERSHIP, (uint)Category.SHOOT))
                 {
